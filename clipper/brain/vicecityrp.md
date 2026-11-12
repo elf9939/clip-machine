@@ -6,5 +6,5 @@ Avoid: clips that are just menus/inventory with no talking.
 
 ## What is working (auto-updated 2026-11-12)
 Top posts this week — make more like these:
+- 183 views: "Nino got bleached and nobody knows what happened 💀 #gtarp #n"
 - 140 views: "xQc trying to close a 230k deal in GTA RP 💰 #xqc #gtarp #nop"
-- 5 views: "Nino got bleached and nobody knows what happened 💀 #gtarp #n"
