@@ -5,7 +5,7 @@
 import datetime, json, os, re, subprocess, sys, traceback, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-from notify import send
+from notify import send, status
 HUB = 'https://post-hub-nine.vercel.app'; KEY = open(os.path.expanduser('~/.posthub_key')).read().strip()
 YTDLP = os.path.expanduser('~/.local/bin/yt-dlp')
 TT = {'pulseviceclips': ('PulseVice', 'pulsevice', 'cmwcu0zfb008w01lm4h5gv59d'), 'vicecityrpnet': ('ViceCityRP', 'vicecityrp', 'cmwcw1agy009501lmehe4420r'),
@@ -45,6 +45,7 @@ def main():
     pf = sorted(f for f in os.listdir(STATS) if f.endswith('.json') and f[:10] < today)
     if pf: prev = json.load(open(os.path.join(STATS, pf[-1])))
     now, lines, problems = {}, [], []
+    status('analytics', 'working', 'Checking views on every account…')
     for user, (name, page, conn) in TT.items():
         try: vids = tiktok(user)
         except Exception: vids = []
@@ -79,6 +80,8 @@ def main():
     if runway: problems.append('Schedule running low: ' + ', '.join(runway))
     if failed: problems.append(f'{len(failed)} post(s) failed in the last day — check Post Hub')
     msg += ['⚠️ ' + p for p in problems] or ['✅ No problems']
+    status('analytics', 'done', f'{grand:,} total TikTok views' + (f' (+{ggain:,} today)' if prev else ''))
+    if chats: status('inbox', 'done', 'Violet: ' + chats)
     send('\n'.join(msg))
 
 if __name__ == '__main__':

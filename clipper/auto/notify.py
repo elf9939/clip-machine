@@ -39,3 +39,12 @@ def send(text):
 
 if __name__ == '__main__':
     print('sent' if send(' '.join(sys.argv[1:]) or 'Jarvis test 🖤 texts are working.') else 'not sent by iMessage (see jarvis.log)')
+
+def status(agent, state, summary=''):
+    """Update a robot in Post Hub's Jarvis HQ. agent: research|writers|edit|qa|distribution|analytics|inbox|chief"""
+    import urllib.request
+    try:
+        hub = 'https://post-hub-nine.vercel.app'; key = open(os.path.expanduser('~/.posthub_key')).read().strip()
+        urllib.request.urlopen(urllib.request.Request(hub + '/api/push', data=json.dumps({'action': 'status', 'agent': agent, 'state': state, 'summary': summary}).encode(),
+                               headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'Origin': hub}), timeout=30)
+    except Exception: pass
