@@ -1,0 +1,6 @@
+clipper/.venv/
+clipper/out/
+clipper/work/*/
+clipper/auto/*.log
+__pycache__/
+*.mp4
