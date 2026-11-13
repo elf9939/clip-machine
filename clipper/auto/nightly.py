@@ -80,6 +80,11 @@ def main():
     if runway: problems.append('Schedule running low: ' + ', '.join(runway))
     if failed: problems.append(f'{len(failed)} post(s) failed in the last day — check Post Hub')
     msg += ['⚠️ ' + p for p in problems] or ['✅ No problems']
+    try:   # save daily view history for the Post Hub dashboard chart
+        import urllib.request
+        body = {'action': 'stats', 'date': today, 'total': grand, 'accounts': {TT[u][0]: v['views'] for u, v in now.items() if v.get('videos')}}
+        urllib.request.urlopen(urllib.request.Request(HUB + '/api/push', data=json.dumps(body).encode(), headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY, 'Origin': HUB}), timeout=30)
+    except Exception: pass
     status('analytics', 'done', f'{grand:,} total TikTok views' + (f' (+{ggain:,} today)' if prev else ''))
     if chats: status('inbox', 'done', 'Violet: ' + chats)
     send('\n'.join(msg))
