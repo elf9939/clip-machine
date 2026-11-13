@@ -17,8 +17,8 @@ PAGES = {
     'kai':        [('twitch', 'kaicenat', 10, None)],
     'adin':       [('kick', 'adinross', 9, None)],
     'n3on':       [('kick', 'n3on', 9, None)],
-    'pulsevice':  [('kick', 'xqc', 4, NOT_GTA), ('twitch', 'jynxzi', 3, None), ('twitch', 'lacy', 3, None),
-                   ('kick', 'sneako', 2, None)],
+    'pulsevice':  [('kick', 'xqc', 4, NOT_GTA), ('twitch', 'jynxzi', 5, None), ('twitch', 'lacy', 5, None),
+                   ('twitch', 'caseoh_', 4, None), ('twitch', 'stableronaldo', 4, None), ('kick', 'sneako', 2, None)],
     'vicecityrp': [('kick', 'buddha', 6, GTA), ('kick', 'dasmehdi', 3, GTA), ('kick', 'ramee', 3, GTA)],
     'physix':     [('kick', 'xqc', 8, GTA)],
 }

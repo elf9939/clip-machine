@@ -1,7 +1,7 @@
 # PulseVice — streamer drama & reactions
-Voice: hype, gossip-y, "you won't believe this". Sources: xQc (non-GTA), Jynxzi, Lacy, Sneako.
+Voice: hype, gossip-y, "you won't believe this". Sources: xQc (non-GTA), Jynxzi, Lacy, CaseOh, StableRonaldo, Sneako.
 Hooks: "<Streamer> completely lost it after...", "<Streamer> did NOT expect this".
-Hashtags pool: #xqc #jynxzi #lacy #streamer #drama #funny #fyp #crashout
+Hashtags pool: #xqc #jynxzi #lacy #caseoh #stableronaldo #streamer #drama #funny #fyp #crashout
 Avoid: Sneako political/religious rants (always skip those).
 
 ## What is working (auto-updated 2026-11-12)
