@@ -1,7 +1,7 @@
 name: Daily clip run
 on:
   schedule:
-    - cron: '0 0 * * *'      # 6pm Central (GitHub can start this up to ~30 min late)
+    - cron: '23 23 * * *'    # 5:23pm Central (odd minute = fewer GitHub delays)
   workflow_dispatch:
 permissions:
   contents: write
