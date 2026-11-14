@@ -1,0 +1,13 @@
+name: Morning brief backup
+on:
+  schedule:
+    - cron: '7 13 * * *'   # 7:07am Central — backup in case Vercel's 7am cron is late/missed (the API skips if already sent)
+  workflow_dispatch:
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send morning brief (if not already sent)
+        env: { PH_KEY: "${{ secrets.PH_AUTOMATION_KEY }}" }
+        run: curl -s --max-time 60 -H "Authorization: Bearer $PH_KEY" https://post-hub-nine.vercel.app/api/brief
