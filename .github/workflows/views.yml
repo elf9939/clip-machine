@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   actions: write
-  contents: read
+  contents: write
 jobs:
   views:
     runs-on: ubuntu-latest
@@ -20,6 +20,12 @@ jobs:
           pip install -q yt-dlp && mkdir -p ~/.local/bin && ln -sf "$(which yt-dlp)" ~/.local/bin/yt-dlp
           umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key
           python clipper/auto/views.py
+      - name: Winners -> YouTube Shorts
+        run: |
+          python clipper/auto/shorts.py
+          git config user.name "jarvis-bot"; git config user.email "jarvis-bot@users.noreply.github.com"
+          git add clipper/data/shorts_done.txt
+          git diff --cached --quiet || (git commit -qm "Shorts scheduled" && for i in 1 2 3; do git pull -q --rebase -X theirs && git push -q && break; sleep 5; done)
       - name: Watchdog - start today's clip run if GitHub skipped it
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
