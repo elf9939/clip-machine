@@ -59,7 +59,6 @@ def main():
     sched = posts('SCHEDULED'); runway = []
     for user, (name, page, conn) in TT.items():
         ts = sorted(p['scheduledAt'] for p in sched if (p.get('platforms') or [{}])[0].get('connectionId') == conn)
-        if page in ('kai', 'adin', 'n3on'): continue          # still warming, posts by approval only
         last = ts[-1][:10] if ts else None
         days = (datetime.date.fromisoformat(last) - datetime.date.today()).days if last else -1
         if days <= 2: runway.append(f"{name} {'has NOTHING scheduled' if not last else 'runs out ' + last}")

@@ -10,8 +10,8 @@ from gemini import ask_json
 PY = os.path.join(ROOT, '.venv', 'bin', 'python')
 HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
-AUTO = {'pulsevice', 'vicecityrp', 'gta6physix'}   # pages that schedule themselves (no approval needed)
-WANT = {'pulsevice': 4, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 2, 'adin': 2, 'n3on': 2}   # drafts per morning
+AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
+WANT = {'pulsevice': 4, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
 
 def log(*a):

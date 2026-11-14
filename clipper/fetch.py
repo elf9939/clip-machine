@@ -72,7 +72,7 @@ def main(batch):
         d = os.path.join(ROOT, 'work', batch, page); os.makedirs(d, exist_ok=True)
         idx_path = os.path.join(d, 'index.txt'); n = len([f for f in os.listdir(d) if f.endswith('.words.json')])
         for plat, ch, want, flt in srcs:
-            if os.environ.get('CLOUD') and page in ('kai', 'adin', 'n3on'): want = min(want, 3)   # warming pages: keep cloud minutes low
+            if os.environ.get('CLOUD') and page in ('kai', 'adin', 'n3on'): want = min(want, 7)   # keep cloud minutes in budget
             cands = kick_list(ch, flt) if plat == 'kick' else twitch_list(ch)
             cands = sorted(cands, key=lambda c: -c['views'])
             print(f'{page}/{ch}: {len(cands)} new clips found, taking {want}', flush=True)
