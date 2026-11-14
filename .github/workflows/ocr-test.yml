@@ -1,0 +1,20 @@
+name: OCR caption test
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg tesseract-ocr >/dev/null
+          mkdir -p ~/.local/bin && ln -sf "$(which ffmpeg)" ~/.local/bin/ffmpeg
+          curl -sL -o cap.mp4 https://postbotz.vercel.app/assets/tunnel/v3.mp4
+          curl -sL -o nocap.mp4 https://postbotz.vercel.app/assets/tunnel/v6.mp4
+          python3 - <<'PY'
+          import os, re, subprocess
+          src = open('clipper/auto/morning.py').read(); i = src.index('def has_burned_captions'); j = src.index('def pick(')
+          exec(src[i:j])
+          print('captioned clip  ->', has_burned_captions('cap.mp4', 0, 4))
+          print('clean clip      ->', has_burned_captions('nocap.mp4', 0, 4))
+          PY

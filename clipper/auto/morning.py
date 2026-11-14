@@ -33,6 +33,21 @@ def recent_posts(page):
         return out[:40]
     except Exception: return []
 
+
+def has_burned_captions(src, s, e):
+    """OCR 3 frames of the clip's lower half; if the source already shows subtitles, skip our word captions."""
+    import shutil, tempfile
+    if not shutil.which('tesseract'): return False
+    hits = 0
+    for k in (0.3, 0.55, 0.8):
+        t = s + (e - s) * k; img = tempfile.mktemp(suffix='.png')
+        subprocess.run([os.path.expanduser('~/.local/bin/ffmpeg'), '-y', '-loglevel', 'error', '-ss', str(t), '-i', src, '-frames:v', '1',
+                        '-vf', 'crop=iw:ih*0.45:0:ih*0.55,scale=iw*2:-1,format=gray', img])
+        out = subprocess.run(['tesseract', img, '-', '--psm', '6'], capture_output=True, text=True).stdout
+        words = [w for w in re.findall(r'[A-Za-z]{3,}', out)]
+        if len(words) >= 3: hits += 1
+    return hits >= 2
+
 def pick(page, index_txt, n):
     prompt = f"""You pick and title short-form clips for a TikTok clip page. Follow these page rules exactly:
 {brain(page)}
@@ -75,7 +90,9 @@ def main():
             if not os.path.exists(src) or not (10 <= e - s <= 50): continue
             slug = re.sub(r'[^a-z0-9]+', '_', p.get('hook', 'clip').lower())[:28].strip('_')
             out = os.path.join(ROOT, 'out', batch, page, f'{i + 1:02d}_{slug}.mp4')
-            jobs.append({'src': src, 'words': os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
+            burned = has_burned_captions(src, s, e)
+            if burned: log(page, c, 'already has captions -> hook only')
+            jobs.append({'src': src, 'words': '' if burned else os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
                          'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5})
             picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''),
                                'source': meta.get(c, ('?', 0))[0], 'views': meta.get(c, ('?', 0))[1]})

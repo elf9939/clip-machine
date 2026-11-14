@@ -20,7 +20,7 @@ PAGES = {
     'pulsevice':  [('kick', 'xqc', 4, NOT_GTA), ('twitch', 'jynxzi', 5, None), ('twitch', 'lacy', 5, None),
                    ('twitch', 'caseoh_', 4, None), ('twitch', 'stableronaldo', 4, None), ('kick', 'sneako', 2, None)],
     'vicecityrp': [('kick', 'buddha', 6, GTA), ('kick', 'dasmehdi', 3, GTA), ('kick', 'ramee', 3, GTA)],
-    'physix':     [('kick', 'xqc', 8, GTA)],
+    'physix':     [('kick', 'xqc', 6, GTA), ('kick', 'buddha', 3, GTA), ('kick', 'dasmehdi', 3, GTA), ('kick', 'ramee', 3, GTA)],
 }
 
 used_file = os.path.join(ROOT, 'work', 'used_clips.txt')
