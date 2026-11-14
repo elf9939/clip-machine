@@ -3,6 +3,9 @@ on:
   schedule:
     - cron: '41 */4 * * *'   # every 4 hours
   workflow_dispatch:
+permissions:
+  actions: write
+  contents: read
 jobs:
   views:
     runs-on: ubuntu-latest
@@ -17,3 +20,11 @@ jobs:
           pip install -q yt-dlp && mkdir -p ~/.local/bin && ln -sf "$(which yt-dlp)" ~/.local/bin/yt-dlp
           umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key
           python clipper/auto/views.py
+      - name: Watchdog - start today's clip run if GitHub skipped it
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          now_ct=$(TZ=America/Chicago date +%H%M); today_ct=$(TZ=America/Chicago date +%F)
+          if [ "$now_ct" -ge 1723 ]; then
+            started=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow daily.yml --limit 10 --json createdAt --jq '.[].createdAt' | while read t; do TZ=America/Chicago date -d "$t" +%F; done | grep -c "^$today_ct$" || true)
+            if [ "$started" = "0" ]; then echo "No clip run yet today - starting it"; gh workflow run daily.yml --repo "$GITHUB_REPOSITORY"; else echo "Clip run already ran today"; fi
+          else echo "Before 5:23 PM Central - nothing to check"; fi

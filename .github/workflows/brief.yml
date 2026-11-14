@@ -10,4 +10,5 @@ jobs:
     steps:
       - name: Send morning brief (if not already sent)
         env: { PH_KEY: "${{ secrets.PH_AUTOMATION_KEY }}" }
-        run: curl -s --max-time 60 -H "Authorization: Bearer $PH_KEY" https://post-hub-nine.vercel.app/api/brief
+        run: |
+          curl -s --max-time 60 -H "Authorization: Bearer $PH_KEY" https://post-hub-nine.vercel.app/api/brief
