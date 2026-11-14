@@ -1,0 +1,19 @@
+name: View check
+on:
+  schedule:
+    - cron: '41 */4 * * *'   # every 4 hours
+  workflow_dispatch:
+jobs:
+  views:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Check views
+        env: { PH_KEY: "${{ secrets.PH_AUTOMATION_KEY }}" }
+        run: |
+          pip install -q yt-dlp && mkdir -p ~/.local/bin && ln -sf "$(which yt-dlp)" ~/.local/bin/yt-dlp
+          umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key
+          python clipper/auto/views.py
