@@ -70,8 +70,13 @@ def main():
         r = subprocess.run(['python3', os.path.expanduser('~/Projects/ai-influencers/violet-links/report.py')], capture_output=True, text=True, timeout=120)
         chats = r.stdout.strip().split('|')[-1].strip()
     except Exception: pass
-    grand = sum(v['views'] for v in now.values()); ggain = grand - sum(v.get('views', 0) for v in prev.values()) if prev else 0
-    msg = [f"🌙 Nightly report — {grand:,} total TikTok views" + (f" (+{ggain:,} today)" if prev else '')] + lines
+    subprocess.run(['python3', os.path.join(HERE, 'views.py')], capture_output=True, text=True, timeout=900)   # refresh combined TikTok + YouTube stats
+    try:   # totals from the same history the dashboard shows (TikTok + YouTube)
+        hist = hub('/api/agents').get('stats', [])
+        grand = hist[-1]['total']; ggain = grand - hist[-2]['total'] if len(hist) > 1 else 0
+    except Exception:
+        grand = sum(v['views'] for v in now.values()); ggain = 0
+    msg = [f"🌙 Nightly report — {grand:,} total views, TikTok + YouTube" + (f" (+{ggain:,} today)" if ggain else '')] + lines
     best = max((v for v in now.values() if v.get('top')), key=lambda v: v['top']['views'], default=None)
     if best: msg.append(f"🏆 Best post: \"{best['top']['title'][:45]}\" — {best['top']['views']:,} views")
     if chats: msg.append(f"💬 Violet's site (7 days): {chats}")
@@ -79,8 +84,6 @@ def main():
     if runway: problems.append('Schedule running low: ' + ', '.join(runway))
     if failed: problems.append(f'{len(failed)} post(s) failed in the last day — check Post Hub')
     msg += ['⚠️ ' + p for p in problems] or ['✅ No problems']
-    subprocess.run(['python3', os.path.join(HERE, 'views.py')], capture_output=True, text=True, timeout=900)   # refresh combined TikTok + YouTube stats
-    status('analytics', 'done', f'{grand:,} total TikTok views' + (f' (+{ggain:,} today)' if prev else ''))
     if chats: status('inbox', 'done', 'Violet: ' + chats)
     send('\n'.join(msg))
 
