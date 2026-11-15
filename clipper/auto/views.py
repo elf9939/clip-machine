@@ -26,18 +26,16 @@ for user, name in ACCTS.items():
     except Exception: v, n = 0, 0
     if n == 0 and last.get(name): v = last[name]; notes.append(f'{name} kept last value')
     if v or name in last: accounts[name] = v
-# YouTube Shorts: views of every published Short, summed per channel (links come from the published posts)
+# YouTube Shorts: views per channel from AdaptlyPost analytics (official YouTube API; scraping YouTube is blocked from the cloud)
 YT_NAMES = {'PulseVice': 'PulseVice', 'Vice City RP': 'ViceCityRP', 'GTA6 Physix': 'GTA6Physix', 'Kai Clips Daily': 'Kai', 'Adin Clips Daily': 'Adin', 'N3on Clips': 'N3on'}
 try:
-    posts = call('/api/posts?all=1')['posts']
-    urls = {}
-    for p in posts:
-        for pl in p.get('platforms') or []:
-            if pl.get('platform') == 'YOUTUBE' and pl.get('status') == 'PUBLISHED' and pl.get('postUrl'):
-                urls.setdefault(YT_NAMES.get(pl.get('accountName'), pl.get('accountName')), []).append(pl['postUrl'])
-    for name, us in urls.items():
-        r = subprocess.run([YTDLP, '--socket-timeout', '30', '--ignore-errors', '--print', '%(view_count)s', *us], capture_output=True, text=True, timeout=600)
-        v = sum(int(x) for x in r.stdout.split() if x.isdigit()); key = name + ' YT'
+    try: call('/api/accounts?analytics=1&sync=1')          # ask for fresh numbers for next time
+    except Exception: pass
+    yt = {}
+    for p in call('/api/accounts?analytics=1&platforms=YOUTUBE&days=90')['posts']:
+        key = YT_NAMES.get(p.get('accountName'), p.get('accountName')) + ' YT'
+        yt[key] = yt.get(key, 0) + int((p.get('metrics') or {}).get('views') or 0)
+    for key, v in yt.items():
         if v == 0 and last.get(key): v = last[key]; notes.append(key + ' kept last value')
         accounts[key] = v
 except Exception as e:
