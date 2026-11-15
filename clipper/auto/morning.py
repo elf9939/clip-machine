@@ -127,6 +127,9 @@ def main():
                 if r.get('ok'): scheduled[dft['page']] = scheduled.get(dft['page'], 0) + 1
                 else: problems.append(f"{dft['page']}: couldn't auto-schedule ({r.get('error', '')[:40]})")
         except Exception as e: problems.append(f'auto-schedule failed ({str(e)[:60]})')
+        for pg in sorted(scheduled):   # newest clips first: fresh ones take today's earliest slots
+            try: urllib.request.urlopen(urllib.request.Request(hub + '/api/studio', data=json.dumps({'action': 'repack', 'page': pg, 'postId': 'x' * 10}).encode(), headers=hdr), timeout=300)
+            except Exception as e: problems.append(f'{pg}: reorder failed ({str(e)[:40]})')
     status('qa', 'done', f'{sum(made.values())} clips passed quality checks')
     status('distribution', 'done', f'{sum(scheduled.values())} clips scheduled automatically')
     total = sum(made.values())
