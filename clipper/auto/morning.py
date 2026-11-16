@@ -107,7 +107,33 @@ def main():
         r = subprocess.run(['nice', '-n', '10', PY, os.path.join(ROOT, 'split.py'), jf], capture_output=True, text=True, cwd=ROOT)
         LOG.write(r.stdout[-3000:] + r.stderr[-2000:])
         picks_meta = [p for p in picks_meta if os.path.exists(p['file'])]
-        status('edit', 'done', f'{len(picks_meta)} clips cut (9:16, blurred edges, captions)'); status('qa', 'working', 'Checking frames, audio, length…')
+        status('edit', 'done', f'{len(picks_meta)} clips cut (9:16, blurred edges, captions)'); status('qa', 'working', 'AI is watching every clip and scoring it…')
+        # ---- quality inspector: the AI watches each finished clip, scores it, fixes it or drops it ----
+        from review import review
+        sys.path.insert(0, ROOT); from split import render as render_one
+        byfile = {j['out']: j for j in jobs}; kept, dropped, fixed, scores = [], 0, 0, []
+        for pm in picks_meta:
+            try: rv = review(pm['file'], pm['hook'], pm['caption'])
+            except Exception as e: log('review failed', str(e)[:80]); kept.append(pm); continue
+            ov = int(rv.get('overall') or 0); scores.append(ov); pm['score'] = ov; pm['issues'] = rv.get('issues', [])[:3]
+            log(pm['page'], 'QA', ov, rv.get('verdict'), '|', '; '.join(pm['issues'])[:160])
+            if rv.get('verdict') == 'skip' and ov < 45:
+                dropped += 1; os.remove(pm['file']); continue
+            fx = rv.get('fixes') or {}; j = byfile.get(pm['file'])
+            ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0)
+            new_hook = (fx.get('hook') or '').strip()
+            if j and (ts >= 0.4 or te >= 0.4 or (new_hook and new_hook != pm['hook'] and len(new_hook) <= 60)):
+                j2 = dict(j); j2['start'] = j['start'] + min(ts, 6); j2['end'] = j['end'] - min(te, 8)
+                if new_hook: j2['hook'] = new_hook
+                if j2['end'] - j2['start'] >= 8:
+                    try: render_one(j2); pm['hook'] = j2['hook']; fixed += 1
+                    except Exception as e: log('re-render failed', str(e)[:80])
+            cap = (fx.get('caption') or '').strip()
+            if cap and '#' in cap and 'follow' in cap.lower(): pm['caption'] = cap
+            kept.append(pm)
+        picks_meta = kept
+        avg = round(sum(scores) / len(scores)) if scores else 0
+        status('qa', 'done', f'AI scored {len(scores)} clips (avg {avg}/100): {fixed} improved, {dropped} weak ones dropped')
         pf = os.path.join(work, 'auto_picks.json'); json.dump(picks_meta, open(pf, 'w'), indent=1)
         r = subprocess.run(['python3', os.path.join(HUB_BATCH, 'studio_push.py'), pf], capture_output=True, text=True)
         LOG.write(r.stdout[-3000:] + r.stderr[-2000:])
@@ -130,7 +156,6 @@ def main():
         for pg in sorted(scheduled):   # newest clips first: fresh ones take today's earliest slots
             try: urllib.request.urlopen(urllib.request.Request(hub + '/api/studio', data=json.dumps({'action': 'repack', 'page': pg, 'postId': 'x' * 10}).encode(), headers=hdr), timeout=300)
             except Exception as e: problems.append(f'{pg}: reorder failed ({str(e)[:40]})')
-    status('qa', 'done', f'{sum(made.values())} clips passed quality checks')
     status('distribution', 'done', f'{sum(scheduled.values())} clips scheduled automatically')
     total = sum(made.values())
     lines = [f"🎬 {sum(scheduled.values())} new clips scheduled automatically"]

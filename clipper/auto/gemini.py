@@ -17,3 +17,22 @@ def ask_json(prompt):
         except Exception as e:
             last = e
     raise RuntimeError(f'Gemini failed: {last}')
+
+
+def ask_json_video(path, prompt):
+    """Gemini watches a (small) video file and answers in JSON. Used by the clip quality inspector."""
+    import base64
+    key = open(os.path.expanduser('~/.gemini_key')).read().strip()
+    data = base64.b64encode(open(path, 'rb').read()).decode()
+    body = json.dumps({'contents': [{'role': 'user', 'parts': [{'inline_data': {'mime_type': 'video/mp4', 'data': data}}, {'text': prompt}]}],
+                       'generationConfig': {'temperature': 0.3, 'responseMimeType': 'application/json', 'maxOutputTokens': 4096}}).encode()
+    last = None
+    for m in MODELS:
+        req = urllib.request.Request(f'https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent', data=body,
+                                     headers={'Content-Type': 'application/json', 'x-goog-api-key': key})
+        try:
+            d = json.load(urllib.request.urlopen(req, timeout=240))
+            return json.loads(''.join(p.get('text', '') for p in d['candidates'][0]['content']['parts']))
+        except Exception as e:
+            last = e
+    raise RuntimeError(f'Gemini video failed: {last}')
