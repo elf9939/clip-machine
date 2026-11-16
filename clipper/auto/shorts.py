@@ -14,10 +14,10 @@ PAIR = {'pulseviceclips': ('cmwgl7csz001101nz9e8ubsa9', ['11:00', '17:00']), 'vi
 CT = datetime.timedelta(hours=-6)
 
 def call(path, body=None):
-    return json.load(urllib.request.urlopen(urllib.request.Request(HUB + path, data=json.dumps(body).encode() if body else None, headers=H), timeout=120))
+    return json.load(urllib.request.urlopen(urllib.request.Request(HUB + path, data=json.dumps(body).encode() if body else None, headers=H), timeout=240))
 
 def tiktok_views(user):
-    r = subprocess.run([YTDLP, '--socket-timeout', '30', '--print', '%(view_count)s\t%(title)s', f'https://www.tiktok.com/@{user}'], capture_output=True, text=True, timeout=300)
+    r = subprocess.run([YTDLP, '--socket-timeout', '30', '--print', '%(view_count)s\t%(title)s', f'https://www.tiktok.com/@{user}'], capture_output=True, text=True, timeout=240)
     out = {}
     for ln in r.stdout.splitlines():
         v, t = (ln.split('\t') + [''])[:2]

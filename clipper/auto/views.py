@@ -9,7 +9,7 @@ ACCTS = {'pulseviceclips': 'PulseVice', 'vicecityrpnet': 'ViceCityRP', 'gta6phys
 H = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY, 'Origin': HUB}
 
 def call(path, body=None):
-    return json.load(urllib.request.urlopen(urllib.request.Request(HUB + path, data=json.dumps(body).encode() if body else None, headers=H), timeout=60))
+    return json.load(urllib.request.urlopen(urllib.request.Request(HUB + path, data=json.dumps(body).encode() if body else None, headers=H), timeout=240))
 
 def views(user):
     r = subprocess.run([YTDLP, '--socket-timeout', '30', '--retries', '3', '--print', '%(view_count)s', f'https://www.tiktok.com/@{user}'], capture_output=True, text=True, timeout=300)

@@ -21,6 +21,7 @@ jobs:
           umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key
           python clipper/auto/views.py
       - name: Winners -> YouTube Shorts
+        continue-on-error: true   # a hiccup here must not stop the watchdog below
         run: |
           python clipper/auto/shorts.py
           git config user.name "jarvis-bot"; git config user.email "jarvis-bot@users.noreply.github.com"
