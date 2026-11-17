@@ -51,6 +51,20 @@ def has_burned_captions(src, s, e, words_path=None):
         if (len(seen & spoken) >= 2) if spoken else (len(seen) >= 4): hits += 1
     return hits >= 2
 
+# ---- duplicate-moment guard: remembers WHAT WAS SAID in every posted clip (30 days), so the same moment
+# clipped by a different viewer (new link, new caption) is never posted twice on a page ----
+MOMENTS = os.path.join(ROOT, 'data', 'moments.json')
+def load_moments():
+    try: m = json.load(open(MOMENTS))
+    except Exception: m = {}
+    cut = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+    return {pg: [x for x in v if x.get('d', '') >= cut] for pg, v in m.items()}
+def moment_words(words_path, s, e):
+    try: return {re.sub(r'[^a-z0-9]', '', w['w'].lower()) for w in json.load(open(words_path)) if w['e'] > s and w['s'] < e and len(re.sub(r'[^a-z0-9]', '', w['w'].lower())) >= 3}
+    except Exception: return set()
+def same_moment(a, b):
+    return len(a) >= 6 and len(b) >= 6 and len(a & b) / min(len(a), len(b)) >= 0.6
+
 def pick(page, index_txt, n):
     prompt = f"""You pick and title short-form clips for a TikTok clip page. Follow these page rules exactly:
 {brain(page)}
@@ -75,6 +89,7 @@ def main():
         open(os.path.join(HERE, 'fetch.log'), 'a').write(r.stdout + r.stderr)
         if 'BATCH DONE' not in r.stdout: problems.append('clip download step crashed (see auto/fetch.log)')
     work = os.path.join(ROOT, 'work', batch); jobs, picks_meta = [], []
+    MOM = load_moments(); dup_skips = 0
     nraw = sum(len([f for f in fs if f.endswith('.words.json')]) for _, _, fs in os.walk(work)) if os.path.isdir(work) else 0
     status('research', 'done' if nraw else 'error', f'{nraw} new clips pulled + transcribed'); status('writers', 'working', 'Reading transcripts, picking the best moments…')
     for d, page in DIR2PAGE.items():
@@ -91,13 +106,17 @@ def main():
             try: s, e = float(p['start']), float(p['end'])
             except Exception: continue
             if not os.path.exists(src) or not (10 <= e - s <= 50): continue
+            mw = moment_words(os.path.join(work, d, c + '.words.json'), s, e)
+            seen_before = MOM.get(page, []) + [{'w': list(x['moment_words'])} for x in picks_meta if x['page'] == page]
+            if any(same_moment(mw, set(x['w'])) for x in seen_before):
+                dup_skips += 1; log(page, c, 'skipped: same moment already posted'); continue
             slug = re.sub(r'[^a-z0-9]+', '_', p.get('hook', 'clip').lower())[:28].strip('_')
             out = os.path.join(ROOT, 'out', batch, page, f'{i + 1:02d}_{slug}.mp4')
             burned = has_burned_captions(src, s, e, os.path.join(work, d, c + '.words.json'))
             if burned: log(page, c, 'already has captions -> hook only')
             jobs.append({'src': src, 'words': '' if burned else os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
                          'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5})
-            picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''),
+            picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''), 'moment_words': sorted(mw),
                                'source': meta.get(c, ('?', 0))[0], 'views': meta.get(c, ('?', 0))[1]})
         log(page, len(res.get('picks', [])), 'picked |', res.get('skipped', ''))
     status('writers', 'done', f'{len(picks_meta)} clips picked, hooks + captions written')
@@ -135,6 +154,11 @@ def main():
             if cap and '#' in cap and 'follow' in cap.lower(): pm['caption'] = cap
             kept.append(pm)
         picks_meta = kept
+        for pm in picks_meta:   # remember these moments for 30 days
+            if pm.get('moment_words'): MOM.setdefault(pm['page'], []).append({'w': pm['moment_words'], 'd': datetime.date.today().isoformat()})
+        os.makedirs(os.path.dirname(MOMENTS), exist_ok=True); json.dump(MOM, open(MOMENTS, 'w'))
+        if dup_skips: log('duplicate moments skipped:', dup_skips)
+        for pm in picks_meta: pm.pop('moment_words', None)
         avg = round(sum(scores) / len(scores)) if scores else 0
         status('qa', 'done', f'AI scored {len(scores)} clips (avg {avg}/100): {fixed} improved, {dropped} weak ones dropped')
         pf = os.path.join(work, 'auto_picks.json'); json.dump(picks_meta, open(pf, 'w'), indent=1)
