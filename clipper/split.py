@@ -56,7 +56,9 @@ def render(j):
     # canvas 1080x1920 (TikTok safe zones): top 0-250 left clear for TikTok's search bar/tabs · hook text 255-415 · face cam 1080x608 at y=420 · gameplay 1080x892 at y=1028 · captions on the seam; right 140px kept clear of the like/comment buttons
     if j.get('layout') == 'full':   # whole frame is the camera (IRL): big center crop under the hook
         cx = j.get('cx', 0.5)   # where to center the crop (0 = left edge, 1 = right edge)
-        vf = (f'[0:v]fps=30,split[m][b];[m]crop=ih*0.75:ih:max(0\,min(iw-ih*0.75\,iw*{cx}-ih*0.375)):0,scale=1080:1440,setsar=1[v];'
+        # tighter frame (cuts corner logos/overlays) + a slow push-in zoom through the clip: real motion, not a static crop
+        vf = (f'[0:v]fps=30,split[m][b];[m]crop=ih*0.69:ih*0.92:max(0\,min(iw-ih*0.69\,iw*{cx}-ih*0.345)):ih*0.04,scale=1080:1440,setsar=1,'
+              f"zoompan=z='min(1+0.0016*on,1.12)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1440:fps=30[v];"
               f'[b]scale=270:480:force_original_aspect_ratio=increase,crop=270:480,boxblur=10:2,scale=1080:1920,eq=brightness=-0.15:saturation=1.2,setsar=1,fps=30[bg];'
               f"[bg][v]overlay=0:420:shortest=1,ass='{ass}'")
     else:

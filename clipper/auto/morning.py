@@ -11,7 +11,7 @@ PY = os.path.join(ROOT, '.venv', 'bin', 'python')
 HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
 AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
-WANT = {'pulsevice': 4, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
+WANT = {'pulsevice': 4, 'vicecityrp': 4, 'gta6physix': 2, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
 
 def log(*a):
@@ -117,6 +117,9 @@ def main():
             except Exception as e: log('review failed', str(e)[:80]); kept.append(pm); continue
             ov = int(rv.get('overall') or 0); scores.append(ov); pm['score'] = ov; pm['issues'] = rv.get('issues', [])[:3]
             log(pm['page'], 'QA', ov, rv.get('verdict'), '|', '; '.join(pm['issues'])[:160])
+            orig = int((rv.get('scores') or {}).get('originality') or 100)
+            if rv.get('watermark') or orig < 50:   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
+                dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue
             if rv.get('verdict') == 'skip' and ov < 45:
                 dropped += 1; os.remove(pm['file']); continue
             fx = rv.get('fixes') or {}; j = byfile.get(pm['file'])

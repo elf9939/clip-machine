@@ -23,6 +23,9 @@ Score each 0-100:
 - audio: clear speech, no long silence, not drowned by music, no distortion?
 - content: is there a real payoff (funny, shocking, hype, a story that lands) and does it make sense with no context?
 - engagement: would people comment, share or rewatch it?
+- originality: TikTok marks clips as "unoriginal" (not shown on For You) when they look copied from another source without creative edits.
+  Score LOW if you see a watermark or logo (Kick/Twitch/YouTube logos, another clipping page's handle or branding, burned-in subtitles in a different style),
+  if it looks like a re-upload of an already-edited/viral clip or compilation, or if it is mostly unchanged footage. Score HIGH for fresh raw stream moments with our own hook + captions.
 overall = your honest overall 0-100 (not just the average). verdict: "post" (good as is), "fix" (good after the fixes below), or "skip" (weak, would hurt the page).
 
 Fixes (only suggest what would clearly help):
@@ -30,7 +33,7 @@ Fixes (only suggest what would clearly help):
 - hook: a better on-screen hook (max 55 characters, no emoji, true to what happens) or the same one if it's already strong.
 - caption: a better caption keeping the same format (1 punchy line, a follow line, 4-5 hashtags) or the same one.
 Return JSON only:
-{{"scores":{{"hook":0,"visual":0,"audio":0,"content":0,"engagement":0}},"overall":0,"verdict":"post|fix|skip",
+{{"scores":{{"hook":0,"visual":0,"audio":0,"content":0,"engagement":0,"originality":0}},"overall":0,"verdict":"post|fix|skip","watermark":false,
 "issues":["short problem notes"],"fixes":{{"trim_start":0,"trim_end":0,"hook":"...","caption":"..."}}}}"""
 
 
