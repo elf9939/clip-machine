@@ -1,13 +1,31 @@
 name: Daily clip run
 on:
-  schedule:
-    - cron: '23 13 * * *'    # 7:23am Central: catches last night's streams so clips post the same day (odd minute = fewer GitHub delays)
+  # Started at 7:23am Central by cron-job.org (GitHub's own timer fired hours late and caused double runs).
+  # The views workflow's watchdog is the backup if nothing ran by mid-morning.
   workflow_dispatch:
+    inputs:
+      force: { description: 'Run even if a clip run already happened today', type: boolean, default: false }
 permissions:
   contents: write
+  actions: read
 concurrency: { group: clips, cancel-in-progress: false }
 jobs:
+  once:   # only one clip run per day (saves ~50 cloud minutes per duplicate trigger)
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.c.outputs.go }}
+    steps:
+      - id: c
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          today=$(TZ=America/Chicago date +%F)
+          n=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow daily.yml --limit 15 --json databaseId,createdAt,conclusion,status \
+              --jq ".[] | select(.databaseId != ${{ github.run_id }}) | select(.conclusion == \"success\" or .status == \"in_progress\") | .createdAt" \
+              | while read t; do TZ=America/Chicago date -d "$t" +%F; done | grep -c "^$today$" || true)
+          if [ "$n" != "0" ] && [ "${{ inputs.force }}" != "true" ]; then echo "Already ran today - skipping"; echo "go=no" >> $GITHUB_OUTPUT; else echo "go=yes" >> $GITHUB_OUTPUT; fi
   run:
+    needs: once
+    if: needs.once.outputs.go == 'yes'
     runs-on: ubuntu-latest
     timeout-minutes: 110
     env:

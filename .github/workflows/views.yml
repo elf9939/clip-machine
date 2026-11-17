@@ -1,7 +1,6 @@
 name: View check
 on:
-  schedule:
-    - cron: '41 */4 * * *'   # every 4 hours
+  # Started every 4 hours by cron-job.org (GitHub's own timer skipped most runs).
   workflow_dispatch:
 permissions:
   actions: write
