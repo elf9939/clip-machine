@@ -47,8 +47,8 @@ def proxy(path):
 
 def review(path, hook, caption, need_gta6=False):
     p = proxy(path)
-    extra = ('\nALSO return "is_gta6": true only if this footage is clearly GTA 6 (Grand Theft Auto VI) gameplay (new Vice City/Leonida map, Jason/Lucia, '
-             'GTA 6 HUD), false if it is GTA 5, another game, or not gameplay.') if need_gta6 else ''
+    extra = ('\nALSO return "is_gta6": true if this is GTA 6 (Grand Theft Auto VI) — gameplay or a streamer reacting while GTA 6 is on screen '
+             '(new Vice City/Leonida map, Jason/Lucia, GTA 6 HUD/intro). false if it is GTA 5, another game, a trailer, leaked/old footage, or nothing GTA 6 is on screen.') if need_gta6 else ''
     try: return ask_json_video(p, PROMPT.format(hook=hook.replace('"', "'"), caption=caption.replace('"', "'")) + extra)
     finally: os.remove(p)
 

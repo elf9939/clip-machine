@@ -10,7 +10,8 @@ from gemini import ask_json
 PY = os.path.join(ROOT, '.venv', 'bin', 'python')
 HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
-AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
+AUTO = set()   # APPROVAL MODE (Nov 18, GTA 6 launch): clips wait in Clip Studio; approving schedules TikTok + YouTube together. Restore {'pulsevice','vicecityrp','gta6physix','kai','adin','n3on'} to auto-post again.
+# AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
 WANT = {'pulsevice': 5, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
 
@@ -214,7 +215,7 @@ def main():
     except Exception as e: problems.append(f'YouTube cross-post failed ({str(e)[:60]})')
     status('distribution', 'done', f'{sum(scheduled.values())} clips scheduled automatically')
     total = sum(made.values())
-    lines = [f"🎬 {sum(scheduled.values())} new clips scheduled automatically"]
+    lines = [f"🎬 {sum(scheduled.values())} new clips scheduled automatically"] if AUTO else [f"🎬 {sum(made.values())} new GTA 6 clips waiting for your OK in Clip Studio"]
     lines += [f"• {k}: {v} scheduled" for k, v in sorted(scheduled.items())]
     held = {k: v for k, v in made.items() if k not in AUTO}
     if held: lines.append('Saved as drafts (pages still warming): ' + ', '.join(f'{k} {v}' for k, v in sorted(held.items())))
