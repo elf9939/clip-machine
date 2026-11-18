@@ -124,8 +124,12 @@ def main(batch):
                     print('  skip (download failed or skips frames):', c['title'], flush=True)
                     if os.path.exists(mp4): os.remove(mp4)
                     n -= 1; continue
-                segs, info = model.transcribe(mp4, word_timestamps=True, vad_filter=True, language='en')
-                segs = list(segs)
+                try:   # one odd clip must never crash the whole batch (a Jynxzi clip broke word-timestamps on Nov 18)
+                    segs, info = model.transcribe(mp4, word_timestamps=True, vad_filter=True, language='en')
+                    segs = list(segs)
+                except Exception as e:
+                    print('  skip (transcription failed):', c['title'][:40], str(e)[:60], flush=True)
+                    os.remove(mp4); n -= 1; continue
                 words = [{'w': w.word.strip(), 's': round(w.start, 2), 'e': round(w.end, 2)} for s in segs for w in (s.words or [])]
                 json.dump(words, open(os.path.join(d, f'{n:02d}.words.json'), 'w'))
                 lines = '\n'.join(f'   [{s.start:5.1f}-{s.end:5.1f}] {s.text.strip()}' for s in segs)
