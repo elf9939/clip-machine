@@ -20,6 +20,7 @@ jobs:
           umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key
           python clipper/auto/views.py
       - name: Winners -> YouTube Shorts
+        if: false   # paused (Nov 18): every approved clip already goes to YouTube; this was stacking old clips into the same slots
         continue-on-error: true   # a hiccup here must not stop the watchdog below
         run: |
           python clipper/auto/shorts.py

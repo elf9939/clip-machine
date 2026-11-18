@@ -1,15 +1,47 @@
 loading speech model…
-already in Clip Studio: {'physix': 0, 'pulsevice': 0, 'n3on': 0, 'adin': 0, 'kai': 0, 'vicecityrp': 1}
-gta6physix: 67 candidate clips
-  mascot: top-left corner · unimpressed → shocked → cringe → pointing → shocked → thinking → cringe → pointing → laughing★ → unimpressed → thinking
-✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/physix_1795036766_final.mp4
-✅ gta6physix #1 in Clip Studio (4 min): Bro had the entire list ready when he crashed out
-pulsevice: 121 candidate clips
-  pulsevice: no — Truly nothing happens; it is just slow discussion about cop positions 
-n3on: 4 candidate clips
-  n3on: no — Massive dead air gap and no clear GTA 6 gameplay moment or payoff.
-adin: 10 candidate clips
-  mascot: top-right corner · unimpressed → pointing → shocked → cringe → thinking → pointing → shocked → thinking → unimpressed → pointing → shocked → hype★ → thinking
-✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/adin_1795037188_final.mp4
-✅ adin #1 in Clip Studio (11 min): Seeing the GTA 6 map for the first time
-kai: 24 candidate clips
+already in Clip Studio: {'physix': 0, 'pulsevice': 0, 'n3on': 0, 'adin': 1, 'kai': 0, 'vicecityrp': 0}
+gta6physix: 65 candidate clips
+  gta6physix: no — No GTA gameplay or physics fail; just commentary on Jubilee and politi
+pulsevice: 114 candidate clips
+  AI failed Gemini failed: HTTP Error 503: Service Unavailable
+n3on: 3 candidate clips
+  n3on: skip (no talking)
+adin: 5 candidate clips
+  adin: no — Not GTA 6 content and has over 16 seconds of dead air.
+kai: 18 candidate clips
+  kai: source already has subtitles -> hook + mascot only (no extra captions)
+  mascot: top-right corner · popcorn → sideeye → leaningin → nervous → cringe → chill → pointing → shocked → sideeye → leaningin → cryinglaugh★ → unimpressed
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/kai_1795037872_final.mp4
+✅ kai #1 in Clip Studio (11 min): Kai found the craziest NPC in GTA 6
+vicecityrp: 31 candidate clips
+  vicecityrp: no — Slow meeting dialogue with a 9-second dead air gap and no payoff or ac
+  gta6physix: no — Clip consists entirely of navigating menu and accessibility settings w
+  pulsevice: no — Nothing happens in the clip and there is no notable streamer drama or 
+  skip Command '['/Users/dakotaschmidt/.local/bin/yt-dlp', '-q', '-
+  adin: no — Menu settings screen with lag and no GTA 6 gameplay
+  kai: skip (no talking)
+  mascot: mid-left corner · popcorn → cringe → thinking → leaningin → sideeye → pointing → nervous → shocked → facepalm★ → unimpressed
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/vicecityrp_1795038728_final.mp4
+✅ vicecityrp #1 in Clip Studio (25 min): Ramee completely loses it over this fail
+  gta6physix: no — Clip has extensive dead air and lacks recognizable GTA physics or acti
+  mascot: top-left corner · popcorn → sideeye → leaningin → cringe → idle → pointing → slowclap★ → unimpressed → thinking
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/pulsevice_1795038954_final.mp4
+✅ pulsevice #1 in Clip Studio (30 min): Deen officially apologized to Ray J on stream
+  n3on: no — This is GTA RP rather than GTA 6, and there is no clear payoff or cohe
+  mascot: top-right corner · popcorn → idle → sideeye → chill → leaningin → shocked → nervous → pointing → hype★ → thinking
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/adin_1795039255_final.mp4
+✅ adin #2 in Clip Studio (34 min): His first reaction to seeing Vice City in GTA 6
+  kai: no — Not GTA 6 footage
+  vicecityrp: skip (no talking)
+ityrp: skip (no talking)
+  mascot: top-left corner · idle → pointing → leaningin → popcorn → thinking → nervous → shocked → hype★ → thinking → unimpressed → idle
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/physix_1795038742_final.mp4
+✅ gta6physix #2 in Clip Studio (38 min): He gave away a free copy of GTA 6
+  pulsevice: no — Nothing happens except navigating accessibility settings in a menu.
+  mascot: top-left corner · thinking → leaningin → pointing → shocked → nervous → cryinglaugh★ → unimpressed
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/n3on_1795039044_final.mp4
+✅ n3on #1 in Clip Studio (42 min): The GTA 6 NPCs called CPS on her
+  mascot: top-left corner · idle → pointing → leaningin → shocked → unimpressed → sideeye → popcorn → cringe → facepalm★ → thinking
+✅ /Users/dakotaschmidt/Projects/clip-machine/clipper/work/stream/adin_1795039191_final.mp4
+✅ adin #2 in Clip Studio (45 min): Trying to make a shot in GTA 6
+  mascot: mid-left corner · idle → nervous → shocked → cringe → pointing → cryinglaugh★ → unimpressed
