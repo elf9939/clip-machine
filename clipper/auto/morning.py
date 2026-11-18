@@ -118,7 +118,7 @@ def main():
             burned = has_burned_captions(src, s, e, os.path.join(work, d, c + '.words.json'))
             if burned: log(page, c, 'already has captions -> hook only')
             jobs.append({'src': src, 'words': '' if burned else os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
-                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5})
+                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page})
             picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''), 'moment_words': sorted(mw),
                                'source': meta.get(c, ('?', 0))[0], 'views': meta.get(c, ('?', 0))[1]})
         log(page, len(res.get('picks', [])), 'picked |', res.get('skipped', ''))

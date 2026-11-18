@@ -7,12 +7,14 @@
                 "hook": "Big Smoke broke into Kai's house 💀", "out": "out/x/01_big_smoke.mp4",
                 "cam": [0, 0.244, 0.195, 0.194]}]   # face cam box as fractions of the frame: x, y, w, h
 """
-import json, os, subprocess, sys
+import json, os, random, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from clip import FFMPEG, clean
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 KAI_CAM = [0.0, 0.244, 0.195, 0.194]          # Kai's Twitch layout (top-left box)
+# each clip page's own mascot (original characters we own) — makes every clip an original edit
+MASCOT = {'gta6physix': 'dummy', 'vicecityrp': 'raccoon', 'pulsevice': 'robot', 'kai': 'dog', 'adin': 'fox', 'n3on': 'cat'}
 
 
 def t(x): return f'{int(x // 3600)}:{int(x % 3600 // 60):02d}:{x % 60:05.2f}'
@@ -67,8 +69,22 @@ def render(j):
           f'[g]crop=ih*1.211:ih:(iw-ih*1.211)/2+iw*0.04:0,scale=1080:892,setsar=1[game];'
           f'[b]crop=iw*{w}:ih*{h}:iw*{x}:ih*{y},scale=270:480:force_original_aspect_ratio=increase,crop=270:480,boxblur=10:2,scale=1080:1920,eq=brightness=-0.12:saturation=1.25,setsar=1,fps=30[bg];[bg][cam]overlay=0:420:shortest=1[a];[a][game]overlay=0:1028,'
           f"ass='{ass}'")
+    # ---- page mascot: slides in at the hook (shocked/pointing) and pops back at the payoff (laughing/hype) ----
+    extra_in = []
+    m = MASCOT.get(j.get('mascot') or '')
+    if m and os.path.isdir(os.path.join(ROOT, 'mascots', m)):
+        dur = float(j['end']) - float(j['start'])
+        rnd = random.Random(j['out'])                                   # same clip -> same poses (re-renders stay identical)
+        p1 = os.path.join(ROOT, 'mascots', m, rnd.choice(['shocked', 'pointing']) + '.png')
+        p2 = os.path.join(ROOT, 'mascots', m, rnd.choice(['laughing', 'hype']) + '.png')
+        extra_in = ['-loop', '1', '-t', f'{dur:.2f}', '-i', p1, '-loop', '1', '-t', f'{dur:.2f}', '-i', p2]
+        a0, a1, b0 = 0.15, min(2.0, dur * 0.3), max(dur - 1.8, dur * 0.6)
+        mx = lambda t0: f"if(lt(t-{t0}\\,0.22)\\,-w+(t-{t0})/0.22*(w+24)\\,24)"   # quick slide in from the left edge
+        vf += (f"[pre];[1:v]scale=-1:400,format=rgba[m1];[2:v]scale=-1:400,format=rgba[m2];"
+               f"[pre][m1]overlay=x='{mx(a0)}':y=1290:enable='between(t\\,{a0}\\,{a1:.2f})'[p1];"
+               f"[p1][m2]overlay=x='{mx(round(b0, 2))}':y=1290:enable='between(t\\,{b0:.2f}\\,{dur:.2f})'")
     subprocess.run(['nice', '-n', '10', FFMPEG, '-y', '-loglevel', 'error', '-ss', str(j['start']), '-to', str(j['end']),
-                    '-i', os.path.join(ROOT, j['src']), '-filter_complex', vf, '-r', '30',
+                    '-i', os.path.join(ROOT, j['src'])] + extra_in + ['-filter_complex', vf, '-r', '30',
                     '-c:v', 'libx264', '-preset', 'medium', '-crf', '24', '-maxrate', '4M', '-bufsize', '8M', '-pix_fmt', 'yuv420p', '-tag:v', 'avc1',
                     '-c:a', 'aac', '-b:a', '160k', '-ar', '44100', '-af', 'aresample=async=1:first_pts=0,loudnorm=I=-14:TP=-1.5:LRA=11',
                     '-use_editlist', '0', '-movflags', '+faststart', os.path.join(ROOT, j['out'])], check=True)
