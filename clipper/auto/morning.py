@@ -12,7 +12,7 @@ HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
 AUTO = set()   # APPROVAL MODE (Nov 18, GTA 6 launch): clips wait in Clip Studio; approving schedules TikTok + YouTube together. Restore {'pulsevice','vicecityrp','gta6physix','kai','adin','n3on'} to auto-post again.
 # AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
-WANT = {'pulsevice': 5, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
+WANT = {'pulsevice': 6, 'vicecityrp': 5, 'gta6physix': 6, 'kai': 5, 'adin': 5, 'n3on': 5}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
 
 def log(*a):
@@ -71,7 +71,7 @@ def pick(page, index_txt, n):
 {brain(page)}
 
 ALREADY POSTED on this page (do NOT pick a clip about the same moment/story, even from a different clipper):\n{chr(10).join('- ' + c for c in recent_posts(page)) or '- (none)'}\n\nBelow are today's raw clips (number | streamer | views | length | title, then the transcript with [start-end] seconds).
-Choose up to {n} clips that will do best (fewer if the rest are weak or break the rules). For each give a trim inside the clip.
+Choose up to {n} clips that will do best (fewer if the rest are weak or break the rules).{' APPROVAL MODE: the owner reviews every clip, so include borderline-but-decent moments instead of skipping them; still never break the hard rules.' if not AUTO else ''} For each give a trim inside the clip.
 For each pick also choose the page mascot's two reactions (it pops in at the start and again at the payoff):
 "react_start" from: shocked, pointing, thinking, cringe, unimpressed  ·  "react_end" from: laughing, cryinglaugh, hype, facepalm, slowclap, cringe, unimpressed
 (fail or bad play -> facepalm/cringe; genuinely impressive -> slowclap/hype; funniest moments -> cryinglaugh; confusing "wait what" -> thinking; mid/boring take -> unimpressed).
@@ -82,6 +82,7 @@ RAW CLIPS:
 {index_txt[:60000]}"""
     return ask_json(prompt)
 
+TWITCH_STREAMERS = {'kaicenat', 'lacy', 'jynxzi', 'caseoh_', 'stableronaldo', 'shroud', 'summit1g'}
 GTA6_PAGES = {'kai', 'adin', 'n3on', 'pulsevice', 'gta6physix'}   # GTA 6 launch: only GTA 6 clips on these pages
 RUN_STARTED = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
@@ -140,17 +141,17 @@ def main():
         sys.path.insert(0, ROOT); from split import render as render_one
         byfile = {j['out']: j for j in jobs}; kept, dropped, fixed, scores = [], 0, 0, []
         for pm in picks_meta:
-            need6 = pm['page'] in GTA6_PAGES
+            need6 = pm['page'] in GTA6_PAGES and pm.get('source', '').lower() in TWITCH_STREAMERS   # Kick clips are already labeled GTA VI by Kick
             try: rv = review(pm['file'], pm['hook'], pm['caption'], need6)
             except Exception as e: log('review failed', str(e)[:80]); kept.append(pm); continue
             ov = int(rv.get('overall') or 0); scores.append(ov); pm['score'] = ov; pm['issues'] = rv.get('issues', [])[:3]
             log(pm['page'], 'QA', ov, rv.get('verdict'), '|', '; '.join(pm['issues'])[:160])
-            if need6 and rv.get('is_gta6') is False:
+            if need6 and rv.get('is_gta6') is False and int(rv.get('overall') or 0) < 60:
                 dropped += 1; log(pm['page'], 'dropped: not GTA 6'); os.remove(pm['file']); continue
             orig = int((rv.get('scores') or {}).get('originality') or 100)
-            if rv.get('watermark') or orig < 50:   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
+            if rv.get('watermark') or orig < (35 if not AUTO else 50):   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
                 dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue
-            if rv.get('verdict') == 'skip' and ov < 45:
+            if rv.get('verdict') == 'skip' and ov < (30 if not AUTO else 45):
                 dropped += 1; os.remove(pm['file']); continue
             fx = rv.get('fixes') or {}; j = byfile.get(pm['file'])
             ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0)
