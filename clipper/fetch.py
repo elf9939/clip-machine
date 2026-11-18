@@ -14,16 +14,17 @@ NOT_GTA = lambda c: not GTA(c)
 GTA6 = lambda c: 'grand theft auto vi' in (c.get('category') or {}).get('name', '').lower()   # "Grand Theft Auto VI (GTA)"
 GTA5 = lambda c: GTA(c) and not GTA6(c)                                                       # GTA RP still runs on GTA V
 # English GTA 6 streamers (the category is full of Polish/Turkish/Spanish streams); live English GTA VI streamers are added at run time
-ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'lacy', 'sneako', 'davyjones', 'buddha', 'dasmehdi', 'ramee', 'cuvey', 'stableronaldo', 'caseoh_'}
+ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'lacy', 'sneako', 'buddha', 'dasmehdi', 'ramee', 'cuvey', 'stableronaldo', 'caseoh_', 'capped', 'madhousetv', 'hstikkytokky', 'imeliminator', 'barrybagheera', 'sway', 'sangtar', 'markynextdoor', 'mrcurrys6', 'dubzmusic'}
 
 # page -> list of (platform, channel, how many, filter)
 PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, which stays GTA RP (GTA V servers)
     'kai':        [('twitch', 'kaicenat', 10, None)],                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
     'adin':       [('kick', 'adinross', 9, GTA6)],
     'n3on':       [('kick', 'n3on', 9, GTA6)],
-    'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 8, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6)],
+    'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
+                   ('twitch', 'lacy', 4, None), ('twitch', 'jynxzi', 4, None), ('twitch', 'caseoh_', 3, None), ('twitch', 'stableronaldo', 3, None)],   # Twitch: AI keeps only GTA 6
     'vicecityrp': [('kick', 'buddha', 6, GTA5), ('kick', 'dasmehdi', 3, GTA5), ('kick', 'ramee', 3, GTA5)],
-    'physix':     [('kickcat', 'grand-theft-auto-vi', 10, None), ('kick', 'xqc', 4, GTA6)],
+    'physix':     [('kickcat', 'grand-theft-auto-vi', 14, None), ('kick', 'xqc', 4, GTA6), ('twitch', 'shroud', 3, None), ('twitch', 'summit1g', 3, None)],
 }
 
 used_file = os.path.join(ROOT, 'work', 'used_clips.txt')
@@ -46,9 +47,16 @@ def english_gta6_live():
 def kick_cat_list(slug):
     """Most-viewed GTA 6 clips across Kick, English streamers only."""
     eng = ENGLISH_GTA6 | english_gta6_live(); out = []
+    pages = []
     for span in ('day', 'week'):
-        try: data = json.load(urllib.request.urlopen(urllib.request.Request(f'https://kick.com/api/v2/clips?category={slug}&sort=view&time={span}', headers={'User-Agent': UA}), timeout=30))
-        except Exception as e: print('  kick category list failed', span, e, flush=True); continue
+        cur = None
+        for _ in range(8):          # page through ~160 clips per span (Kick uses a cursor)
+            q = f'https://kick.com/api/v2/clips?category={slug}&sort=view&time={span}' + (f'&cursor={cur}' if cur else '')
+            try: data = json.load(urllib.request.urlopen(urllib.request.Request(q, headers={'User-Agent': UA}), timeout=30))
+            except Exception as e: print('  kick category list failed', span, e, flush=True); break
+            pages.append(data); cur = data.get('nextCursor')
+            if not cur: break
+    for data in pages:
         for c in data.get('clips', []):
             ch = (c.get('channel') or {}).get('slug', '').lower()
             if ch not in eng or c['clip_url'] in used or any(c['clip_url'] == o['url'] for o in out): continue

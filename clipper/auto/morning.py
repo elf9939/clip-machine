@@ -121,7 +121,7 @@ def main():
             burned = has_burned_captions(src, s, e, os.path.join(work, d, c + '.words.json'))
             if burned: log(page, c, 'already has captions -> hook only')
             jobs.append({'src': src, 'words': '' if burned else os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
-                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page,
+                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page, 'mwords': os.path.join(work, d, c + '.words.json'),
                          'react_start': p.get('react_start'), 'react_end': p.get('react_end')})
             picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''), 'moment_words': sorted(mw),
                                'source': meta.get(c, ('?', 0))[0], 'views': meta.get(c, ('?', 0))[1]})
@@ -195,6 +195,23 @@ def main():
         for pg in sorted(scheduled):   # newest clips first: fresh ones take today's earliest slots
             try: urllib.request.urlopen(urllib.request.Request(hub + '/api/studio', data=json.dumps({'action': 'repack', 'page': pg, 'postId': 'x' * 10}).encode(), headers=hdr), timeout=300)
             except Exception as e: problems.append(f'{pg}: reorder failed ({str(e)[:40]})')
+    try:   # every new clip also goes to YouTube Shorts at the same time (not only the winners)
+        import urllib.request
+        import ast; _t = open(os.path.join(HERE, 'shorts.py')).read(); _i = _t.index('PAIR = '); PAIR = ast.literal_eval(_t[_i + 7:_t.index('}', _i) + 1])   # read the channel map without running shorts.py
+        hub = 'https://post-hub-nine.vercel.app'; key = open(os.path.expanduser('~/.posthub_key')).read().strip()
+        hdr = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'Origin': hub}
+        call = lambda path, body=None: json.load(urllib.request.urlopen(urllib.request.Request(hub + path, data=json.dumps(body).encode() if body else None, headers=hdr), timeout=240))
+        allp = call('/api/posts?all=1')['posts']; yt_have = {(p['platforms'][0]['accountName'], (p.get('mediaUrls') or [''])[0]) for p in allp if p['platforms'][0]['platform'] == 'YOUTUBE'}
+        sent = 0
+        for p in allp:
+            pl = p['platforms'][0]
+            if p['status'] != 'SCHEDULED' or pl['platform'] != 'TIKTOK' or pl['accountName'] not in PAIR or (p.get('createdAt') or '') < RUN_STARTED: continue
+            media = (p.get('mediaUrls') or pl.get('mediaUrls') or [None])[0]
+            if not media or any(m == media for _, m in yt_have): continue
+            r = call('/api/post', {'accountIds': [PAIR[pl['accountName']][0]], 'contentType': 'VIDEO', 'text': p['text'], 'mediaUrls': [media], 'scheduledAt': p['scheduledAt']})
+            sent += bool((r.get('results') or [{}])[0].get('ok'))
+        log('youtube shorts cross-posted:', sent)
+    except Exception as e: problems.append(f'YouTube cross-post failed ({str(e)[:60]})')
     status('distribution', 'done', f'{sum(scheduled.values())} clips scheduled automatically')
     total = sum(made.values())
     lines = [f"🎬 {sum(scheduled.values())} new clips scheduled automatically"]

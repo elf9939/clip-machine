@@ -45,7 +45,7 @@ jobs:
       - name: Python tools
         run: |
           python -m venv clipper/.venv
-          clipper/.venv/bin/pip install -q faster-whisper==1.2.1 yt-dlp
+          clipper/.venv/bin/pip install -q faster-whisper==1.2.1 yt-dlp pillow
       - name: Wire up paths and keys
         env:
           PH_KEY: ${{ secrets.PH_AUTOMATION_KEY }}

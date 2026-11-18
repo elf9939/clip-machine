@@ -69,9 +69,12 @@ def render(j):
           f'[g]crop=ih*1.211:ih:(iw-ih*1.211)/2+iw*0.04:0,scale=1080:892,setsar=1[game];'
           f'[b]crop=iw*{w}:ih*{h}:iw*{x}:ih*{y},scale=270:480:force_original_aspect_ratio=increase,crop=270:480,boxblur=10:2,scale=1080:1920,eq=brightness=-0.12:saturation=1.25,setsar=1,fps=30[bg];[bg][cam]overlay=0:420:shortest=1[a];[a][game]overlay=0:1028,'
           f"ass='{ass}'")
-    # ---- page mascot: slides in at the hook (shocked/pointing) and pops back at the payoff (laughing/hype) ----
+    # ---- page mascot (new system): rendered in a second pass by mascot_anim — whole clip, clearest corner, pose timeline ----
     extra_in = []
-    m = MASCOT.get(j.get('mascot') or '')
+    m = None   # old start/end overlay disabled
+    final_out = os.path.join(ROOT, j['out']); mascot_dir = os.path.join(ROOT, 'mascots', MASCOT.get(j.get('mascot') or '', '') or '_')
+    use_anim = bool(j.get('mascot')) and os.path.isdir(mascot_dir)
+    if use_anim: j = dict(j, out=j['out'] + '.base.mp4')
     if m and os.path.isdir(os.path.join(ROOT, 'mascots', m)):
         dur = float(j['end']) - float(j['start'])
         rnd = random.Random(j['out'])                                   # same clip -> same poses (re-renders stay identical)
@@ -90,7 +93,18 @@ def render(j):
                     '-c:v', 'libx264', '-preset', 'medium', '-crf', '24', '-maxrate', '4M', '-bufsize', '8M', '-pix_fmt', 'yuv420p', '-tag:v', 'avc1',
                     '-c:a', 'aac', '-b:a', '160k', '-ar', '44100', '-af', 'aresample=async=1:first_pts=0,loudnorm=I=-14:TP=-1.5:LRA=11',
                     '-use_editlist', '0', '-movflags', '+faststart', os.path.join(ROOT, j['out'])], check=True)
-    print('✅', j['out'], flush=True)
+    if use_anim:
+        try:
+            import mascot_anim
+            wp = j.get('mwords') or j.get('words')
+            allw = json.load(open(os.path.join(ROOT, wp))) if wp else []
+            s0, s1 = float(j['start']), float(j['end'])
+            rel = [{'w': w['w'], 's': round(w['s'] - s0, 2), 'e': round(w['e'] - s0, 2)} for w in allw if w['e'] > s0 and w['s'] < s1]
+            mascot_anim.apply(os.path.join(ROOT, j['out']), rel, final_out, mascot_dir, seed=final_out)
+            os.remove(os.path.join(ROOT, j['out']))
+        except Exception as e:      # never lose the clip over the mascot
+            print('  mascot failed, posting without it:', str(e)[:100], flush=True); os.replace(os.path.join(ROOT, j['out']), final_out)
+    print('✅', final_out, flush=True)
 
 
 if __name__ == '__main__':
