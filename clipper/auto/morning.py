@@ -82,6 +82,7 @@ RAW CLIPS:
 {index_txt[:60000]}"""
     return ask_json(prompt)
 
+MIN_PER_PAGE = 3   # never finish a run with an empty page
 TWITCH_STREAMERS = {'kaicenat', 'lacy', 'jynxzi', 'caseoh_', 'stableronaldo', 'shroud', 'summit1g'}
 GTA6_PAGES = {'kai', 'adin', 'n3on', 'pulsevice', 'gta6physix'}   # GTA 6 launch: only GTA 6 clips on these pages
 RUN_STARTED = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
@@ -139,7 +140,7 @@ def main():
         # ---- quality inspector: the AI watches each finished clip, scores it, fixes it or drops it ----
         from review import review
         sys.path.insert(0, ROOT); from split import render as render_one
-        byfile = {j['out']: j for j in jobs}; kept, dropped, fixed, scores = [], 0, 0, []
+        byfile = {j['out']: j for j in jobs}; kept, dropped, fixed, scores, near = [], 0, 0, [], []
         for pm in picks_meta:
             need6 = pm['page'] in GTA6_PAGES and pm.get('source', '').lower() in TWITCH_STREAMERS   # Kick clips are already labeled GTA VI by Kick
             try: rv = review(pm['file'], pm['hook'], pm['caption'], need6)
@@ -147,12 +148,12 @@ def main():
             ov = int(rv.get('overall') or 0); scores.append(ov); pm['score'] = ov; pm['issues'] = rv.get('issues', [])[:3]
             log(pm['page'], 'QA', ov, rv.get('verdict'), '|', '; '.join(pm['issues'])[:160])
             if need6 and rv.get('is_gta6') is False and int(rv.get('overall') or 0) < 60:
-                dropped += 1; log(pm['page'], 'dropped: not GTA 6'); os.remove(pm['file']); continue
+                dropped += 1; log(pm['page'], 'dropped: not GTA 6'); near.append(pm); continue
             orig = int((rv.get('scores') or {}).get('originality') or 100)
             if rv.get('watermark') or orig < (35 if not AUTO else 50):   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
-                dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue
+                dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue   # never rescued
             if rv.get('verdict') == 'skip' and ov < (30 if not AUTO else 45):
-                dropped += 1; os.remove(pm['file']); continue
+                dropped += 1; near.append(pm); continue
             fx = rv.get('fixes') or {}; j = byfile.get(pm['file'])
             ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0)
             new_hook = (fx.get('hook') or '').strip()
@@ -165,6 +166,16 @@ def main():
             cap = (fx.get('caption') or '').strip()
             if cap and '#' in cap and 'follow' in cap.lower(): pm['caption'] = cap
             kept.append(pm)
+        # NEVER-EMPTY GUARANTEE: every page gets at least MIN_PER_PAGE clips; the best near-misses (not watermarked/reposts) fill the gap
+        rescued = 0
+        for pg in DIR2PAGE.values():
+            have = sum(1 for x in kept if x['page'] == pg)
+            for pm in sorted([x for x in near if x['page'] == pg], key=lambda x: -x.get('score', 0))[:max(0, MIN_PER_PAGE - have)]:
+                pm['caption'] = pm['caption']; pm['near_miss'] = True; kept.append(pm); near.remove(pm); rescued += 1
+                log(pg, 'rescued near-miss for review, score', pm.get('score'))
+        for pm in near:
+            if os.path.exists(pm['file']): os.remove(pm['file'])
+        if rescued: problems.append(f'{rescued} lower-scoring clips added so every page has something to review')
         picks_meta = kept
         for pm in picks_meta:   # remember these moments for 30 days
             if pm.get('moment_words'): MOM.setdefault(pm['page'], []).append({'w': pm['moment_words'], 'd': datetime.date.today().isoformat()})
@@ -214,6 +225,8 @@ def main():
             sent += bool((r.get('results') or [{}])[0].get('ok'))
         log('youtube shorts cross-posted:', sent)
     except Exception as e: problems.append(f'YouTube cross-post failed ({str(e)[:60]})')
+    short = [pg for pg in DIR2PAGE.values() if made.get(pg, 0) < MIN_PER_PAGE]
+    if short: problems.append('Short on clips today: ' + ', '.join(f'{pg} ({made.get(pg, 0)})' for pg in short))
     status('distribution', 'done', f'{sum(scheduled.values())} clips scheduled automatically')
     total = sum(made.values())
     lines = [f"🎬 {sum(scheduled.values())} new clips scheduled automatically"] if AUTO else [f"🎬 {sum(made.values())} new GTA 6 clips waiting for your OK in Clip Studio"]
