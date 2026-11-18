@@ -4,15 +4,8 @@ Hooks: "He got launched into orbit", "His car flipped on literally nothing".
 Hashtags pool: #gta5 #gta6 #gtaphysics #gaming #fail #funny #fyp
 Best so far: ragdoll / car flip clips (231 views on "ragdolled into another dimension").
 
-## What is working (auto-updated 2026-11-12)
+## What is working (auto-updated 2026-11-18)
 Top posts this week — make more like these:
-- 257 views: "he got ragdolled into another dimension 💀 #gta #gtaphysics #"
-- 131 views: "his car flipped on literally nothing 💀 #gta #gtaphysics #gta"
-- 85 views: "the beach gun drop 😭 #gta #gtarp #gta6 #fyp"
-
-## GTA 6 LAUNCH MODE (Nov 18, 2026)
-- ONLY pick GTA 6 (Grand Theft Auto VI) moments. That includes gameplay AND the streamer's genuine reactions to GTA 6 while it's on screen:
-  first impressions, the intro/opening, getting lost on the new map, rage at a mission, shock at graphics/physics, funny NPC encounters.
-  Skip menus/settings/loading screens with nothing happening, trailers, leaked/old footage, and anything that isn't GTA 6.
-- Hooks can name GTA 6 when it fits ("GTA 6 physics are insane", "First time in GTA 6 and…"). Never claim something happens that doesn't.
-- Hashtags must include #gta6 and #gtavi, plus 2-3 that fit (#gaming #gta #fyp, the streamer's name).
+- 956 views: "xQc can't stop hitting headshots #xqc #gta #gta6 #aim #fyp"
+- 949 views: "xQc clipped straight through the map 😭 #xqc #gta #gta6 #glit"
+- 932 views: "GTA physics never make any sense 💀 #gta5 #gta6 #gtaphysics #"

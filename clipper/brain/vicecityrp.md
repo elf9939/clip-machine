@@ -4,7 +4,8 @@ Hooks: describe the situation: "Cop almost runs Nino over, then argues".
 Hashtags pool: #gtarp #nopixel #gta5 #roleplay #fyp #ramee #buddha
 Avoid: clips that are just menus/inventory with no talking.
 
-## What is working (auto-updated 2026-11-12)
+## What is working (auto-updated 2026-11-18)
 Top posts this week — make more like these:
-- 183 views: "Nino got bleached and nobody knows what happened 💀 #gtarp #n"
-- 140 views: "xQc trying to close a 230k deal in GTA RP 💰 #xqc #gtarp #nop"
+- 1882 views: "Buddha responds to "NoPixel isn't realistic" #buddha #nopixe"
+- 1454 views: "The shootout went completely sideways 💀 #gtarp #nopixel #ram"
+- 1313 views: "Nino got bleached and nobody knows what happened 💀 #gtarp #n"

@@ -8,3 +8,9 @@ Avoid: gambling/casino segments.
   Skip menus/settings/loading screens with nothing happening, trailers, leaked/old footage, and anything that isn't GTA 6.
 - Hooks can name GTA 6 when it fits ("GTA 6 physics are insane", "First time in GTA 6 and…"). Never claim something happens that doesn't.
 - Hashtags must include #gta6 and #gtavi, plus 2-3 that fit (#gaming #gta #fyp, the streamer's name).
+
+## What is working (auto-updated 2026-11-18)
+Top posts this week — make more like these:
+- 1256 views: "Bro gave the drill sergeants zero context 💀 Follow for daily"
+- 363 views: "Adin had no mercy on Cuffem here 💀 #adinross #cuffem #kick #"
+- 362 views: "Bro really bought GTA 6 early 💀 #adinross #adin #kick #strea"
