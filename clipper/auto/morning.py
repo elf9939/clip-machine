@@ -66,10 +66,21 @@ def moment_words(words_path, s, e):
 def same_moment(a, b):
     return len(a) >= 6 and len(b) >= 6 and len(a & b) / min(len(a), len(b)) >= 0.6
 
+def owner_feedback():
+    """Recent reasons the owner rejected clips in Clip Studio — the picker avoids those problems."""
+    try:
+        import urllib.request
+        key = open(os.path.expanduser('~/.posthub_key')).read().strip()
+        fb = json.load(urllib.request.urlopen(urllib.request.Request('https://post-hub-nine.vercel.app/api/studio?feedback=1', headers={'Authorization': 'Bearer ' + key}), timeout=60)).get('feedback', [])
+    except Exception: return ''
+    rows = [f"- {x['reason']} (\"{x.get('caption', '')[:60]}\")" for x in fb[-15:]]
+    return ('The owner REJECTED these recent clips — avoid clips with the same problems:\n' + '\n'.join(rows) + '\n') if rows else ''
+
 def pick(page, index_txt, n):
     prompt = f"""You pick and title short-form clips for a TikTok clip page. Follow these page rules exactly:
 {brain(page)}
 
+{owner_feedback()}
 ALREADY POSTED on this page (do NOT pick a clip about the same moment/story, even from a different clipper):\n{chr(10).join('- ' + c for c in recent_posts(page)) or '- (none)'}\n\nBelow are today's raw clips (number | streamer | views | length | title, then the transcript with [start-end] seconds).
 Choose up to {n} clips that will do best (fewer if the rest are weak or break the rules).{' APPROVAL MODE: the owner reviews every clip, so include borderline-but-decent moments instead of skipping them; still never break the hard rules.' if not AUTO else ''} For each give a trim inside the clip.
 For each pick also choose the page mascot's two reactions (it pops in at the start and again at the payoff):
