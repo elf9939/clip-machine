@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.join(HERE, 'auto'))
 FFMPEG = os.path.expanduser('~/.local/bin/ffmpeg') if os.path.exists(os.path.expanduser('~/.local/bin/ffmpeg')) else 'ffmpeg'
 W, H, FPS = 1080, 1920, 30
 SIZE_H, MAX_W = 270, 200                       # ~18% of the frame width
-CALM, POINT, TENSE = ['thinking', 'unimpressed', 'idle'], ['pointing'], ['shocked', 'cringe']
+CALM, POINT, TENSE = ['idle', 'chill', 'popcorn', 'sideeye', 'thinking', 'unimpressed'], ['pointing', 'leaningin'], ['shocked', 'cringe', 'nervous']
 BIG = ['laughing', 'cryinglaugh', 'hype', 'facepalm', 'slowclap']
 # corners inside the video area, clear of the hook (top), captions (centre ~y1170), TikTok's buttons (right side, lower half)
 # and TikTok's caption/username block (bottom-left)
@@ -66,9 +66,10 @@ def plan(words, dur, have, seed):
         segs = ask_json(f"""Plan the reaction poses of a small cartoon mascot watching this {dur:.1f}-second clip (it reacts like a viewer).
 Available poses: {', '.join(sorted(have))}.
 Rules: cover 0 to {dur:.1f}s with back-to-back segments of 2-4 seconds each. Never use the same pose twice in a row or repeat a sequence. Vary the order.
-- calm / setup moments: thinking, unimpressed{', idle' if 'idle' in have else ''}
-- something interesting about to happen: pointing
-- build-up / tension: shocked or cringe
+- calm / setup moments: {', '.join(p for p in CALM if p in have)}
+- something interesting about to happen: {', '.join(p for p in POINT if p in have)}
+- build-up / tension: {', '.join(p for p in TENSE if p in have)}
+- use a WIDE variety: no pose more than twice per clip, never repeat one within 3 changes
 - big reactions (laughing, cryinglaugh, hype, facepalm, slowclap) are ONLY allowed in the climax segment
 - after the climax, settle into a calm pose that fits (thinking or unimpressed)
 - exactly ONE climax segment (1-1.6s) at the funniest/biggest moment with a big reaction that MATCHES the mood:
@@ -100,10 +101,13 @@ Transcript (times are seconds into the clip):
             if s['pose'] not in BIG: s['pose'] = None
         elif s['pose'] in BIG or (seen_climax and s['pose'] not in CALM):
             s['pose'] = rnd.choice([p for p in CALM if p in have and p != prev]) if seen_climax else None
-        prev2 = ok[i - 2]['pose'] if i > 1 else None
-        if s['pose'] is None or s['pose'] in (prev, prev2):
+        prev2 = ok[i - 2]['pose'] if i > 1 else None; prev3 = ok[i - 3]['pose'] if i > 2 else None
+        used = [x['pose'] for x in ok[:i]]
+        if s['pose'] is None or s['pose'] in (prev, prev2, prev3) or used.count(s['pose']) >= 2:
             kinds = BIG if s['climax'] else (CALM if seen_climax else CALM + POINT + TENSE)   # after the climax: calm only
-            pool = [p for p in kinds if p in have and p not in (prev, prev2)] or [p for p in kinds if p in have and p != prev] or [p for p in CALM if p in have]
+            pool = [p for p in kinds if p in have and p not in (prev, prev2, prev3)] or [p for p in kinds if p in have and p != prev] or [p for p in CALM if p in have]
+            pool.sort(key=lambda p: (used.count(p), rnd.random()))        # least-used poses first → more variety
+            pool = pool[:2]
             s['pose'] = rnd.choice(pool)
     ok[0]['start'] = 0.0; ok[-1]['end'] = dur
     return ok
