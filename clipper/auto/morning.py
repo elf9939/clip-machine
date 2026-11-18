@@ -78,6 +78,8 @@ RAW CLIPS:
 {index_txt[:60000]}"""
     return ask_json(prompt)
 
+RUN_STARTED = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
+
 def main():
     args = sys.argv[1:]
     batch = args[1] if args[:1] == ['--skip-fetch'] else 'auto-' + datetime.date.today().strftime('%Y%m%d')
@@ -174,8 +176,10 @@ def main():
         hdr = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'Origin': hub}
         try:
             drafts = json.load(urllib.request.urlopen(urllib.request.Request(hub + '/api/studio', headers=hdr), timeout=120)).get('drafts', [])
+            run_started = RUN_STARTED
             for dft in drafts:
                 if dft.get('page') not in AUTO: continue
+                if (dft.get('created') or '') < run_started: continue   # only today's new clips; older drafts are a saved bank for slow days
                 r = json.load(urllib.request.urlopen(urllib.request.Request(hub + '/api/studio', data=json.dumps({'action': 'approve', 'postId': dft['id']}).encode(), headers=hdr), timeout=120))
                 if r.get('ok'): scheduled[dft['page']] = scheduled.get(dft['page'], 0) + 1
                 else: problems.append(f"{dft['page']}: couldn't auto-schedule ({r.get('error', '')[:40]})")
