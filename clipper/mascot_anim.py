@@ -102,8 +102,8 @@ Transcript (times are seconds into the clip):
             s['pose'] = rnd.choice([p for p in CALM if p in have and p != prev]) if seen_climax else None
         prev2 = ok[i - 2]['pose'] if i > 1 else None
         if s['pose'] is None or s['pose'] in (prev, prev2):
-            pool = [p for p in (BIG if s['climax'] else CALM + POINT + TENSE) if p in have and p not in (prev, prev2)] or \
-                   [p for p in (BIG if s['climax'] else CALM + POINT + TENSE) if p in have and p != prev]
+            kinds = BIG if s['climax'] else (CALM if seen_climax else CALM + POINT + TENSE)   # after the climax: calm only
+            pool = [p for p in kinds if p in have and p not in (prev, prev2)] or [p for p in kinds if p in have and p != prev] or [p for p in CALM if p in have]
             s['pose'] = rnd.choice(pool)
     ok[0]['start'] = 0.0; ok[-1]['end'] = dur
     return ok
