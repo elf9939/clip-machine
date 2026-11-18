@@ -75,8 +75,10 @@ def render(j):
     if m and os.path.isdir(os.path.join(ROOT, 'mascots', m)):
         dur = float(j['end']) - float(j['start'])
         rnd = random.Random(j['out'])                                   # same clip -> same poses (re-renders stay identical)
-        p1 = os.path.join(ROOT, 'mascots', m, rnd.choice(['shocked', 'pointing']) + '.png')
-        p2 = os.path.join(ROOT, 'mascots', m, rnd.choice(['laughing', 'hype']) + '.png')
+        have = lambda n: n and os.path.exists(os.path.join(ROOT, 'mascots', m, n + '.png'))
+        r1 = j.get('react_start') if have(j.get('react_start')) else rnd.choice(['shocked', 'pointing'])   # the AI picks a reaction that fits the moment
+        r2 = j.get('react_end') if have(j.get('react_end')) else rnd.choice(['laughing', 'hype'])
+        p1 = os.path.join(ROOT, 'mascots', m, r1 + '.png'); p2 = os.path.join(ROOT, 'mascots', m, r2 + '.png')
         extra_in = ['-loop', '1', '-t', f'{dur:.2f}', '-i', p1, '-loop', '1', '-t', f'{dur:.2f}', '-i', p2]
         a0, a1, b0 = 0.15, min(2.0, dur * 0.3), max(dur - 1.8, dur * 0.6)
         mx = lambda t0: f"if(lt(t-{t0}\\,0.22)\\,-w+(t-{t0})/0.22*(w+24)\\,24)"   # quick slide in from the left edge

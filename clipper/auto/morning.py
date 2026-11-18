@@ -71,7 +71,10 @@ def pick(page, index_txt, n):
 
 ALREADY POSTED on this page (do NOT pick a clip about the same moment/story, even from a different clipper):\n{chr(10).join('- ' + c for c in recent_posts(page)) or '- (none)'}\n\nBelow are today's raw clips (number | streamer | views | length | title, then the transcript with [start-end] seconds).
 Choose up to {n} clips that will do best (fewer if the rest are weak or break the rules). For each give a trim inside the clip.
-Return JSON: {{"picks":[{{"clip":"07","start":1.0,"end":30.0,"hook":"...","caption":"... #tags","why":"short reason"}}],
+For each pick also choose the page mascot's two reactions (it pops in at the start and again at the payoff):
+"react_start" from: shocked, pointing, thinking, cringe, unimpressed  ·  "react_end" from: laughing, cryinglaugh, hype, facepalm, slowclap, cringe, unimpressed
+(fail or bad play -> facepalm/cringe; genuinely impressive -> slowclap/hype; funniest moments -> cryinglaugh; confusing "wait what" -> thinking; mid/boring take -> unimpressed).
+Return JSON: {{"picks":[{{"clip":"07","start":1.0,"end":30.0,"hook":"...","caption":"... #tags","react_start":"shocked","react_end":"cryinglaugh","why":"short reason"}}],
 "skipped":"one short sentence on what you skipped and why"}}
 
 RAW CLIPS:
@@ -118,7 +121,8 @@ def main():
             burned = has_burned_captions(src, s, e, os.path.join(work, d, c + '.words.json'))
             if burned: log(page, c, 'already has captions -> hook only')
             jobs.append({'src': src, 'words': '' if burned else os.path.join(work, d, c + '.words.json'), 'start': s, 'end': e,
-                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page})
+                         'hook': p.get('hook', ''), 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page,
+                         'react_start': p.get('react_start'), 'react_end': p.get('react_end')})
             picks_meta.append({'file': out, 'page': page, 'caption': p.get('caption', ''), 'hook': p.get('hook', ''), 'moment_words': sorted(mw),
                                'source': meta.get(c, ('?', 0))[0], 'views': meta.get(c, ('?', 0))[1]})
         log(page, len(res.get('picks', [])), 'picked |', res.get('skipped', ''))
