@@ -11,22 +11,49 @@ from clip import YTDLP, FFMPEG, BIN, ROOT
 UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36'
 GTA = lambda c: 'grand theft auto' in (c.get('category') or {}).get('name', '').lower()
 NOT_GTA = lambda c: not GTA(c)
+GTA6 = lambda c: 'grand theft auto vi' in (c.get('category') or {}).get('name', '').lower()   # "Grand Theft Auto VI (GTA)"
+GTA5 = lambda c: GTA(c) and not GTA6(c)                                                       # GTA RP still runs on GTA V
+# English GTA 6 streamers (the category is full of Polish/Turkish/Spanish streams); live English GTA VI streamers are added at run time
+ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'lacy', 'sneako', 'davyjones', 'buddha', 'dasmehdi', 'ramee', 'cuvey', 'stableronaldo', 'caseoh_'}
 
 # page -> list of (platform, channel, how many, filter)
-PAGES = {
-    'kai':        [('twitch', 'kaicenat', 10, None)],
-    'adin':       [('kick', 'adinross', 9, None)],
-    'n3on':       [('kick', 'n3on', 9, None)],
-    'pulsevice':  [('kick', 'xqc', 4, NOT_GTA), ('twitch', 'jynxzi', 5, None), ('twitch', 'lacy', 5, None),
-                   ('twitch', 'caseoh_', 4, None), ('twitch', 'stableronaldo', 4, None), ('kick', 'sneako', 2, None)],
-    'vicecityrp': [('kick', 'buddha', 6, GTA), ('kick', 'dasmehdi', 3, GTA), ('kick', 'ramee', 3, GTA)],
-    'physix':     [('kick', 'xqc', 6, GTA), ('kick', 'buddha', 3, GTA), ('kick', 'dasmehdi', 3, GTA), ('kick', 'ramee', 3, GTA)],
+PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, which stays GTA RP (GTA V servers)
+    'kai':        [('twitch', 'kaicenat', 10, None)],                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
+    'adin':       [('kick', 'adinross', 9, GTA6)],
+    'n3on':       [('kick', 'n3on', 9, GTA6)],
+    'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 8, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6)],
+    'vicecityrp': [('kick', 'buddha', 6, GTA5), ('kick', 'dasmehdi', 3, GTA5), ('kick', 'ramee', 3, GTA5)],
+    'physix':     [('kickcat', 'grand-theft-auto-vi', 10, None), ('kick', 'xqc', 4, GTA6)],
 }
 
 used_file = os.path.join(ROOT, 'work', 'used_clips.txt')
 used = set(open(used_file).read().split()) if os.path.exists(used_file) else set()
 for f in [os.path.join(ROOT, 'work', d, 'list.txt') for d in ('gta', 'kick')]:
     if os.path.exists(f): used |= {l.split()[1] for l in open(f) if len(l.split()) > 1}
+
+
+def english_gta6_live():
+    """English streamers live in GTA VI right now (adds new names to the allow-list)."""
+    out = set()
+    for page in (1, 2, 3):
+        try:
+            d = json.load(urllib.request.urlopen(urllib.request.Request(f'https://kick.com/stream/livestreams/en?page={page}&limit=24&sort=desc&subcategory=grand-theft-auto-vi', headers={'User-Agent': UA}), timeout=30))
+            out |= {s['channel']['slug'] for s in d.get('data', []) if (s.get('language') or '').lower() in ('english', 'en') and GTA6({'category': (s.get('categories') or [{}])[0]})}
+        except Exception: break
+    return out
+
+
+def kick_cat_list(slug):
+    """Most-viewed GTA 6 clips across Kick, English streamers only."""
+    eng = ENGLISH_GTA6 | english_gta6_live(); out = []
+    for span in ('day', 'week'):
+        try: data = json.load(urllib.request.urlopen(urllib.request.Request(f'https://kick.com/api/v2/clips?category={slug}&sort=view&time={span}', headers={'User-Agent': UA}), timeout=30))
+        except Exception as e: print('  kick category list failed', span, e, flush=True); continue
+        for c in data.get('clips', []):
+            ch = (c.get('channel') or {}).get('slug', '').lower()
+            if ch not in eng or c['clip_url'] in used or any(c['clip_url'] == o['url'] for o in out): continue
+            out.append({'url': c['clip_url'], 'title': c.get('title', ''), 'views': c.get('views', 0), 'kick': True, 'dur': c.get('duration', 0), 'streamer': ch})
+    return out
 
 
 def kick_list(ch, flt):
@@ -73,7 +100,7 @@ def main(batch):
         idx_path = os.path.join(d, 'index.txt'); n = len([f for f in os.listdir(d) if f.endswith('.words.json')])
         for plat, ch, want, flt in srcs:
             if os.environ.get('CLOUD') and page in ('kai', 'adin', 'n3on'): want = min(want, 7)   # keep cloud minutes in budget
-            cands = kick_list(ch, flt) if plat == 'kick' else twitch_list(ch)
+            cands = kick_list(ch, flt) if plat == 'kick' else kick_cat_list(ch) if plat == 'kickcat' else twitch_list(ch)
             cands = sorted(cands, key=lambda c: -c['views'])
             print(f'{page}/{ch}: {len(cands)} new clips found, taking {want}', flush=True)
             got = 0

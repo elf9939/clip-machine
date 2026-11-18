@@ -11,7 +11,7 @@ PY = os.path.join(ROOT, '.venv', 'bin', 'python')
 HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
 AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
-WANT = {'pulsevice': 4, 'vicecityrp': 4, 'gta6physix': 2, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
+WANT = {'pulsevice': 5, 'vicecityrp': 4, 'gta6physix': 4, 'kai': 4, 'adin': 4, 'n3on': 4}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
 
 def log(*a):
@@ -78,6 +78,7 @@ RAW CLIPS:
 {index_txt[:60000]}"""
     return ask_json(prompt)
 
+GTA6_PAGES = {'kai', 'adin', 'n3on', 'pulsevice', 'gta6physix'}   # GTA 6 launch: only GTA 6 clips on these pages
 RUN_STARTED = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
 def main():
@@ -134,10 +135,13 @@ def main():
         sys.path.insert(0, ROOT); from split import render as render_one
         byfile = {j['out']: j for j in jobs}; kept, dropped, fixed, scores = [], 0, 0, []
         for pm in picks_meta:
-            try: rv = review(pm['file'], pm['hook'], pm['caption'])
+            need6 = pm['page'] in GTA6_PAGES
+            try: rv = review(pm['file'], pm['hook'], pm['caption'], need6)
             except Exception as e: log('review failed', str(e)[:80]); kept.append(pm); continue
             ov = int(rv.get('overall') or 0); scores.append(ov); pm['score'] = ov; pm['issues'] = rv.get('issues', [])[:3]
             log(pm['page'], 'QA', ov, rv.get('verdict'), '|', '; '.join(pm['issues'])[:160])
+            if need6 and rv.get('is_gta6') is False:
+                dropped += 1; log(pm['page'], 'dropped: not GTA 6'); os.remove(pm['file']); continue
             orig = int((rv.get('scores') or {}).get('originality') or 100)
             if rv.get('watermark') or orig < 50:   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
                 dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue
