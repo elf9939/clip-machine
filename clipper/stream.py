@@ -61,6 +61,7 @@ def inspect(out, job, j, need6):
     print(f"  inspector: {ov}/100 {rv.get('verdict')} | {'; '.join(rv.get('issues', [])[:2])[:120]}", flush=True)
     if need6 and rv.get('is_gta6') is False and ov < 60: return False, 'not GTA 6'
     if rv.get('watermark') or orig < 35: return False, f'unoriginal risk ({orig})'
+    if rv.get('regulated') or rv.get('mature'): return False, f"For You risk: {rv.get('risk_reason') or 'regulated/mature'}"   # Nov 19: 5 Physix videos restricted for Regulated Goods
     if rv.get('verdict') == 'skip' and ov < 40: return False, f'weak ({ov})'
     fx = rv.get('fixes') or {}; ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0); hk = (fx.get('hook') or '').strip()
     if ts >= 0.4 or te >= 0.4 or (hk and hk != job['hook'] and len(hk) <= 60):

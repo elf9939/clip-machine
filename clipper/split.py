@@ -7,7 +7,7 @@
                 "hook": "Big Smoke broke into Kai's house 💀", "out": "out/x/01_big_smoke.mp4",
                 "cam": [0, 0.244, 0.195, 0.194]}]   # face cam box as fractions of the frame: x, y, w, h
 """
-import json, os, random, subprocess, sys
+import json, os, random, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from clip import FFMPEG, clean
 
@@ -15,6 +15,17 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 KAI_CAM = [0.0, 0.244, 0.195, 0.194]          # Kai's Twitch layout (top-left box)
 # each clip page's own mascot (original characters we own) — makes every clip an original edit
 MASCOT = {'gta6physix': 'dummy', 'vicecityrp': 'raccoon', 'pulsevice': 'robot', 'kai': 'dog', 'adin': 'fox', 'n3on': 'cat'}
+
+
+# words bleeped in audio and starred in captions (TikTok's Mature Themes rule): slurs, sexual words, f-word family
+BLEEP = re.compile(r"^(n[i1]gg(a|er|as|az|ers)?s?|f[a@]gg?(ot|ots|s)?|f[a@]g|retard(ed|s)?|tranny|chink|spic|kike|"
+                   r"f+u+c+k+\w*|motherf\w*|mf|pussy|pussies|dick(s|head)?|cock(s)?|cum|porn\w*|tits?|titties|whore|slut|bitch(es)?|hoe?s?)$", re.I)
+def bleeps(words, start, end):
+    out = []
+    for w in words:
+        if w['e'] > start and w['s'] < end and BLEEP.match(re.sub(r"[^a-z0-9@']", '', w['w'].lower()).strip("'")):
+            out.append((max(0.0, w['s'] - start - 0.04), min(end - start, w['e'] - start + 0.04)))
+    return out
 
 
 def t(x): return f'{int(x // 3600)}:{int(x % 3600 // 60):02d}:{x % 60:05.2f}'
@@ -44,7 +55,8 @@ def ass_file(words, start, end, hook, path, cap_y=905):
             ws1 = min(max(ws1, ws0 + 0.05), end - start)
             if ws1 <= ws0: continue
             cur = ws1
-            txt = ' '.join(('{\\c&H00FFFF&}' + clean(x['w']).upper() + '{\\c&HFFFFFF&}') if j == k else clean(x['w']).upper()
+            star = lambda q: (q[0] + '*' * max(2, len(q) - 1)) if BLEEP.match(re.sub(r"[^a-z0-9@']", '', q.lower()).strip("'")) else q
+            txt = ' '.join(('{\\c&H00FFFF&}' + star(clean(x['w'])).upper() + '{\\c&HFFFFFF&}') if j == k else star(clean(x['w'])).upper()
                            for j, x in enumerate(c))
             ev.append(f'Dialogue: 0,{t(ws0)},{t(ws1)},Cap,0,0,0,{{\\pos(540,{cap_y})}}{txt}')
     open(path, 'w').write(head + '\n'.join(ev) + '\n')
@@ -88,10 +100,20 @@ def render(j):
         vf += (f"[pre];[1:v]scale=-1:400,format=rgba[m1];[2:v]scale=-1:400,format=rgba[m2];"
                f"[pre][m1]overlay=x='{mx(a0)}':y=1290:enable='between(t\\,{a0}\\,{a1:.2f})'[p1];"
                f"[p1][m2]overlay=x='{mx(round(b0, 2))}':y=1290:enable='between(t\\,{b0:.2f}\\,{dur:.2f})'")
+    allw = words or (json.load(open(os.path.join(ROOT, j['mwords']))) if j.get('mwords') else [])   # bleep even when captions are off
+    bl = bleeps(allw, float(j['start']), float(j['end']))
+    af = 'aresample=async=1:first_pts=0,loudnorm=I=-14:TP=-1.5:LRA=11'
+    amap = ['-af', af]
+    if bl:
+        win = '+'.join(f'between(t,{a:.2f},{b:.2f})' for a, b in bl)
+        dur = float(j['end']) - float(j['start'])
+        vf += f"[vout];[0:a]{af},volume=0:enable='{win}'[am];sine=f=1000:sample_rate=44100:d={dur:.2f},volume='if({win},1.8,0)':eval=frame[bp];[am][bp]amix=inputs=2:normalize=0:duration=first[aout]"
+        amap = ['-map', '[vout]', '-map', '[aout]']
+        print(f'  bleeped {len(bl)} word(s)', flush=True)
     subprocess.run(['nice', '-n', '10', FFMPEG, '-y', '-loglevel', 'error', '-ss', str(j['start']), '-to', str(j['end']),
-                    '-i', os.path.join(ROOT, j['src'])] + extra_in + ['-filter_complex', vf, '-r', '30',
+                    '-i', os.path.join(ROOT, j['src'])] + extra_in + ['-filter_complex', vf] + (amap if bl else []) + ['-r', '30',
                     '-c:v', 'libx264', '-preset', 'medium', '-crf', '24', '-maxrate', '4M', '-bufsize', '8M', '-pix_fmt', 'yuv420p', '-tag:v', 'avc1',
-                    '-c:a', 'aac', '-b:a', '160k', '-ar', '44100', '-af', 'aresample=async=1:first_pts=0,loudnorm=I=-14:TP=-1.5:LRA=11',
+                    '-c:a', 'aac', '-b:a', '160k', '-ar', '44100'] + ([] if bl else amap) + [
                     '-use_editlist', '0', '-movflags', '+faststart', os.path.join(ROOT, j['out'])], check=True)
     if use_anim:
         try:

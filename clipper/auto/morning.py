@@ -163,6 +163,8 @@ def main():
             orig = int((rv.get('scores') or {}).get('originality') or 100)
             if rv.get('watermark') or orig < (35 if not AUTO else 50):   # TikTok's "unoriginal content" penalty: don't post copied/branded footage
                 dropped += 1; log(pm['page'], 'dropped: unoriginal risk', orig, 'watermark' if rv.get('watermark') else ''); os.remove(pm['file']); continue   # never rescued
+            if rv.get('regulated') or rv.get('mature'):   # TikTok hides these from For You (Regulated Goods / Mature Themes)
+                dropped += 1; log(pm['page'], 'dropped: For You risk', rv.get('risk_reason', '')); os.remove(pm['file']); continue
             if rv.get('verdict') == 'skip' and ov < (30 if not AUTO else 45):
                 dropped += 1; near.append(pm); continue
             fx = rv.get('fixes') or {}; j = byfile.get(pm['file'])

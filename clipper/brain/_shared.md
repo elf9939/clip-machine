@@ -9,3 +9,9 @@
 - SKIP clips with: slurs, hate speech, sexual content, political/religious rants, real-world violence, doxxing, gambling promos, minors, dead air/inventory screens, and any clip whose title says it's a repost.
 - Prefer: big reactions, rage, fails, surprising twists, funny one-liners, physics fails, cops/chases (GTA).
 - Bleeped words are fine; strong language is fine if it's not a slur.
+
+## For You safety (Nov 19: 5 GTA6 Physix videos restricted for "Regulated Goods")
+- Skip clips where weapons are the focus: gun shops, ammo stores, weapon wheels/menus, listing or showing off guns, a gun pointed at the camera. Quick gameplay shooting in the background is fine.
+- Skip drugs, alcohol, vaping/smoking, gambling/casinos and strip clubs, even in-game.
+- Skip sexual jokes/content, real-world violence and dangerous stunts.
+- Swears and slurs get bleeped automatically, so language alone is not a reason to skip.

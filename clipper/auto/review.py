@@ -26,6 +26,10 @@ Score each 0-100:
 - originality: TikTok marks clips as "unoriginal" (not shown on For You) when they look copied from another source without creative edits.
   Score LOW if you see a watermark or logo (Kick/Twitch/YouTube logos, another clipping page's handle or branding, burned-in subtitles in a different style),
   if it looks like a re-upload of an already-edited/viral clip or compilation, or if it is mostly unchanged footage. Score HIGH for fresh raw stream moments with our own hook + captions.
+- fyp_safe: TikTok hides videos from the For You feed for "Regulated Goods" and "Sensitive and Mature Themes". Set "regulated": true if weapons are the FOCUS
+  (gun shop/ammo store, weapon menu or wheel, buying/listing/showing off guns, a gun pointed at the camera), or it shows/talks about drugs, alcohol, vaping/smoking,
+  gambling/casino, or strip clubs. Ordinary quick gameplay with shooting in the background is NOT regulated. Set "mature": true for sexual content or jokes,
+  real-world violence, self-harm, or dangerous stunts people could copy. Give a short "risk_reason".
 overall = your honest overall 0-100 (not just the average). verdict: "post" (good as is), "fix" (good after the fixes below), or "skip" (weak, would hurt the page).
 
 Fixes (only suggest what would clearly help):
@@ -34,7 +38,7 @@ Fixes (only suggest what would clearly help):
 - caption: a better caption keeping the same format (1 punchy line, a follow line, 4-5 hashtags) or the same one.
 Return JSON only:
 {{"scores":{{"hook":0,"visual":0,"audio":0,"content":0,"engagement":0,"originality":0}},"overall":0,"verdict":"post|fix|skip","watermark":false,
-"issues":["short problem notes"],"fixes":{{"trim_start":0,"trim_end":0,"hook":"...","caption":"..."}}}}"""
+"regulated":false,"mature":false,"risk_reason":"","issues":["short problem notes"],"fixes":{{"trim_start":0,"trim_end":0,"hook":"...","caption":"..."}}}}"""
 
 
 def proxy(path):
