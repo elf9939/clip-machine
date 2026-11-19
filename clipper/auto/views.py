@@ -11,10 +11,35 @@ H = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY, 'Orig
 def call(path, body=None):
     return json.load(urllib.request.urlopen(urllib.request.Request(HUB + path, data=json.dumps(body).encode() if body else None, headers=H), timeout=240))
 
+PUBLIC = {}   # account -> {video id: views} as the public sees it
 def views(user):
-    r = subprocess.run([YTDLP, '--socket-timeout', '30', '--retries', '3', '--print', '%(view_count)s', f'https://www.tiktok.com/@{user}'], capture_output=True, text=True, timeout=300)
-    vals = [int(x) for x in r.stdout.split() if x.isdigit()]
-    return sum(vals), len(vals)
+    r = subprocess.run([YTDLP, '--socket-timeout', '30', '--retries', '3', '--print', '%(id)s %(view_count)s', f'https://www.tiktok.com/@{user}'], capture_output=True, text=True, timeout=300)
+    got = {a: int(b) for a, b in (l.split() for l in r.stdout.splitlines() if len(l.split()) == 2 and l.split()[1].isdigit())}
+    PUBLIC[user] = got
+    return sum(got.values()), len(got)
+
+
+def stuck_alarm():
+    """NO-VIEWS ALARM (Nov 19: 7 Adin posts sat at 0 views for a day before anyone noticed).
+    A post published 3+ hours ago that the public can't see, or that still has 0 views, is 'stuck'.
+    2+ stuck posts on a page -> phone alert right away, with which page and how many."""
+    try: posts = call('/api/posts?all=1').get('posts', [])
+    except Exception as e: return f'alarm skipped: {e}'
+    now = datetime.datetime.utcnow(); stuck = {}
+    for p in posts:
+        for pl in p.get('platforms') or []:
+            u = pl.get('accountName'); pid = pl.get('platformPostId'); at = pl.get('publishedAt')
+            if pl.get('platform') != 'TIKTOK' or pl.get('status') != 'PUBLISHED' or u not in PUBLIC or not PUBLIC[u] or not pid or not at: continue
+            age = (now - datetime.datetime.fromisoformat(at.replace('Z', ''))).total_seconds() / 3600
+            if not 3 <= age <= 72: continue
+            if PUBLIC[u].get(pid, 0) == 0: stuck.setdefault(u, []).append(p.get('text', '').split('\n')[0][:40])
+    bad = {u: v for u, v in stuck.items() if len(v) >= 2}
+    if bad:
+        body = ' · '.join(f"{ACCTS.get(u, u)}: {len(v)} posts at 0 views / hidden" for u, v in bad.items())
+        try: call('/api/push', {'action': 'send', 'title': '⚠️ Posts not getting views', 'body': body + ' — check them in TikTok', 'url': '/#accounts'})
+        except Exception: pass
+        return 'ALARM ' + body
+    return 'no stuck posts'
 
 hist = call('/api/agents').get('stats', [])
 last = hist[-1]['accounts'] if hist else {}
@@ -40,6 +65,7 @@ try:
         accounts[key] = v
 except Exception as e:
     notes.append(f'YouTube check failed: {e}')
+notes.append(stuck_alarm())
 total = sum(accounts.values())
 call('/api/push', {'action': 'stats', 'date': today, 'total': total, 'accounts': accounts})
 gain = f" (+{total - prev_day['total']:,} today)" if prev_day else ''
