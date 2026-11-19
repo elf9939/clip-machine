@@ -1,15 +1,33 @@
 name: Fast mode (clips straight to Clip Studio)
 on:
   # One clip at a time into Clip Studio; works with the laptop closed. Start from the Actions tab, gh, or cron-job.org.
+  schedule:   # after peak streams: ~1pm, 6pm, 11pm Central (GitHub can fire a bit late; the guard below skips doubles)
+    - cron: '0 19 * * *'
+    - cron: '0 0 * * *'
+    - cron: '0 5 * * *'
   workflow_dispatch:
     inputs:
       target: { description: 'Clips waiting in Studio per page', default: '5' }
       minutes: { description: 'Stop starting new clips after this many minutes', default: '50' }
 permissions:
   contents: write
+  actions: read
 concurrency: { group: stream, cancel-in-progress: false }
 jobs:
+  guard:   # skip if another fast-mode round started in the last 2 hours (saves cloud minutes)
+    runs-on: ubuntu-latest
+    outputs: { go: "${{ steps.c.outputs.go }}" }
+    steps:
+      - id: c
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          cut=$(date -u -d '2 hours ago' +%FT%TZ)
+          n=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow stream.yml --limit 10 --json databaseId,createdAt,conclusion \
+              --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.createdAt > \"$cut\") | select(.conclusion != \"cancelled\")] | length")
+          if [ "$n" != "0" ] && [ "${{ github.event_name }}" = "schedule" ]; then echo "recent round - skip"; echo "go=no" >> $GITHUB_OUTPUT; else echo "go=yes" >> $GITHUB_OUTPUT; fi
   clips:
+    needs: guard
+    if: needs.guard.outputs.go == 'yes'
     runs-on: ubuntu-latest
     timeout-minutes: 75
     strategy:
@@ -20,7 +38,9 @@ jobs:
       CLOUD: '1'
       SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
       STREAM_PAGES: ${{ matrix.pages }}
-      STREAM_MINUTES: ${{ inputs.minutes || '50' }}
+      STREAM_MINUTES: ${{ inputs.minutes || '40' }}
+      TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+      TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

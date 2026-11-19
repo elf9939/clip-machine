@@ -23,6 +23,8 @@ WORK = os.path.join(HERE, 'work', 'stream'); os.makedirs(WORK, exist_ok=True)
 USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo after cloud runs, so Mac + cloud never reuse a clip
 used = set(open(USED).read().split()) if os.path.exists(USED) else set()
 BIN = os.path.expanduser('~/.local/bin')
+MIN_POOL, MIN_OWN = 150, 40          # minimum clip views: other streamers' clips must be proven; a page's own streamer just can't be dead
+MAIN = {'kai': 'kaicenat', 'adin': 'adinross', 'n3on': 'n3on'}   # fan pages: their own streamer
 
 
 def hub(path, body=None):
@@ -49,18 +51,42 @@ def burned_captions(mp4, s0, e0):
         if os.path.exists(prev): os.remove(prev)
 
 
+def inspect(out, job, j, need6):
+    """Quality inspector (same rules as the morning batch): watches the finished clip, drops weak/unoriginal ones, applies its trim + hook fixes."""
+    from review import review
+    try: rv = review(out, job['hook'], j['caption'], need6)
+    except Exception as e: print('  inspector unavailable:', str(e)[:60], flush=True); return True, ''
+    ov = int(rv.get('overall') or 0); orig = int((rv.get('scores') or {}).get('originality') or 100)
+    print(f"  inspector: {ov}/100 {rv.get('verdict')} | {'; '.join(rv.get('issues', [])[:2])[:120]}", flush=True)
+    if need6 and rv.get('is_gta6') is False and ov < 60: return False, 'not GTA 6'
+    if rv.get('watermark') or orig < 35: return False, f'unoriginal risk ({orig})'
+    if rv.get('verdict') == 'skip' and ov < 40: return False, f'weak ({ov})'
+    fx = rv.get('fixes') or {}; ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0); hk = (fx.get('hook') or '').strip()
+    if ts >= 0.4 or te >= 0.4 or (hk and hk != job['hook'] and len(hk) <= 60):
+        j2 = dict(job, start=job['start'] + min(ts, 6), end=job['end'] - min(te, 8), hook=hk or job['hook'])
+        if j2['end'] - j2['start'] >= 8:
+            try: render(j2); j['hook'] = j2['hook']; print('  inspector fixes applied (trim/hook)', flush=True)
+            except Exception as e: print('  fix failed, keeping original cut', str(e)[:60], flush=True)
+    return True, ''
+
+
 def brain(page):
     b = os.path.join(HERE, 'brain'); return open(os.path.join(b, '_shared.md')).read() + '\n' + open(os.path.join(b, page + '.md')).read()
 
 
 def candidates(d):
-    out = []
+    out = []; plat_of = {}
     for plat, ch, want, flt in F['PAGES'][d]:
-        try: out += F['kick_list'](ch, flt) if plat == 'kick' else F['kick_cat_list'](ch) if plat == 'kickcat' else F['twitch_list'](ch)
-        except Exception as e: print('  list failed', ch, e, flush=True)
+        try:
+            got = F['kick_list'](ch, flt) if plat == 'kick' else F['kick_cat_list'](ch) if plat == 'kickcat' else F['twitch_cat_list'](ch) if plat == 'twitchcat' else F['twitch_list'](ch)
+            for x in got: plat_of[x['url']] = plat; x.setdefault('streamer', ch)
+            out += got
+        except Exception as e: print('  list failed', plat, ch, str(e)[:80], flush=True)
     seen = set(); res = []
-    for c in sorted(out, key=lambda c: (not c.get('kick'), -c['views'])):   # Kick clips first (labeled GTA VI), then Twitch
+    for c in sorted(out, key=lambda c: (not (c.get('kick') or c.get('gta6')), -c['views'])):   # game-labeled clips first (Kick + Twitch GTA VI category), then unlabeled Twitch
         if c['url'] in seen or c['url'] in used or (c.get('dur') and c['dur'] > 90): continue
+        pooled = plat_of.get(c['url']) in ('kickcat', 'twitchcat') or c.get('streamer') not in (None, '', MAIN.get(d))
+        if c['views'] < (MIN_POOL if pooled else MIN_OWN): continue      # proven moments only: viewers already watched it
         seen.add(c['url']); res.append(c)
     return res
 
@@ -107,7 +133,10 @@ Transcript:\n{tr}""")
         try:
             burned = burned_captions(mp4, s0, e0)
             if burned: print(f'  {page}: source already has subtitles -> hook + mascot only (no extra captions)', flush=True)
-            render({'src': mp4, 'words': '' if burned else wp, 'mwords': wp, 'start': s0, 'end': e0, 'hook': j['hook'], 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page})
+            job = {'src': mp4, 'words': '' if burned else wp, 'mwords': wp, 'start': s0, 'end': e0, 'hook': j['hook'], 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page}
+            render(job)
+            ok, why = inspect(out, job, j, need6=page != 'vicecityrp' and not c.get('kick') and not c.get('gta6'))   # the AI watches the finished clip
+            if not ok: print(f'  {page}: inspector dropped it — {why}', flush=True); continue
             u = hub('/api/upload', {'files': [{'fileName': n + '.mp4', 'mimeType': 'video/mp4'}]})['urls'][0]
             code = subprocess.run(['curl', '-s', '-o', '/dev/null', '-w', '%{http_code}', '--retry', '3', '-X', 'PUT', '-H', 'Content-Type: video/mp4', '--data-binary', '@' + out, u['uploadUrl']], capture_output=True, text=True).stdout
             if not code.startswith('2'): print('  upload failed', code, flush=True); continue

@@ -21,10 +21,10 @@ PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, wh
     'kai':        [('twitch', 'kaicenat', 10, None)],                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
     'adin':       [('kick', 'adinross', 9, GTA6)],
     'n3on':       [('kick', 'n3on', 9, GTA6)],
-    'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
+    'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('twitchcat', 'Grand Theft Auto VI', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
                    ('twitch', 'lacy', 4, None), ('twitch', 'jynxzi', 4, None), ('twitch', 'caseoh_', 3, None), ('twitch', 'stableronaldo', 3, None)],   # Twitch: AI keeps only GTA 6
     'vicecityrp': [('kick', 'buddha', 6, GTA5), ('kick', 'dasmehdi', 3, GTA5), ('kick', 'ramee', 3, GTA5)],
-    'physix':     [('kickcat', 'grand-theft-auto-vi', 14, None), ('kick', 'xqc', 4, GTA6)],   # Twitch shroud/summit1g dropped Nov 18: they were playing WoW, not GTA 6
+    'physix':     [('kickcat', 'grand-theft-auto-vi', 14, None), ('twitchcat', 'Grand Theft Auto VI', 14, None), ('kick', 'xqc', 4, GTA6)],   # Twitch shroud/summit1g dropped Nov 18: they were playing WoW, not GTA 6
 }
 
 used_file = os.path.join(ROOT, 'work', 'used_clips.txt')
@@ -78,6 +78,37 @@ def kick_list(ch, flt):
     return out
 
 
+def _twitch_keys():
+    """Owner's own Twitch developer app (official Helix API). Cloud: env secrets; Mac: ~/.twitch_keys (id on line 1, secret on line 2)."""
+    cid, sec = os.environ.get('TWITCH_CLIENT_ID'), os.environ.get('TWITCH_CLIENT_SECRET')
+    if not (cid and sec):
+        f = os.path.expanduser('~/.twitch_keys')
+        if not os.path.exists(f): raise KeyError('no Twitch API keys yet')
+        cid, sec = (open(f).read().split() + ['', ''])[:2]
+    return cid, sec
+
+
+def twitch_cat_list(game='Grand Theft Auto VI', hours=24):
+    """Most-viewed English clips in Twitch's GTA 6 category (official Helix API)."""
+    import datetime, urllib.parse
+    cid, sec = _twitch_keys()
+    tok = json.load(urllib.request.urlopen(urllib.request.Request('https://id.twitch.tv/oauth2/token', data=urllib.parse.urlencode({'client_id': cid, 'client_secret': sec, 'grant_type': 'client_credentials'}).encode()), timeout=30))['access_token']
+    H = {'Client-Id': cid, 'Authorization': 'Bearer ' + tok}
+    get = lambda path: json.load(urllib.request.urlopen(urllib.request.Request('https://api.twitch.tv/helix/' + path, headers=H), timeout=30))
+    gid = get('games?name=' + urllib.parse.quote(game))['data'][0]['id']
+    since = (datetime.datetime.utcnow() - datetime.timedelta(hours=hours)).strftime('%Y-%m-%dT%H:%M:%SZ')
+    out, cur = [], None
+    for _ in range(5):                      # up to 500 clips, most-viewed first
+        d = get(f'clips?game_id={gid}&first=100&started_at={since}' + (f'&after={cur}' if cur else ''))
+        for c in d['data']:
+            if (c.get('language') or '').lower() not in ('en', 'en-gb') or c['url'] in used: continue
+            out.append({'url': c['url'], 'title': c['title'], 'views': c['view_count'], 'kick': False, 'gta6': True,
+                        'dur': c.get('duration', 0), 'streamer': c['broadcaster_name'].lower()})
+        cur = (d.get('pagination') or {}).get('cursor')
+        if not cur: break
+    return out
+
+
 def twitch_list(ch):
     out = []
     for rng in ('24hr', '7d'):
@@ -108,7 +139,8 @@ def main(batch):
         idx_path = os.path.join(d, 'index.txt'); n = len([f for f in os.listdir(d) if f.endswith('.words.json')])
         for plat, ch, want, flt in srcs:
             if os.environ.get('CLOUD') and page in ('kai', 'adin', 'n3on'): want = min(want, 7)   # keep cloud minutes in budget
-            cands = kick_list(ch, flt) if plat == 'kick' else kick_cat_list(ch) if plat == 'kickcat' else twitch_list(ch)
+            try: cands = kick_list(ch, flt) if plat == 'kick' else kick_cat_list(ch) if plat == 'kickcat' else twitch_cat_list(ch) if plat == 'twitchcat' else twitch_list(ch)
+            except Exception as e: print(f'  {page}/{ch}: source unavailable ({str(e)[:60]})', flush=True); continue
             cands = sorted(cands, key=lambda c: -c['views'])
             print(f'{page}/{ch}: {len(cands)} new clips found, taking {want}', flush=True)
             got = 0
