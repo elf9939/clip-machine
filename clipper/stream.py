@@ -79,7 +79,7 @@ def candidates(d):
     out = []; plat_of = {}
     for plat, ch, want, flt in F['PAGES'][d]:
         try:
-            got = F['kick_list'](ch, flt) if plat == 'kick' else F['kick_cat_list'](ch) if plat == 'kickcat' else F['twitch_cat_list'](ch) if plat == 'twitchcat' else F['twitch_list'](ch)
+            got = F['kick_list'](ch, flt) if plat == 'kick' else F['kick_cat_list'](ch) if plat == 'kickcat' else F['twitch_cat_list'](only=ch, hours=96) if plat == 'twitchcat' and ch.islower() else F['twitch_cat_list'](ch) if plat == 'twitchcat' else F['twitch_list'](ch)
             for x in got: plat_of[x['url']] = plat; x.setdefault('streamer', ch)
             out += got
         except Exception as e: print('  list failed', plat, ch, str(e)[:80], flush=True)

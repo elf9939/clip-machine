@@ -18,7 +18,7 @@ ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'l
 
 # page -> list of (platform, channel, how many, filter)
 PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, which stays GTA RP (GTA V servers)
-    'kai':        [('twitch', 'kaicenat', 10, None)],                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
+    'kai':        [('twitchcat', 'kaicenat', 10, None), ('twitch', 'kaicenat', 10, None)],   # Kai's clips labeled GTA 6 by Twitch first, then his other clips (AI checks)                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
     'adin':       [('kick', 'adinross', 9, GTA6)],
     'n3on':       [('kick', 'n3on', 9, GTA6)],
     'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('twitchcat', 'Grand Theft Auto VI', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
@@ -88,7 +88,7 @@ def _twitch_keys():
     return cid, sec
 
 
-def twitch_cat_list(game='Grand Theft Auto VI', hours=24):
+def twitch_cat_list(game='Grand Theft Auto VI', hours=24, only=None):
     """Most-viewed English clips in Twitch's GTA 6 category (official Helix API)."""
     import datetime, urllib.parse
     cid, sec = _twitch_keys()
@@ -102,6 +102,7 @@ def twitch_cat_list(game='Grand Theft Auto VI', hours=24):
         d = get(f'clips?game_id={gid}&first=100&started_at={since}' + (f'&after={cur}' if cur else ''))
         for c in d['data']:
             if (c.get('language') or '').lower() not in ('en', 'en-gb') or c['url'] in used: continue
+            if only and c['broadcaster_name'].lower() != only: continue
             out.append({'url': c['url'], 'title': c['title'], 'views': c['view_count'], 'kick': False, 'gta6': True,
                         'dur': c.get('duration', 0), 'streamer': c['broadcaster_name'].lower()})
         cur = (d.get('pagination') or {}).get('cursor')
@@ -139,7 +140,7 @@ def main(batch):
         idx_path = os.path.join(d, 'index.txt'); n = len([f for f in os.listdir(d) if f.endswith('.words.json')])
         for plat, ch, want, flt in srcs:
             if os.environ.get('CLOUD') and page in ('kai', 'adin', 'n3on'): want = min(want, 7)   # keep cloud minutes in budget
-            try: cands = kick_list(ch, flt) if plat == 'kick' else kick_cat_list(ch) if plat == 'kickcat' else twitch_cat_list(ch) if plat == 'twitchcat' else twitch_list(ch)
+            try: cands = kick_list(ch, flt) if plat == 'kick' else kick_cat_list(ch) if plat == 'kickcat' else twitch_cat_list(only=ch, hours=96) if plat == 'twitchcat' and ch.islower() else twitch_cat_list(ch) if plat == 'twitchcat' else twitch_list(ch)
             except Exception as e: print(f'  {page}/{ch}: source unavailable ({str(e)[:60]})', flush=True); continue
             cands = sorted(cands, key=lambda c: -c['views'])
             print(f'{page}/{ch}: {len(cands)} new clips found, taking {want}', flush=True)
