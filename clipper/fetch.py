@@ -12,6 +12,7 @@ UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML,
 GTA = lambda c: 'grand theft auto' in (c.get('category') or {}).get('name', '').lower()
 NOT_GTA = lambda c: not GTA(c)
 GTA6 = lambda c: 'grand theft auto vi' in (c.get('category') or {}).get('name', '').lower()   # "Grand Theft Auto VI (GTA)"
+NO_GAMBLING = lambda c: not any(w in (c.get('category') or {}).get('name', '').lower() for w in ('slots', 'casino', 'gambling', 'poker'))   # TikTok 'Regulated Goods'
 GTA5 = lambda c: GTA(c) and not GTA6(c)                                                       # GTA RP still runs on GTA V
 # English GTA 6 streamers (the category is full of Polish/Turkish/Spanish streams); live English GTA VI streamers are added at run time
 ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'lacy', 'sneako', 'buddha', 'dasmehdi', 'ramee', 'cuvey', 'stableronaldo', 'caseoh_', 'capped', 'madhousetv', 'hstikkytokky', 'imeliminator', 'barrybagheera', 'sway', 'sangtar', 'markynextdoor', 'mrcurrys6', 'dubzmusic'}
@@ -20,7 +21,7 @@ ENGLISH_GTA6 = {'xqc', 'asmongold', 'n3on', 'adinross', 'kaicenat', 'jynxzi', 'l
 PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, which stays GTA RP (GTA V servers)
     'kai':        [('twitchcat', 'kaicenat', 10, None), ('twitch', 'kaicenat', 10, None)],   # Kai's clips labeled GTA 6 by Twitch first, then his other clips (AI checks)                                    # Twitch has no game label: the AI inspector keeps only GTA 6 clips
     'adin':       [('kick', 'adinross', 9, GTA6)],
-    'n3on':       [('kick', 'n3on', 9, GTA6)],
+    'n3on':       [('kick', 'n3on', 12, NO_GAMBLING)],   # Nov 19: N3on's normal stream clips (IRL etc.) did 1-3K views on YouTube; GTA 6 only left the page empty
     'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('twitchcat', 'Grand Theft Auto VI', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
                    ('twitch', 'lacy', 4, None), ('twitch', 'jynxzi', 4, None), ('twitch', 'caseoh_', 3, None), ('twitch', 'stableronaldo', 3, None)],   # Twitch: AI keeps only GTA 6
     'vicecityrp': [('kick', 'buddha', 6, GTA5), ('kick', 'dasmehdi', 3, GTA5), ('kick', 'ramee', 3, GTA5)],

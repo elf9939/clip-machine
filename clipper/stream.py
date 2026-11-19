@@ -155,7 +155,7 @@ while any(made[d] < TARGET and tries[d] < (40 if d == 'physix' else 25) for d in
             j = ask_json(f"""You run a TikTok clip page. Page rules:\n{brain(page)}\n
 {owner_feedback(page)}
 Judge ONE raw clip (streamer: {c.get('streamer') or c.get('title','')}, title: {c.get('title','')!r}, {c['views']} views). The owner reviews every clip, so say yes to decent ones; say no only if it breaks a hard rule or truly nothing happens.{' GTA 6 LAUNCH WEEK: on this page ANY funny, hype or wild GTA 6 gameplay moment counts (chases, crashes, fails, NPC chaos, first reactions to the game) — it does NOT have to be a physics fail.' if page == 'gta6physix' else ''}
-Return JSON {{"use": true/false, "why": "short", "start": seconds, "end": seconds (12-45s long, start right before the moment), "hook": "max 55 chars, no emoji, true", "caption": "1 punchy line + emoji\\nFollow line\\n4-5 hashtags incl #gta6 #gtavi (Vice City RP page: #gtarp #nopixel instead)"}}
+Return JSON {{"use": true/false, "why": "short", "start": seconds, "end": seconds (12-45s long, start right before the moment), "hook": "max 55 chars, no emoji, true", "caption": "1 punchy line + emoji\\nFollow line\\n4-5 hashtags incl #gta6 #gtavi (Vice City RP page: #gtarp #nopixel instead; N3on page: #n3on #kick, plus #gta6 only if it is GTA 6)"}}
 Transcript:\n{tr}""")
         except Exception as e: print('  AI failed', str(e)[:60], flush=True); continue
         if not j.get('use'): print(f"  {page}: no — {j.get('why','')[:70]}", flush=True); continue
@@ -169,7 +169,7 @@ Transcript:\n{tr}""")
             if burned: print(f'  {page}: source already has subtitles -> hook + mascot only (no extra captions)', flush=True)
             job = {'src': mp4, 'words': '' if burned else wp, 'mwords': wp, 'start': s0, 'end': e0, 'hook': j['hook'], 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page}
             render(job)
-            ok, why = inspect(out, job, j, need6=page != 'vicecityrp' and not c.get('kick') and not c.get('gta6'))   # the AI watches the finished clip
+            ok, why = inspect(out, job, j, need6=page not in ('vicecityrp', 'n3on') and not c.get('kick') and not c.get('gta6'))   # the AI watches the finished clip
             if not ok: print(f'  {page}: inspector dropped it — {why}', flush=True); continue
             u = hub('/api/upload', {'files': [{'fileName': n + '.mp4', 'mimeType': 'video/mp4'}]})['urls'][0]
             code = subprocess.run(['curl', '-s', '-o', '/dev/null', '-w', '%{http_code}', '--retry', '3', '-X', 'PUT', '-H', 'Content-Type: video/mp4', '--data-binary', '@' + out, u['uploadUrl']], capture_output=True, text=True).stdout

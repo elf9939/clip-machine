@@ -95,7 +95,7 @@ RAW CLIPS:
 
 MIN_PER_PAGE = 3   # never finish a run with an empty page
 TWITCH_STREAMERS = {'kaicenat', 'lacy', 'jynxzi', 'caseoh_', 'stableronaldo', 'shroud', 'summit1g'}
-GTA6_PAGES = {'kai', 'adin', 'n3on', 'pulsevice', 'gta6physix'}   # GTA 6 launch: only GTA 6 clips on these pages
+GTA6_PAGES = {'kai', 'adin', 'pulsevice', 'gta6physix'}   # n3on: any good N3on moment (not gambling)   # GTA 6 launch: only GTA 6 clips on these pages
 RUN_STARTED = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
 
 def main():
