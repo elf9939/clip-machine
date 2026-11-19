@@ -27,6 +27,12 @@ jobs:
           git config user.name "jarvis-bot"; git config user.email "jarvis-bot@users.noreply.github.com"
           git add clipper/data/shorts_done.txt
           git diff --cached --quiet || (git commit -qm "Shorts scheduled" && for i in 1 2 3; do git pull -q --rebase -X theirs && git push -q && break; sleep 5; done)
+      - name: Start a fast-mode round (12pm, 4pm, 8pm Central) — GitHub's own timer skips runs, this one is reliable
+        continue-on-error: true
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          h=$(TZ=America/Chicago date +%H)
+          if [ "$h" = "11" ] || [ "$h" = "12" ] || [ "$h" = "15" ] || [ "$h" = "16" ] || [ "$h" = "19" ] || [ "$h" = "20" ]; then gh workflow run stream.yml --repo "$GITHUB_REPOSITORY" -f target=5 -f minutes=40 && echo "fast-mode round started"; else echo "not a round hour ($h)"; fi
       - name: Watchdog - start today's clip run if GitHub skipped it
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |

@@ -87,7 +87,8 @@ def candidates(d):
     for c in sorted(out, key=lambda c: (not (c.get('kick') or c.get('gta6')), -c['views'])):   # game-labeled clips first (Kick + Twitch GTA VI category), then unlabeled Twitch
         if c['url'] in seen or c['url'] in used or (c.get('dur') and c['dur'] > 90): continue
         pooled = plat_of.get(c['url']) in ('kickcat', 'twitchcat') or c.get('streamer') not in (None, '', MAIN.get(d))
-        if c['views'] < (MIN_POOL if pooled else MIN_OWN): continue      # proven moments only: viewers already watched it
+        if c['views'] < (MIN_POOL if pooled else MIN_OWN): continue
+        if d not in MAIN and c.get('streamer') in MAIN.values(): continue   # Kai/Adin/N3on clips are saved for their own fan pages      # proven moments only: viewers already watched it
         seen.add(c['url']); res.append(c)
     return res
 
