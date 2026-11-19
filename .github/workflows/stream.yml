@@ -1,0 +1,60 @@
+name: Fast mode (clips straight to Clip Studio)
+on:
+  # One clip at a time into Clip Studio; works with the laptop closed. Start from the Actions tab, gh, or cron-job.org.
+  workflow_dispatch:
+    inputs:
+      target: { description: 'Clips waiting in Studio per page', default: '5' }
+      minutes: { description: 'Stop starting new clips after this many minutes', default: '50' }
+permissions:
+  contents: write
+concurrency: { group: stream, cancel-in-progress: false }
+jobs:
+  clips:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        pages: ['physix,pulsevice,n3on', 'adin,kai,vicecityrp']   # 2 runners side by side = twice as fast
+    env:
+      CLOUD: '1'
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+      STREAM_PAGES: ${{ matrix.pages }}
+      STREAM_MINUTES: ${{ inputs.minutes || '50' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install ffmpeg + fonts
+        run: |
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg ttf-mscorefonts-installer >/dev/null && fc-cache -f >/dev/null
+      - uses: actions/cache@v4
+        with: { path: ~/.cache/huggingface, key: whisper-small-en-v1 }
+      - name: Python tools
+        run: |
+          python -m venv clipper/.venv
+          clipper/.venv/bin/pip install -q faster-whisper==1.2.1 yt-dlp pillow
+      - name: Wire up paths and keys
+        env:
+          PH_KEY: ${{ secrets.PH_AUTOMATION_KEY }}
+          GEMINI_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          mkdir -p ~/.local/bin ~/Projects
+          ln -sf "$(which ffmpeg)" ~/.local/bin/ffmpeg
+          ln -sf "$GITHUB_WORKSPACE/clipper/.venv/bin/yt-dlp" ~/.local/bin/yt-dlp
+          ln -sfn "$GITHUB_WORKSPACE/clipper" ~/Projects/clipper
+          umask 077; printf '%s' "$PH_KEY" > ~/.posthub_key; printf '%s' "$GEMINI_KEY" > ~/.gemini_key
+      - name: Fast mode
+        run: cd clipper && .venv/bin/python -u stream.py ${{ inputs.target || '5' }}
+      - name: Save used-clip list (so no clip is ever made twice)
+        if: always()
+        run: |
+          cp clipper/data/stream_used.txt /tmp/mine.txt
+          git config user.name "jarvis-bot"; git config user.email "jarvis-bot@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            cat /tmp/mine.txt >> clipper/data/stream_used.txt; sort -u clipper/data/stream_used.txt -o clipper/data/stream_used.txt
+            git add clipper/data/stream_used.txt; git diff --cached --quiet && break
+            git commit -qm "Fast mode: used clips ($STREAM_PAGES)" && git push -q && break; sleep $((RANDOM % 8 + 3))
+          done

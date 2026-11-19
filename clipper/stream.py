@@ -13,12 +13,14 @@ from faster_whisper import WhisperModel
 
 TARGET = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 ORDER = ['physix', 'pulsevice', 'n3on', 'adin', 'kai', 'vicecityrp']
+if os.environ.get('STREAM_PAGES'): ORDER = [d for d in ORDER if d in os.environ['STREAM_PAGES'].split(',')]   # cloud: each runner takes some pages
+STOP_AT = time.time() + 60 * float(os.environ.get('STREAM_MINUTES') or 1e6)   # cloud: stop starting new clips before the time limit
 PAGEKEY = {'physix': 'gta6physix'}
 ACCT = {'pulsevice': 'cmwcu0zfb008w01lm4h5gv59d', 'vicecityrp': 'cmwcw1agy009501lmehe4420r', 'gta6physix': 'cmwcw8bo5009601lmexy736z1',
         'kai': 'cmwcvr8px009401lmtfla7j8u', 'adin': 'cmwcvc7ar009101lma8hncs5e', 'n3on': 'cmwcu6hns008x01lm6udwhqus'}
 HUB = 'https://post-hub-nine.vercel.app'; KEY = open(os.path.expanduser('~/.posthub_key')).read().strip()
 WORK = os.path.join(HERE, 'work', 'stream'); os.makedirs(WORK, exist_ok=True)
-USED = os.path.join(WORK, 'used.txt'); used = set(open(USED).read().split()) if os.path.exists(USED) else set()
+USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo after cloud runs, so Mac + cloud never reuse a clip; used = set(open(USED).read().split()) if os.path.exists(USED) else set()
 BIN = os.path.expanduser('~/.local/bin')
 
 
@@ -63,7 +65,7 @@ def candidates(d):
 
 
 print('loading speech model…', flush=True)
-model = WhisperModel('small.en', device='cpu', compute_type='int8', cpu_threads=6)
+model = WhisperModel('small.en', device='cpu', compute_type='int8', cpu_threads=os.cpu_count() or 4)
 queues = {d: None for d in ORDER}; made = {d: 0 for d in ORDER}; tries = {d: 0 for d in ORDER}
 try:   # count clips already waiting in Clip Studio (so a restart doesn't overshoot)
     for x in hub('/api/studio').get('drafts', []):
@@ -72,9 +74,9 @@ try:   # count clips already waiting in Clip Studio (so a restart doesn't oversh
     print('already in Clip Studio:', made, flush=True)
 except Exception: pass
 t_start = time.time()
-while any(made[d] < TARGET and tries[d] < 14 for d in ORDER):
+while any(made[d] < TARGET and tries[d] < 25 for d in ORDER) and time.time() < STOP_AT:
     for d in ORDER:
-        if made[d] >= TARGET or tries[d] >= 14: continue
+        if made[d] >= TARGET or tries[d] >= 25 or time.time() >= STOP_AT: continue
         page = PAGEKEY.get(d, d)
         if queues[d] is None: queues[d] = candidates(d); print(f'{page}: {len(queues[d])} candidate clips', flush=True)
         if not queues[d]: tries[d] = 99; continue
