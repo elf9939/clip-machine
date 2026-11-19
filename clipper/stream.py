@@ -20,7 +20,8 @@ ACCT = {'pulsevice': 'cmwcu0zfb008w01lm4h5gv59d', 'vicecityrp': 'cmwcw1agy009501
         'kai': 'cmwcvr8px009401lmtfla7j8u', 'adin': 'cmwcvc7ar009101lma8hncs5e', 'n3on': 'cmwcu6hns008x01lm6udwhqus'}
 HUB = 'https://post-hub-nine.vercel.app'; KEY = open(os.path.expanduser('~/.posthub_key')).read().strip()
 WORK = os.path.join(HERE, 'work', 'stream'); os.makedirs(WORK, exist_ok=True)
-USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo after cloud runs, so Mac + cloud never reuse a clip; used = set(open(USED).read().split()) if os.path.exists(USED) else set()
+USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo after cloud runs, so Mac + cloud never reuse a clip
+used = set(open(USED).read().split()) if os.path.exists(USED) else set()
 BIN = os.path.expanduser('~/.local/bin')
 
 
