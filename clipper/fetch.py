@@ -24,7 +24,7 @@ PAGES = {   # GTA 6 launch (Nov 18): every page is GTA 6 except Vice City RP, wh
     'pulsevice':  [('kickcat', 'grand-theft-auto-vi', 10, None), ('kick', 'xqc', 4, GTA6), ('kick', 'asmongold', 4, GTA6),
                    ('twitch', 'lacy', 4, None), ('twitch', 'jynxzi', 4, None), ('twitch', 'caseoh_', 3, None), ('twitch', 'stableronaldo', 3, None)],   # Twitch: AI keeps only GTA 6
     'vicecityrp': [('kick', 'buddha', 6, GTA5), ('kick', 'dasmehdi', 3, GTA5), ('kick', 'ramee', 3, GTA5)],
-    'physix':     [('kickcat', 'grand-theft-auto-vi', 14, None), ('kick', 'xqc', 4, GTA6), ('twitch', 'shroud', 3, None), ('twitch', 'summit1g', 3, None)],
+    'physix':     [('kickcat', 'grand-theft-auto-vi', 14, None), ('kick', 'xqc', 4, GTA6)],   # Twitch shroud/summit1g dropped Nov 18: they were playing WoW, not GTA 6
 }
 
 used_file = os.path.join(ROOT, 'work', 'used_clips.txt')

@@ -75,9 +75,9 @@ try:   # count clips already waiting in Clip Studio (so a restart doesn't oversh
     print('already in Clip Studio:', made, flush=True)
 except Exception: pass
 t_start = time.time()
-while any(made[d] < TARGET and tries[d] < 25 for d in ORDER) and time.time() < STOP_AT:
+while any(made[d] < TARGET and tries[d] < (40 if d == 'physix' else 25) for d in ORDER) and time.time() < STOP_AT:
     for d in ORDER:
-        if made[d] >= TARGET or tries[d] >= 25 or time.time() >= STOP_AT: continue
+        if made[d] >= TARGET or tries[d] >= (40 if d == 'physix' else 25) or time.time() >= STOP_AT: continue
         page = PAGEKEY.get(d, d)
         if queues[d] is None: queues[d] = candidates(d); print(f'{page}: {len(queues[d])} candidate clips', flush=True)
         if not queues[d]: tries[d] = 99; continue
@@ -96,7 +96,7 @@ while any(made[d] < TARGET and tries[d] < 25 for d in ORDER) and time.time() < S
         try:
             j = ask_json(f"""You run a TikTok clip page. Page rules:\n{brain(page)}\n
 {owner_feedback(page)}
-Judge ONE raw clip (streamer: {c.get('streamer') or c.get('title','')}, title: {c.get('title','')!r}, {c['views']} views). The owner reviews every clip, so say yes to decent ones; say no only if it breaks a hard rule or truly nothing happens.
+Judge ONE raw clip (streamer: {c.get('streamer') or c.get('title','')}, title: {c.get('title','')!r}, {c['views']} views). The owner reviews every clip, so say yes to decent ones; say no only if it breaks a hard rule or truly nothing happens.{' GTA 6 LAUNCH WEEK: on this page ANY funny, hype or wild GTA 6 gameplay moment counts (chases, crashes, fails, NPC chaos, first reactions to the game) — it does NOT have to be a physics fail.' if page == 'gta6physix' else ''}
 Return JSON {{"use": true/false, "why": "short", "start": seconds, "end": seconds (12-45s long, start right before the moment), "hook": "max 55 chars, no emoji, true", "caption": "1 punchy line + emoji\\nFollow line\\n4-5 hashtags incl #gta6 #gtavi (Vice City RP page: #gtarp #nopixel instead)"}}
 Transcript:\n{tr}""")
         except Exception as e: print('  AI failed', str(e)[:60], flush=True); continue
