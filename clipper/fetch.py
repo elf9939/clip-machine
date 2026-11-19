@@ -68,9 +68,15 @@ def kick_cat_list(slug):
 def kick_list(ch, flt):
     out = []
     for span in ('day', 'week'):
-        req = urllib.request.Request(f'https://kick.com/api/v2/channels/{ch}/clips?sort=view&time={span}', headers={'User-Agent': UA})
-        try: data = json.load(urllib.request.urlopen(req, timeout=30))
-        except Exception as e: print('  kick list failed', ch, span, e, flush=True); continue
+        data = {}
+        for k in range(4):   # Kick throttles cloud servers (429 or an empty list): wait and retry instead of giving up on the page
+            try:
+                req = urllib.request.Request(f'https://kick.com/api/v2/channels/{ch}/clips?sort=view&time={span}', headers={'User-Agent': UA, 'Accept': 'application/json'})
+                data = json.load(urllib.request.urlopen(req, timeout=30))
+                if data.get('clips'): break
+                print(f'  kick list empty for {ch} ({span}), retrying', flush=True)
+            except Exception as e: print('  kick list failed', ch, span, str(e)[:60], flush=True)
+            import time; time.sleep(8 * (k + 1))
         for c in data.get('clips', []):
             if flt and not flt(c): continue
             if c['clip_url'] in used or any(c['clip_url'] == o['url'] for o in out): continue
