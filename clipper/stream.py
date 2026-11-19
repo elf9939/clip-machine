@@ -13,6 +13,8 @@ from faster_whisper import WhisperModel
 
 TARGET = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 ORDER = ['physix', 'pulsevice', 'n3on', 'adin', 'kai', 'vicecityrp']
+PAUSED = {'adin'}   # Nov 19: all 7 recent Adin TikToks restricted — no new clips until we know why
+ORDER = [d for d in ORDER if d not in PAUSED]
 if os.environ.get('STREAM_PAGES'): ORDER = [d for d in ORDER if d in os.environ['STREAM_PAGES'].split(',')]   # cloud: each runner takes some pages
 STOP_AT = time.time() + 60 * float(os.environ.get('STREAM_MINUTES') or 1e6)   # cloud: stop starting new clips before the time limit
 PAGEKEY = {'physix': 'gta6physix'}
