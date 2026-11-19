@@ -71,10 +71,12 @@ jobs:
         if: always()
         run: |
           cp clipper/data/stream_used.txt /tmp/mine.txt
+          cp clipper/data/moments.json /tmp/mom.json 2>/dev/null || echo '{}' > /tmp/mom.json
           git config user.name "jarvis-bot"; git config user.email "jarvis-bot@users.noreply.github.com"
           for i in 1 2 3 4 5; do
             git fetch -q origin main && git reset -q --hard origin/main
             cat /tmp/mine.txt >> clipper/data/stream_used.txt; sort -u clipper/data/stream_used.txt -o clipper/data/stream_used.txt
-            git add clipper/data/stream_used.txt; git diff --cached --quiet && break
+            python3 clipper/auto/merge_moments.py clipper/data/moments.json /tmp/mom.json
+            git add clipper/data/stream_used.txt clipper/data/moments.json; git diff --cached --quiet && break
             git commit -qm "Fast mode: used clips ($STREAM_PAGES)" && git push -q && break; sleep $((RANDOM % 8 + 3))
           done

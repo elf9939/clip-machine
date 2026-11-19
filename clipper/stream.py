@@ -71,6 +71,28 @@ def inspect(out, job, j, need6):
     return True, ''
 
 
+MOMENTS = os.path.join(HERE, 'data', 'moments.json')   # what was SAID in every clip made (shared with the daily run, saved to the repo)
+def _mw(words, s0, e0):
+    import re
+    return {re.sub(r'[^a-z0-9]', '', w['w'].lower()) for w in words if w['e'] > s0 and w['s'] < e0 and len(re.sub(r'[^a-z0-9]', '', w['w'].lower())) >= 3}
+def seen_moment(words, s0, e0):
+    """Same moment clipped by a different viewer (new link, new caption)? Checked across ALL pages: GTA 6 pages share streamers."""
+    a = _mw(words, s0, e0)
+    try: m = json.load(open(MOMENTS))
+    except Exception: m = {}
+    for pg, v in m.items():
+        for x in v:
+            b = set(x.get('w') or [])
+            if len(a) >= 6 and len(b) >= 6 and len(a & b) / min(len(a), len(b)) >= 0.6: return pg
+    return None
+def remember_moment(page, words, s0, e0):
+    import datetime
+    try: m = json.load(open(MOMENTS))
+    except Exception: m = {}
+    m.setdefault(page, []).append({'w': sorted(_mw(words, s0, e0)), 'd': datetime.date.today().isoformat()})
+    json.dump(m, open(MOMENTS, 'w'))
+
+
 def brain(page):
     b = os.path.join(HERE, 'brain'); return open(os.path.join(b, '_shared.md')).read() + '\n' + open(os.path.join(b, page + '.md')).read()
 
@@ -136,6 +158,8 @@ Transcript:\n{tr}""")
         if not j.get('use'): print(f"  {page}: no — {j.get('why','')[:70]}", flush=True); continue
         s0, e0 = max(0.0, float(j['start'])), float(j['end'])
         if not 8 <= e0 - s0 <= 50: s0, e0 = 0.0, min(45.0, words[-1]['e'] + 0.5)
+        dup = seen_moment(words, s0, e0)
+        if dup: print(f'  {page}: skip — same moment already made for {dup}', flush=True); continue
         out = os.path.join(WORK, n + '_final.mp4')
         try:
             burned = burned_captions(mp4, s0, e0)
@@ -153,6 +177,7 @@ Transcript:\n{tr}""")
                     dft = next(x for x in hub('/api/studio').get('drafts', []) if x.get('page') == page and u['publicUrl'].split('/')[-1] in (x.get('media') or ''))
                     a = hub('/api/studio', {'action': 'approve', 'postId': dft['id']}); print(f"  {page}: auto-approved -> {a.get('scheduledAt')}", flush=True)
                 except Exception as e: print('  auto-approve failed (left in Studio)', str(e)[:60], flush=True)
+            if r.get('ok'): remember_moment(page, words, s0, e0)
             if r.get('ok'): made[d] += 1; print(f"✅ {page} #{made[d]} in Clip Studio ({(time.time() - t_start) / 60:.0f} min): {j['hook']}", flush=True)
             else: print('  draft failed', r.get('problems'), flush=True)
         except Exception as e: print('  cut/upload failed', str(e)[:80], flush=True)
