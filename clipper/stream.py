@@ -24,6 +24,7 @@ USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo 
 used = set(open(USED).read().split()) if os.path.exists(USED) else set()
 BIN = os.path.expanduser('~/.local/bin')
 MIN_POOL, MIN_OWN = 150, 40          # minimum clip views: other streamers' clips must be proven; a page's own streamer just can't be dead
+AUTO = {'vicecityrp'}   # pages that post without approval (owner only reviews GTA 6 pages)
 MAIN = {'kai': 'kaicenat', 'adin': 'adinross', 'n3on': 'n3on'}   # fan pages: their own streamer
 
 
@@ -98,7 +99,12 @@ try:   # count clips already waiting in Clip Studio (so a restart doesn't oversh
     for x in hub('/api/studio').get('drafts', []):
         d = next((k for k in ORDER if PAGEKEY.get(k, k) == x.get('page')), None)
         if d: made[d] += 1
-    print('already in Clip Studio:', made, flush=True)
+    acct = {'vicecityrp': 'vicecityrpnet'}       # auto pages: count clips already scheduled ahead, so the queue doesn't pile up
+    for x in hub('/api/posts?all=1').get('posts', []):
+        pl = (x.get('platforms') or [{}])[0]
+        for d, name in acct.items():
+            if d in made and x.get('status') == 'SCHEDULED' and pl.get('accountName') == name: made[d] += 1
+    print('already in Clip Studio / scheduled:', made, flush=True)
 except Exception: pass
 t_start = time.time()
 while any(made[d] < TARGET and tries[d] < (40 if d == 'physix' else 25) for d in ORDER) and time.time() < STOP_AT:
@@ -141,6 +147,11 @@ Transcript:\n{tr}""")
             code = subprocess.run(['curl', '-s', '-o', '/dev/null', '-w', '%{http_code}', '--retry', '3', '-X', 'PUT', '-H', 'Content-Type: video/mp4', '--data-binary', '@' + out, u['uploadUrl']], capture_output=True, text=True).stdout
             if not code.startswith('2'): print('  upload failed', code, flush=True); continue
             r = hub('/api/post', {'accountIds': [ACCT[page]], 'contentType': 'VIDEO', 'text': j['caption'], 'mediaUrls': [u['publicUrl']], 'draft': True})['results'][0]
+            if r.get('ok') and page in AUTO:    # straight to the next open slot (TikTok + YouTube)
+                try:
+                    dft = next(x for x in hub('/api/studio').get('drafts', []) if x.get('page') == page and u['publicUrl'].split('/')[-1] in (x.get('media') or ''))
+                    a = hub('/api/studio', {'action': 'approve', 'postId': dft['id']}); print(f"  {page}: auto-approved -> {a.get('scheduledAt')}", flush=True)
+                except Exception as e: print('  auto-approve failed (left in Studio)', str(e)[:60], flush=True)
             if r.get('ok'): made[d] += 1; print(f"✅ {page} #{made[d]} in Clip Studio ({(time.time() - t_start) / 60:.0f} min): {j['hook']}", flush=True)
             else: print('  draft failed', r.get('problems'), flush=True)
         except Exception as e: print('  cut/upload failed', str(e)[:80], flush=True)

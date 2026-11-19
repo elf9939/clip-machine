@@ -10,7 +10,7 @@ from gemini import ask_json
 PY = os.path.join(ROOT, '.venv', 'bin', 'python')
 HUB_BATCH = os.path.expanduser('~/Projects/post-hub/batches')
 DIR2PAGE = {'pulsevice': 'pulsevice', 'vicecityrp': 'vicecityrp', 'physix': 'gta6physix', 'kai': 'kai', 'adin': 'adin', 'n3on': 'n3on'}
-AUTO = set()   # APPROVAL MODE (Nov 18, GTA 6 launch): clips wait in Clip Studio; approving schedules TikTok + YouTube together. Restore {'pulsevice','vicecityrp','gta6physix','kai','adin','n3on'} to auto-post again.
+AUTO = {'vicecityrp'}   # Vice City RP auto-posts (owner said Nov 18 it needs no approval); GTA 6 pages stay in APPROVAL MODE (Nov 18, GTA 6 launch): clips wait in Clip Studio; approving schedules TikTok + YouTube together. Restore {'pulsevice','vicecityrp','gta6physix','kai','adin','n3on'} to auto-post again.
 # AUTO = {'pulsevice', 'vicecityrp', 'gta6physix', 'kai', 'adin', 'n3on'}   # pages that schedule themselves (no approval needed)
 WANT = {'pulsevice': 6, 'vicecityrp': 5, 'gta6physix': 6, 'kai': 5, 'adin': 5, 'n3on': 5}   # drafts per morning
 LOG = open(os.path.join(HERE, 'morning.log'), 'a')
