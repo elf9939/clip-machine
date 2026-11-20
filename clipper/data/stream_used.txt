@@ -7,6 +7,7 @@ https://clips.kick.com/clips/08/clip_01M7B2X666J1H6203BZ49A2BVB/playlist.m3u8
 https://clips.kick.com/clips/09/clip_01M7Q4TT04JYX67ZFG3A4MJPGW/playlist.m3u8
 https://clips.kick.com/clips/0a/clip_01M7Q520FQ3A1TYRZ457ZZETRX/playlist.m3u8
 https://clips.kick.com/clips/0c/clip_01M7TKWZ94EGSWCJ9G0BDFS2T7/playlist.m3u8
+https://clips.kick.com/clips/0c/clip_01M7VFV452JN44W0BDKF3F0E98/master.m3u8
 https://clips.kick.com/clips/0f/clip_01M797X7S9109T2M6CP44Z5878/playlist.m3u8
 https://clips.kick.com/clips/12/clip_01M7V9TK7ANW27ZC28ECQDANQS/master.m3u8
 https://clips.kick.com/clips/13/clip_01M7BZBN0VKX05VD1M7SCMH1VV/playlist.m3u8
