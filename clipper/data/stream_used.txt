@@ -5,6 +5,7 @@ https://clips.kick.com/clips/08/clip_01M7B2X666J1H6203BZ49A2BVB/playlist.m3u8
 https://clips.kick.com/clips/09/clip_01M7Q4TT04JYX67ZFG3A4MJPGW/playlist.m3u8
 https://clips.kick.com/clips/0a/clip_01M7Q520FQ3A1TYRZ457ZZETRX/playlist.m3u8
 https://clips.kick.com/clips/0f/clip_01M797X7S9109T2M6CP44Z5878/playlist.m3u8
+https://clips.kick.com/clips/12/clip_01M7V9TK7ANW27ZC28ECQDANQS/master.m3u8
 https://clips.kick.com/clips/13/clip_01M7BZBN0VKX05VD1M7SCMH1VV/playlist.m3u8
 https://clips.kick.com/clips/13/clip_01M7Q7HXHC94G2ZZT5Z1K920EX/playlist.m3u8
 https://clips.kick.com/clips/14/clip_01M75HAA7EN1JK2GQP76JTBCBP/playlist.m3u8
@@ -188,6 +189,7 @@ https://www.twitch.tv/kaicenat/clip/BetterSparklingWheelBrokeBack-76HbDl0iMATUCk
 https://www.twitch.tv/kaicenat/clip/BitterTemperedKathyPMSTwin-9_-vozFPS4aoq6Xe
 https://www.twitch.tv/kaicenat/clip/BlightedRelatedKathyKeepo-HKuu-b-IkUwSQ39d
 https://www.twitch.tv/kaicenat/clip/BlindingFragileMangoThisIsSparta-ZjtAPI0RAbE2XiJl
+https://www.twitch.tv/kaicenat/clip/BoldEncouragingHamJonCarnage-pe0Q59lJ1Zj-4lUY
 https://www.twitch.tv/kaicenat/clip/BumblingConsiderateMagpieAsianGlow-uwONm1vYSnm95Wzn
 https://www.twitch.tv/kaicenat/clip/CautiousTangentialPheasantFUNgineer-hvBsGqviTE55Vg2n
 https://www.twitch.tv/kaicenat/clip/CleanRoundInternDBstyle-B3Iq_wMK46gL0Mqi
@@ -230,6 +232,7 @@ https://www.twitch.tv/kaicenat/clip/KnottyToughDonkeyPhilosoraptor-itK8cp8jPJ9zE
 https://www.twitch.tv/kaicenat/clip/LazySpoopyTildeRitzMitz-aE99eWD1ShBG1zyj
 https://www.twitch.tv/kaicenat/clip/LitigiousDifferentTitanEagleEye-ElindDPcSmVTYW-z
 https://www.twitch.tv/kaicenat/clip/LivelyFlirtyBobaAsianGlow-hUp19YO6bXPPhgie
+https://www.twitch.tv/kaicenat/clip/LovelyImportantAlfalfaLitty-TvWeJzP9zG95rT47
 https://www.twitch.tv/kaicenat/clip/LuckyColorfulBaconPupper-I9CKvGJSbeij_1HP
 https://www.twitch.tv/kaicenat/clip/MildCoweringPenguinAMPEnergy-e1dnSqLkLUAyRQ8_
 https://www.twitch.tv/kaicenat/clip/MildSpunkyCheesecakeSeemsGood-XmCaj6ZUDyxjj69b
@@ -244,6 +247,7 @@ https://www.twitch.tv/kaicenat/clip/PeppyFunGaurPunchTrees-edM6JKBegYQ6zSk-
 https://www.twitch.tv/kaicenat/clip/PerfectAmazingButterPogChamp-nPnBC0cKv-FE5Hyp
 https://www.twitch.tv/kaicenat/clip/PhilanthropicBumblingHamUnSane-7g9OIrVI6JZVP_l0
 https://www.twitch.tv/kaicenat/clip/PiercingCheerfulCakeMVGame-O3rTmdrfm_jmCxzG
+https://www.twitch.tv/kaicenat/clip/PiliableHonorableBananaBlargNaut-a52-k2Oni16S1Ue6
 https://www.twitch.tv/kaicenat/clip/PleasantRelievedPeachKeyboardCat-N61HQUyUuZgz6-HF
 https://www.twitch.tv/kaicenat/clip/PopularHotEggnogBudStar-P1_ApQtjgdBtCvbD
 https://www.twitch.tv/kaicenat/clip/ProtectiveNurturingGrassDBstyle-4H5CLKiA7Y2qYYxA
