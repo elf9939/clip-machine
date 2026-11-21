@@ -6,6 +6,6 @@ Best so far: ragdoll / car flip clips (231 views on "ragdolled into another dime
 
 ## What is working (auto-updated 2026-11-21)
 Top posts this week — make more like these:
-- 949 views: "xQc clipped straight through the map 😭 #xqc #gta #gta6 #glit"
 - 932 views: "GTA physics never make any sense 💀 #gta5 #gta6 #gtaphysics #"
 - 544 views: "Bro thought he had enough space 😭 #gta5 #gta6 #gtaphysics #f"
+- 243 views: "GTA wildlife hits different 💀 #gta5 #gta6 #gtaphysics #funny"

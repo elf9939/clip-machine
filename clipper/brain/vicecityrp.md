@@ -6,6 +6,6 @@ Avoid: clips that are just menus/inventory with no talking.
 
 ## What is working (auto-updated 2026-11-21)
 Top posts this week — make more like these:
-- 1897 views: "Buddha responds to "NoPixel isn't realistic" #buddha #nopixe"
-- 1514 views: "The shootout went completely sideways 💀 #gtarp #nopixel #ram"
+- 1530 views: "The shootout went completely sideways 💀 #gtarp #nopixel #ram"
 - 993 views: "He barely survived that fall 😭 #gtarp #nopixel #buddha #role"
+- 870 views: "You can never press Lang Buddha like that 💀 Follow for more "

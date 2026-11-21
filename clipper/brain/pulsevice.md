@@ -6,6 +6,6 @@ Avoid: Sneako political/religious rants (always skip those).
 
 ## What is working (auto-updated 2026-11-21)
 Top posts this week — make more like these:
-- 5747 views: "Lacy really got pepper sprayed at his meet and greet 💀 Follo"
-- 1077 views: "Lacy really bought ANOTHER car 😭 his friend could not believ"
+- 5768 views: "Lacy really got pepper sprayed at his meet and greet 💀 Follo"
 - 1068 views: "Lacy went completely overboard with this order 💀 #lacy #funn"
+- 960 views: "He could not believe that blunder 😭 #jynxzi #funny #streamer"

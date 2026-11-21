@@ -11,4 +11,4 @@ Avoid: gambling segments.
 Top posts this week — make more like these:
 - 897 views: "Bro thinks he is an unc already 💀 Follow for every crazy N3o"
 - 714 views: "Bro thought three was a huge family 💀 Follow for daily N3on "
-- 511 views: "Bro immediately regretted pulling out that gun 💀 Follow for "
+- 579 views: "Bro immediately regretted pulling out that gun 💀 Follow for "

@@ -11,6 +11,6 @@ Hashtags pool: #kaicenat #kai #amp #streamer #funny #fyp
 
 ## What is working (auto-updated 2026-11-21)
 Top posts this week — make more like these:
-- 528 views: "Kai's message to chat before GTA 6 drops 🎮 #kaicenat #gta6 #"
-- 506 views: "GTA 6 NPCs are already out of pocket 😭 Follow for daily GTA "
+- 508 views: "GTA 6 NPCs are already out of pocket 😭 Follow for daily GTA "
 - 357 views: "He got caught lacking mid photo 😭 Follow — we clip it so you"
+- 333 views: "Kai was completely losing it 💀 #kaicenat #kai #amp #streamer"
