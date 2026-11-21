@@ -39,6 +39,7 @@ https://clips.kick.com/clips/3d/clip_01M7K1AP2FEDTQ6RMDH83ARNAR/playlist.m3u8
 https://clips.kick.com/clips/42/clip_01M7VGDZ9FS31MFZE7RCMDPZTW/master.m3u8
 https://clips.kick.com/clips/47/clip_01M7RFJHTKAPBFC8Y15QQQEDVS/playlist.m3u8
 https://clips.kick.com/clips/49/clip_01M7NX40YJQGX1HHDKJCSSB1T3/playlist.m3u8
+https://clips.kick.com/clips/4c/clip_01M7WGF8QY9YKM0JVWE693VTCH/playlist.m3u8
 https://clips.kick.com/clips/4d/clip_01M7R14QHD4JEN5XBC8XX1DN8W/playlist.m3u8
 https://clips.kick.com/clips/55/clip_01M7E9PA4SWQ9G0WYVMAEBKGBQ/playlist.m3u8
 https://clips.kick.com/clips/59/clip_01M7KFE0BGS627QEHECRZF0RS3/playlist.m3u8
@@ -83,9 +84,11 @@ https://clips.kick.com/clips/9e/clip_01M793F5VKQVGS4JAP94P8ZZD0/playlist.m3u8
 https://clips.kick.com/clips/9e/clip_01M7K7W2GYX88RP8M2H51KA9FG/playlist.m3u8
 https://clips.kick.com/clips/a3/clip_01M7RQHWTXGT315139X9S2GRK9/playlist.m3u8
 https://clips.kick.com/clips/a3/clip_01M7SVMD6H4QBZ02NZFB4R6BJC/playlist.m3u8
+https://clips.kick.com/clips/a8/clip_01M7WPJTBM9B4A0N5YE15F9DVH/playlist.m3u8
 https://clips.kick.com/clips/a9/clip_01M7QGNGSGTBE2QDRWH9GZVMNT/playlist.m3u8
 https://clips.kick.com/clips/a9/clip_01M7QYDEBTC8091E0AN98CKZKQ/playlist.m3u8
 https://clips.kick.com/clips/aa/clip_01M7K8P71FX1EZFV1GXA2TGCSM/playlist.m3u8
+https://clips.kick.com/clips/aa/clip_01M7W7C2WH127BC877Y9MW87K4/playlist.m3u8
 https://clips.kick.com/clips/ab/clip_01M78PF5RE9KY3ZXCD40DR26X5/playlist.m3u8
 https://clips.kick.com/clips/ad/clip_01M7QFDDYEWM7WHDG2PEYQXZNT/playlist.m3u8
 https://clips.kick.com/clips/af/clip_01M7R36AN6XKVFM0V62E9JWPXT/playlist.m3u8
@@ -117,6 +120,7 @@ https://clips.kick.com/clips/f1/clip_01M7R0F0ZR2MYG88VDG2D0AEK5/playlist.m3u8
 https://clips.kick.com/clips/f1/clip_01M7R14ZBD7E0AKZ5ANBVH1R3Q/playlist.m3u8
 https://clips.kick.com/clips/f5/clip_01M7Q51JSHH80CZXCCA0V2ND3A/playlist.m3u8
 https://clips.kick.com/clips/f6/clip_01M7Q6FYJGW75JFBE48H21Q2D4/playlist.m3u8
+https://clips.kick.com/clips/f9/clip_01M7WATNBYNH3X7W5SQRQCA02H/playlist.m3u8
 https://clips.kick.com/clips/fe/clip_01M7K1ZRCG3K45T4NNAT49RM3F/playlist.m3u8
 https://clips.kick.com/clips/ff/clip_01M7Q58PCMEP5WJSAHE6VB0WQD/playlist.m3u8
 https://www.twitch.tv/2xrakai/clip/AntediluvianDarkNuggetsCclamChamp-20eTlBwERPpcDKFS
