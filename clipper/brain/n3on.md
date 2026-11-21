@@ -7,8 +7,8 @@ Avoid: gambling segments.
 - Never gambling/slots/casino segments, strip clubs or anything sexual (TikTok hides them from For You).
 - Hashtags: #n3on #kick plus 2-3 that fit (#irl #streamer #funny); add #gta6 #gtavi only when it is GTA 6.
 
-## What is working (auto-updated 2026-11-20)
+## What is working (auto-updated 2026-11-21)
 Top posts this week — make more like these:
 - 897 views: "Bro thinks he is an unc already 💀 Follow for every crazy N3o"
 - 714 views: "Bro thought three was a huge family 💀 Follow for daily N3on "
-- 490 views: "N3on tried to haggle at a luxury watch store 😭 #n3on #watche"
+- 511 views: "Bro immediately regretted pulling out that gun 💀 Follow for "
