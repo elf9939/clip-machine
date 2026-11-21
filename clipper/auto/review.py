@@ -26,6 +26,7 @@ Score each 0-100:
 - originality: TikTok marks clips as "unoriginal" (not shown on For You) when they look copied from another source without creative edits.
   Score LOW if you see a watermark or logo (Kick/Twitch/YouTube logos, another clipping page's handle or branding, burned-in subtitles in a different style),
   if it looks like a re-upload of an already-edited/viral clip or compilation, or if it is mostly unchanged footage. Score HIGH for fresh raw stream moments with our own hook + captions.
+- burned_subs: true if the ORIGINAL footage already has subtitles burned in (text lines of speech, any language), not counting our own yellow/white word captions or the hook at the top.
 - fyp_safe: TikTok hides videos from the For You feed for "Regulated Goods" and "Sensitive and Mature Themes". Set "regulated": true if weapons are the FOCUS
   (gun shop/ammo store, weapon menu or wheel, buying/listing/showing off guns, a gun pointed at the camera), or it shows/talks about drugs, alcohol, vaping/smoking,
   gambling/casino, or strip clubs. Ordinary quick gameplay with shooting in the background is NOT regulated. Set "mature": true for sexual content or jokes,
@@ -38,14 +39,14 @@ Fixes (only suggest what would clearly help):
 - caption: a better caption keeping the same format (1 punchy line, a follow line, 4-5 hashtags) or the same one.
 Return JSON only:
 {{"scores":{{"hook":0,"visual":0,"audio":0,"content":0,"engagement":0,"originality":0}},"overall":0,"verdict":"post|fix|skip","watermark":false,
-"regulated":false,"mature":false,"risk_reason":"","issues":["short problem notes"],"fixes":{{"trim_start":0,"trim_end":0,"hook":"...","caption":"..."}}}}"""
+"regulated":false,"mature":false,"burned_subs":false,"risk_reason":"","issues":["short problem notes"],"fixes":{{"trim_start":0,"trim_end":0,"hook":"...","caption":"..."}}}}"""
 
 
 def proxy(path):
     """Small copy for the AI to watch (keeps the request well under the size limit)."""
     out = tempfile.mktemp(suffix='.mp4')
-    subprocess.run([FFMPEG, '-y', '-loglevel', 'error', '-i', path, '-vf', 'scale=432:-2', '-r', '15', '-c:v', 'libx264', '-crf', '32', '-preset', 'veryfast',
-                    '-c:a', 'aac', '-b:a', '64k', '-ac', '1', out], check=True)
+    subprocess.run([FFMPEG, '-y', '-loglevel', 'error', '-i', path, '-t', '20', '-vf', 'scale=320:-2', '-r', '8', '-c:v', 'libx264', '-crf', '34', '-preset', 'veryfast',
+                    '-c:a', 'aac', '-b:a', '32k', '-ac', '1', out], check=True)   # cost: 20s max, 320px, 8fps (video tokens are the main Gemini cost)
     return out
 
 

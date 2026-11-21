@@ -63,6 +63,9 @@ def inspect(out, job, j, need6):
     print(f"  inspector: {ov}/100 {rv.get('verdict')} | {'; '.join(rv.get('issues', [])[:2])[:120]}", flush=True)
     if need6 and rv.get('is_gta6') is False and ov < 60: return False, 'not GTA 6'
     if rv.get('watermark') or orig < 35: return False, f'unoriginal risk ({orig})'
+    if rv.get('burned_subs') and job.get('words'):   # source already has subtitles: drop ours (no extra AI call)
+        try: render(dict(job, words='')); job['words'] = ''; print('  source has subtitles -> re-cut with hook + mascot only', flush=True)
+        except Exception as e: print('  re-cut failed', str(e)[:60], flush=True)
     if rv.get('regulated') or rv.get('mature'): return False, f"For You risk: {rv.get('risk_reason') or 'regulated/mature'}"   # Nov 19: 5 Physix videos restricted for Regulated Goods
     if rv.get('verdict') == 'skip' and ov < 40: return False, f'weak ({ov})'
     fx = rv.get('fixes') or {}; ts, te = float(fx.get('trim_start') or 0), float(fx.get('trim_end') or 0); hk = (fx.get('hook') or '').strip()
@@ -165,9 +168,7 @@ Transcript:\n{tr}""")
         if dup: print(f'  {page}: skip — same moment already made for {dup}', flush=True); continue
         out = os.path.join(WORK, n + '_final.mp4')
         try:
-            burned = burned_captions(mp4, s0, e0)
-            if burned: print(f'  {page}: source already has subtitles -> hook + mascot only (no extra captions)', flush=True)
-            job = {'src': mp4, 'words': '' if burned else wp, 'mwords': wp, 'start': s0, 'end': e0, 'hook': j['hook'], 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page}
+            job = {'src': mp4, 'words': wp, 'mwords': wp, 'start': s0, 'end': e0, 'hook': j['hook'], 'out': out, 'layout': 'full', 'cx': 0.5, 'mascot': page}
             render(job)
             ok, why = inspect(out, job, j, need6=page not in ('vicecityrp', 'n3on') and not c.get('kick') and not c.get('gta6'))   # the AI watches the finished clip
             if not ok: print(f'  {page}: inspector dropped it — {why}', flush=True); continue

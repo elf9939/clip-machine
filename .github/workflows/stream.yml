@@ -1,10 +1,6 @@
 name: Fast mode (clips straight to Clip Studio)
 on:
   # One clip at a time into Clip Studio; works with the laptop closed. Start from the Actions tab, gh, or cron-job.org.
-  schedule:   # after peak streams: ~1pm, 6pm, 11pm Central (GitHub can fire a bit late; the guard below skips doubles)
-    - cron: '0 19 * * *'
-    - cron: '0 0 * * *'
-    - cron: '0 5 * * *'
   workflow_dispatch:
     inputs:
       target: { description: 'Clips waiting in Studio per page', default: '5' }
