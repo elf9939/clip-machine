@@ -38,6 +38,7 @@ https://clips.kick.com/clips/37/clip_01M7T1AK360QBPA7SY4VARJDZJ/playlist.m3u8
 https://clips.kick.com/clips/39/clip_01M7RGSQMS5ND2EVC21F0XTP8F/playlist.m3u8
 https://clips.kick.com/clips/3c/clip_01M7QB1PQ1JTDEBN7AFG5XVDKX/playlist.m3u8
 https://clips.kick.com/clips/3d/clip_01M7K1AP2FEDTQ6RMDH83ARNAR/playlist.m3u8
+https://clips.kick.com/clips/40/clip_01M7ZA6HACKNQMBARJBK5MZDW4/playlist.m3u8
 https://clips.kick.com/clips/42/clip_01M7VGDZ9FS31MFZE7RCMDPZTW/master.m3u8
 https://clips.kick.com/clips/44/clip_01M7XWFQB66WW5FT2Q5TB2B0NR/playlist.m3u8
 https://clips.kick.com/clips/47/clip_01M7RFJHTKAPBFC8Y15QQQEDVS/playlist.m3u8
@@ -119,6 +120,7 @@ https://clips.kick.com/clips/cf/clip_01M7W8B0XFS9FNP30SK6ZE3NA6/playlist.m3u8
 https://clips.kick.com/clips/d3/clip_01M7Q5VFWA12CZKRAR4WWT1YV4/playlist.m3u8
 https://clips.kick.com/clips/d5/clip_01M7VD1MPKFVGSD6MNXXG357YW/master.m3u8
 https://clips.kick.com/clips/d7/clip_01M7E4JHKFTK1HNE9N1YD1R884/playlist.m3u8
+https://clips.kick.com/clips/d8/clip_01M7Z7B39AF02S3GF3FQ0QCEPA/playlist.m3u8
 https://clips.kick.com/clips/d9/clip_01M7QKDQBXNTF9SQNPQNPJ1X2C/playlist.m3u8
 https://clips.kick.com/clips/dc/clip_01M7QR04EPJ3QEYR3AC36K57G0/playlist.m3u8
 https://clips.kick.com/clips/df/clip_01M7FDF6S4T763QQB2QFPJT3B9/playlist.m3u8
