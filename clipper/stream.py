@@ -26,7 +26,7 @@ USED = os.path.join(HERE, 'data', 'stream_used.txt')   # saved back to the repo 
 used = set(open(USED).read().split()) if os.path.exists(USED) else set()
 BIN = os.path.expanduser('~/.local/bin')
 MIN_POOL, MIN_OWN = 150, 40          # minimum clip views: other streamers' clips must be proven; a page's own streamer just can't be dead
-AUTO = {'vicecityrp'}   # pages that post without approval (owner only reviews GTA 6 pages)
+AUTO = {'pulsevice', 'vicecityrp', 'kai', 'n3on'}   # Nov 22: owner switched ALL active pages to auto-approve (app too laggy to review). adin/physix stay paused (PAUSED / WANT=0)
 MAIN = {'kai': 'kaicenat', 'adin': 'adinross', 'n3on': 'n3on'}   # fan pages: their own streamer
 
 
