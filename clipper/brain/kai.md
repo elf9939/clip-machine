@@ -9,8 +9,8 @@ Hashtags pool: #kaicenat #kai #amp #streamer #funny #fyp
 - Hooks can name GTA 6 when it fits ("GTA 6 physics are insane", "First time in GTA 6 and…"). Never claim something happens that doesn't.
 - Hashtags must include #gta6 and #gtavi, plus 2-3 that fit (#gaming #gta #fyp, the streamer's name).
 
-## What is working (auto-updated 2026-11-22)
+## What is working (auto-updated 2026-11-23)
 Top posts this week — make more like these:
-- 617 views: "GTA 6 NPCs are already out of pocket 😭 Follow for daily GTA "
-- 357 views: "He got caught lacking mid photo 😭 Follow — we clip it so you"
-- 333 views: "Kai was completely losing it 💀 #kaicenat #kai #amp #streamer"
+- 935 views: "GTA 6 NPCs are already taking it too far 💀 Follow for every "
+- 910 views: "The betrayal in GTA 6 is crazy 💀 Follow to see how this ends"
+- 618 views: "GTA 6 NPCs are already out of pocket 😭 Follow for daily GTA "
