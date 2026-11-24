@@ -123,6 +123,22 @@ def candidates(d):
 
 print('loading speech model…', flush=True)
 model = WhisperModel('small.en', device='cpu', compute_type='int8', cpu_threads=os.cpu_count() or 4)
+# Nov 24: owner — don't spend cloud minutes on pages that already have plenty queued. Skip a page with 2+ days of clips scheduled ahead.
+def _queued_ahead():
+    import datetime
+    now = datetime.datetime.utcnow().isoformat(); c = {}
+    try: posts = hub('/api/posts?all=1&days=10').get('posts', [])
+    except Exception as e: print('  (could not count queued clips)', str(e)[:60], flush=True); return {}
+    inv = {v: k for k, v in ACCT.items()}
+    for p in posts:
+        if str(p.get('scheduledAt') or '') <= now: continue
+        for pid in {inv.get(pl.get('connectionId')) for pl in p.get('platforms', []) if pl.get('platform') == 'TIKTOK'} - {None}: c[pid] = c.get(pid, 0) + 1
+    return c
+ENOUGH = int(os.environ.get('ENOUGH_AHEAD') or 10)   # ~2 days at 5 clips/day
+_qa = _queued_ahead()
+for d in list(ORDER):
+    n = _qa.get(PAGEKEY.get(d, d), 0)
+    if n >= ENOUGH: print(f'  {d}: {n} clips already scheduled ahead — skipping this run', flush=True); ORDER.remove(d)
 queues = {d: None for d in ORDER}; made = {d: 0 for d in ORDER}; tries = {d: 0 for d in ORDER}
 try:   # count clips already waiting in Clip Studio (so a restart doesn't overshoot)
     for x in hub('/api/studio').get('drafts', []):
