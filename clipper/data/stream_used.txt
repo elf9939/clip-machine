@@ -18,6 +18,7 @@ https://clips.kick.com/clips/12/clip_01M7V9TK7ANW27ZC28ECQDANQS/master.m3u8
 https://clips.kick.com/clips/13/clip_01M7BZBN0VKX05VD1M7SCMH1VV/playlist.m3u8
 https://clips.kick.com/clips/13/clip_01M7Q7HXHC94G2ZZT5Z1K920EX/playlist.m3u8
 https://clips.kick.com/clips/13/clip_01M85EVPK3ACDWCJDZ41HETV4J/playlist.m3u8
+https://clips.kick.com/clips/13/clip_01M87N5EJHH2VSQPS30ES0137S/playlist.m3u8
 https://clips.kick.com/clips/14/clip_01M75HAA7EN1JK2GQP76JTBCBP/playlist.m3u8
 https://clips.kick.com/clips/14/clip_01M8010MJTR1KVJ9E04XXCCYS6/playlist.m3u8
 https://clips.kick.com/clips/16/clip_01M7KDJZDX7F37DSJVFXWC0VYG/playlist.m3u8
@@ -46,6 +47,7 @@ https://clips.kick.com/clips/32/clip_01M7Y7AVBQ0S4WYXVP9Q1XXW4E/playlist.m3u8
 https://clips.kick.com/clips/36/clip_01M85N2PBSZQNCSQNHPVFYKTR0/playlist.m3u8
 https://clips.kick.com/clips/37/clip_01M7T1AK360QBPA7SY4VARJDZJ/playlist.m3u8
 https://clips.kick.com/clips/39/clip_01M7RGSQMS5ND2EVC21F0XTP8F/playlist.m3u8
+https://clips.kick.com/clips/3b/clip_01M876CEM6K6M1MKDCEZ9FRFXA/playlist.m3u8
 https://clips.kick.com/clips/3c/clip_01M7QB1PQ1JTDEBN7AFG5XVDKX/playlist.m3u8
 https://clips.kick.com/clips/3c/clip_01M7XP2K802A2SR6ZFHN1MGAFS/playlist.m3u8
 https://clips.kick.com/clips/3d/clip_01M7K1AP2FEDTQ6RMDH83ARNAR/playlist.m3u8
@@ -67,6 +69,7 @@ https://clips.kick.com/clips/5b/clip_01M7Q675YY05MNYKYV0V2B6QV8/playlist.m3u8
 https://clips.kick.com/clips/5f/clip_01M7B5Q8B76FR4ZV5WHWBMDBNT/playlist.m3u8
 https://clips.kick.com/clips/5f/clip_01M7QBC53A913PVJ54XM7RQC0T/playlist.m3u8
 https://clips.kick.com/clips/5f/clip_01M7QWT793TZFQEZWH4QBA5TKF/playlist.m3u8
+https://clips.kick.com/clips/61/clip_01M85MV013XHPQ0YP3RJPQ8B6G/playlist.m3u8
 https://clips.kick.com/clips/64/clip_01M7P6E2BRTSG6466RC83GR8J4/playlist.m3u8
 https://clips.kick.com/clips/65/clip_01M7923FBRKBE603RXD95PVVDP/playlist.m3u8
 https://clips.kick.com/clips/67/clip_01M7R6K3XHCZ6VS6XKX3EPMF2S/playlist.m3u8
@@ -86,6 +89,7 @@ https://clips.kick.com/clips/73/clip_01M87YQQT7TY5D6G3WP1RHHZFM/playlist.m3u8
 https://clips.kick.com/clips/77/clip_01M7VHARZQVS765DPY1KPA9TEK/master.m3u8
 https://clips.kick.com/clips/79/clip_01M7KESG9PK6RNGP21YWGGBX9X/playlist.m3u8
 https://clips.kick.com/clips/7a/clip_01M7Q6S3Y8HNTRGPW5HD1ZKC2W/playlist.m3u8
+https://clips.kick.com/clips/7d/clip_01M87060ZSG6DR3BKVFF309HKM/playlist.m3u8
 https://clips.kick.com/clips/81/clip_01M7N5Q7H2RRD2A0JYBKF319J2/playlist.m3u8
 https://clips.kick.com/clips/82/clip_01M7RDM31RF5N8QXS9TMZ6V4X7/playlist.m3u8
 https://clips.kick.com/clips/83/clip_01M7QCAAH57KWWM48BBJ72GMA9/playlist.m3u8
@@ -104,6 +108,7 @@ https://clips.kick.com/clips/93/clip_01M7RP0WZYS0W8VVWWZ4CR5M7B/playlist.m3u8
 https://clips.kick.com/clips/95/clip_01M7K6SMMEQGH93WJW81VK0ERT/playlist.m3u8
 https://clips.kick.com/clips/95/clip_01M7PV1FHZBWAWP15YH9MTAVPJ/playlist.m3u8
 https://clips.kick.com/clips/95/clip_01M7Q8SFE5R44GGQF9RYZM2ABY/playlist.m3u8
+https://clips.kick.com/clips/96/clip_01M886H7FR08585YNM2MTKFG2E/master.m3u8
 https://clips.kick.com/clips/98/clip_01M85QKVM28TTV1H9WT8TR39TE/playlist.m3u8
 https://clips.kick.com/clips/9b/clip_01M85E8JTK4WPJNF9NE1TPFGWM/playlist.m3u8
 https://clips.kick.com/clips/9c/clip_01M7Q5D4RT32VTXCT0BC3FCK23/playlist.m3u8
@@ -130,6 +135,7 @@ https://clips.kick.com/clips/bc/clip_01M75GN0E0HXPSADH9CKR0NVKX/playlist.m3u8
 https://clips.kick.com/clips/bf/clip_01M7R0R0GPNKE39ZZ6ERNN12MQ/playlist.m3u8
 https://clips.kick.com/clips/c3/clip_01M7QB4HJ48PFS0CPVS9J2F4HW/playlist.m3u8
 https://clips.kick.com/clips/c3/clip_01M7RK38116RN8MZBNDHJCRM21/playlist.m3u8
+https://clips.kick.com/clips/c4/clip_01M86N0J1JVK9MAV8FZNM7GD67/playlist.m3u8
 https://clips.kick.com/clips/ca/clip_01M7R58SAWXXPMD5ZPCFB98SZV/playlist.m3u8
 https://clips.kick.com/clips/ca/clip_01M7XP4VVD00YVZPHGR13GPDVR/playlist.m3u8
 https://clips.kick.com/clips/cc/clip_01M7P0F80NWGF3S21VKPHJYGZ6/playlist.m3u8
@@ -144,6 +150,7 @@ https://clips.kick.com/clips/d9/clip_01M7QKDQBXNTF9SQNPQNPJ1X2C/playlist.m3u8
 https://clips.kick.com/clips/dc/clip_01M7QR04EPJ3QEYR3AC36K57G0/playlist.m3u8
 https://clips.kick.com/clips/dd/clip_01M813HSP7PHDQSFFKSXZ0SXPA/playlist.m3u8
 https://clips.kick.com/clips/df/clip_01M7FDF6S4T763QQB2QFPJT3B9/playlist.m3u8
+https://clips.kick.com/clips/df/clip_01M86MH8NSEDT2CBFZT3HK8NNG/playlist.m3u8
 https://clips.kick.com/clips/e0/clip_01M7R7HB1GHFB0NFEH0N73K7RM/playlist.m3u8
 https://clips.kick.com/clips/e1/clip_01M7WKTQA2NF2GEKXK64BNMQWG/playlist.m3u8
 https://clips.kick.com/clips/e3/clip_01M8341V212G1GGJQG2DQXYY9N/playlist.m3u8
@@ -169,6 +176,8 @@ https://www.twitch.tv/2xrakai/clip/ClearDifferentGarlicNomNom-Fs_0YNyTuWAtVMSk
 https://www.twitch.tv/2xrakai/clip/PoisedFlaccidGooseYouDontSay-JIcFShXyT-deyXRF
 https://www.twitch.tv/39daph/clip/SpunkySteamyVulturePupper-rbdHniFgA8lriL1N
 https://www.twitch.tv/4tlazgaming/clip/BrainyAverageNeanderthalKappaPride-eZEI1NQa629X92WG
+https://www.twitch.tv/acie/clip/PeppyPeacefulStarlingShadyLulu-FbkcX75x7KrIFXKR
+https://www.twitch.tv/acie/clip/SlipperyFriendlyDragonflyBIRB-IeWtY4kYjFTFx4v8
 https://www.twitch.tv/agent00/clip/AbrasiveArtsySwanDoubleRainbow-2gMbJ9Ep7llWNMzk
 https://www.twitch.tv/aishahsofey/clip/RudeGlutenFreeWhaleKlappa-TsNGLy-7HVasrNTg
 https://www.twitch.tv/aishahsofey/clip/TenuousDirtySaladPartyTime-WJ3uhsMB-Fvd5Ao9
@@ -184,6 +193,7 @@ https://www.twitch.tv/berrycrepe/clip/ElegantEntertainingFriesTinyFace-q1oQ0csN0
 https://www.twitch.tv/berrycrepe/clip/SlipperySpicyWatercressMVGame-Fs5pzfyuwH2GPfPS
 https://www.twitch.tv/berticuss/clip/GlamorousMoistCheddarStoneLightning-fmsPf6syuOBvNWhd
 https://www.twitch.tv/bilzo/clip/TsundereElegantCucumberBIRB-g3U0tQQW7_1rBcil
+https://www.twitch.tv/brucegreene/clip/FunnyAverageDiamond4Head-rUU4lEnhtbjGMkPr
 https://www.twitch.tv/brycexd/clip/CallousInspiringRuffSuperVinlin-ZORXxsZrAvTCjx7k
 https://www.twitch.tv/brycexd/clip/JazzySpineyCarrotJebaited-NGZc_OR4GLxdZYQg
 https://www.twitch.tv/brycexd/clip/SmoggyCrepuscularSkirretKevinTurtle-aLoWMMs8k0C-okOK
@@ -222,9 +232,11 @@ https://www.twitch.tv/clix/clip/WonderfulOriginalClipzPunchTrees-_1at6XnA9uAAFgS
 https://www.twitch.tv/cohhcarnage/clip/AffluentEncouragingBeeAMPTropPunch-mG1yofBOqKYvIXtE
 https://www.twitch.tv/cohhcarnage/clip/FastTardyArtichokePunchTrees-LTb-Drv-wh_ZHD0s
 https://www.twitch.tv/cohhcarnage/clip/ImpartialThankfulReubenCharlietheUnicorn-bL8bfRSqqWHyqas0
+https://www.twitch.tv/cohhcarnage/clip/ObliviousRoughDelicataFutureMan-CS3ZEl3poE2C9fMP
 https://www.twitch.tv/dahlia/clip/PiliableFriendlyYakEagleEye-NIG4G24Z81n1DTBL
 https://www.twitch.tv/dahlia/clip/RelentlessFriendlyIguanaNononoCat-25hp_hsuAgBI9AME
 https://www.twitch.tv/dansgaming/clip/RenownedNeighborlyWaffleTwitchRaid-t74SktFrD6SZ0Iu6
+https://www.twitch.tv/darkviperau/clip/PowerfulAgreeableDragonflySwiftRage-oy6mnqVFjXnJ6qYT
 https://www.twitch.tv/dinah/clip/CloudyWisePieThunBeast-bhRsZq7iff5K7yN8
 https://www.twitch.tv/dinah/clip/InventiveStylishSwanTBCheesePull-bpUxg33iLnxUyEOG
 https://www.twitch.tv/drdonutttttt/clip/NimbleYawningSwordMcaT-UjD9tEppewUUYYhm
@@ -239,9 +251,11 @@ https://www.twitch.tv/fanum/clip/SwissSnappyRamenSSSsss-gi6iBSOYSk3c8Aba
 https://www.twitch.tv/furi/clip/DirtyGiftedVelociraptorFloof-k_G2CN_EqBYtBtcX
 https://www.twitch.tv/hasanabi/clip/AdorableGenerousDootTheRinger-RxNBAdOhh2-dC7ws
 https://www.twitch.tv/hasanabi/clip/AwkwardTenuousAlfalfaPunchTrees-OQDzvDF6chDgfZ7U
+https://www.twitch.tv/hasanabi/clip/GoldenPoisedKeyboardRedCoat-HO3GxS3GCBEqzXcR
 https://www.twitch.tv/hasanabi/clip/SteamyAthleticSquirrelTheThing-IKdi5FGsptQhvqyI
 https://www.twitch.tv/hasanabi/clip/SuaveTubularPeafowlRuleFive--zaInupg8WNYZPlj
 https://www.twitch.tv/hasanabi/clip/VainSwissGrasshopperMoreCowbell-x8hoBr8ypJqow4Ef
+https://www.twitch.tv/hutchmf/clip/DeliciousPlayfulTrollYouWHY-WbmZTC6YKNepJHhB
 https://www.twitch.tv/hutchmf/clip/GentleAssiduousChinchillaCmonBruh-Oo-FKE4TJnFa1tBs
 https://www.twitch.tv/hutchmf/clip/InquisitiveCrackyGullSMOrc-Ky5PLzDSaSP347ZK
 https://www.twitch.tv/iitztimmy/clip/DelightfulUgliestKuduDBstyle-6BB6epD4XeLuCUlS
@@ -254,6 +268,7 @@ https://www.twitch.tv/ishowspeed/clip/DiligentCloudyAnteaterRlyTho-wToiIPYE4haHs
 https://www.twitch.tv/ishowspeed/clip/EasyDignifiedTroutCorgiDerp-k60y_FOyVIyCi1Gb
 https://www.twitch.tv/ishowspeed/clip/EncouragingAntsyElephantTBTacoRight-rgxRdyetbHC8TzQ2
 https://www.twitch.tv/ishowspeed/clip/ExcitedDrabCormorantTBTacoRight-wNoohGSFfQ6jYae-
+https://www.twitch.tv/ishowspeed/clip/FairHelpfulPistachioAllenHuhu-5JAr3GB-5If6Whey
 https://www.twitch.tv/ishowspeed/clip/HumbleGeniusStrawberryBleedPurple-CYhEi_LZY9mbAQxo
 https://www.twitch.tv/ishowspeed/clip/InspiringFriendlyLemurJebaited-oFs8vW6U4uy5p44B
 https://www.twitch.tv/ishowspeed/clip/KathishAuspiciousWebHassanChop-8vA0_goTCXCc204z
@@ -597,6 +612,7 @@ https://www.twitch.tv/kaicenat/clip/ZanyEnjoyableWormM4xHeh-ffTBfzd-pSrFsFQX
 https://www.twitch.tv/king_wolfe_/clip/SavageEphemeralSwanPMSTwin-CdV0_Uj1h7SAGkLW
 https://www.twitch.tv/kingwoolz/clip/GentleBetterBubbleteaCurseLit-juXe-AOh-reFmJBS
 https://www.twitch.tv/kingwoolz/clip/ThankfulPiliablePrariedogPrimeMe-Ub5zpoHpUObxhbVz
+https://www.twitch.tv/kyedae/clip/SpookyProductiveMeatloafRlyTho-nhFrMHTCBslopiCZ
 https://www.twitch.tv/lacy/clip/AbrasiveTameQuailSquadGoals-tAXBTJhwRYMREnO9
 https://www.twitch.tv/lacy/clip/AbstruseGrossMetalMVGame-LfXvAGlp6PoHBBwk
 https://www.twitch.tv/lacy/clip/BillowingPleasantClamCurseLit-R73-ZzHPGZEgBNxJ
@@ -630,13 +646,17 @@ https://www.twitch.tv/lacy/clip/VenomousEasyKathyNerfBlueBlaster-xC8I-5tMYpWzdNa
 https://www.twitch.tv/laurenhamdenn/clip/GoldenSincereHamburgerHeyGuys-Zo31y1z1tLdwRScS
 https://www.twitch.tv/laurenhamdenn/clip/MuddyTardyClipzFeelsBadMan-Qb1_guoZe76pMLRY
 https://www.twitch.tv/laurenhamdenn/clip/SlickPatientToadDoritosChip-LV7_h3WaUULTckLh
+https://www.twitch.tv/lilypichu/clip/RelievedTolerantMetalPunchTrees-1SrUQSJUwg6PKugm
 https://www.twitch.tv/lirik/clip/BitterLachrymoseSaladGingerPower-OQPIiBKsXb27dgzM
 https://www.twitch.tv/lirik/clip/BoringSavorySproutNomNom-Tg3HdUU0NAhGmGJw
+https://www.twitch.tv/lirik/clip/DarkSilkyPepperVoHiYo-RrE5HWPWhgFdM8rN
+https://www.twitch.tv/lirik/clip/FairCleverLadiesAsianGlow-BaZCESd66uGR07Q1
 https://www.twitch.tv/lirik/clip/ReliablePowerfulOilBatChest-ydNija0st6UB0byp
 https://www.twitch.tv/lirik/clip/ResilientRelievedWeaselYouWHY-Ez3C8mRcp0Dc0G91
 https://www.twitch.tv/lirik/clip/SilkyScrumptiousPepperNotLikeThis-IlJNCg2mEoL7QTd2
 https://www.twitch.tv/loserfruit/clip/HilariousDepressedBurritoTheThing-Jphw1HSUdJS8v4Nt
 https://www.twitch.tv/loserfruit/clip/SuccessfulWrongPlumagePipeHype-g0bVcSzpxN4YC6m9
+https://www.twitch.tv/loya/clip/KawaiiDeliciousChamoisItsBoshyTime-Um77cZBCJhjtT4-D
 https://www.twitch.tv/ludwig/clip/ArtisticVenomousCoffeeSSSsss-LYTRpkfrQj90uTgO
 https://www.twitch.tv/ludwig/clip/BeautifulDaintyMomTwitchRaid-q4op7h8xugMC5r-E
 https://www.twitch.tv/ludwig/clip/EnticingFrailTortoiseCharlieBitMe-gljPQtpIAF3An235
@@ -648,16 +668,20 @@ https://www.twitch.tv/marlon/clip/TiredConfidentPhoneCopyThis-bndkrew-Sq62qYKf
 https://www.twitch.tv/max_fewtrell/clip/RacySuaveLettuceDxAbomb-QW29RjDB__eUME0A
 https://www.twitch.tv/maximilian_dood/clip/FrozenShakingPotatoNononoCat-acbGrgNKBSUS3Yp8
 https://www.twitch.tv/maximilian_dood/clip/KindHungryPepperCorgiDerp-j_n-RfuG7mrUpswV
+https://www.twitch.tv/maximilian_dood/clip/LuckyPoliteGullHoneyBadger-Sa0aukYe2KCGDfNQ
 https://www.twitch.tv/melomelosss/clip/SteamyAntsyGerbilDoritosChip-RKspwLMpO9nYTDXI
+https://www.twitch.tv/missmikkaa/clip/GoodDoubtfulEchidnaRiPepperonis-UgSmJQBGeUFobRRo
 https://www.twitch.tv/missmikkaa/clip/IncredulousGlamorousGoblinImGlitch-NRJ7doIS3afta35d
 https://www.twitch.tv/missmikkaa/clip/InnocentMoistBurritoTinyFace-DNCfceGcw4prKHcB
 https://www.twitch.tv/missmikkaa/clip/MoldyDarlingCardJebaited-9zXoY6rxfXDBuq36
 https://www.twitch.tv/missmikkaa/clip/SlipperyKnottyPhoneAMPEnergyCherry-G7JFIdqganFBCF_o
+https://www.twitch.tv/missmikkaa/clip/SmoothShakingPheasantCeilingCat-gCgpzf6QRFX5htxb
 https://www.twitch.tv/moistcr1tikal/clip/LittleResilientDootDatBoi-KuqmAPPKg7HGmPLo
 https://www.twitch.tv/mrsavage/clip/AbrasiveSpeedyJackalOptimizePrime--EZk_gdHv7tkm4Mf
 https://www.twitch.tv/mrsavage/clip/HealthyEagerNarwhalPastaThat-n30yHBQEfYrm3t1S
 https://www.twitch.tv/nickeh30/clip/BlindingNeighborlyOxChocolateRain-ALweatmVZn5Z-rVQ
 https://www.twitch.tv/nickeh30/clip/CoyGeniusCaterpillarOneHand-XSf9ZPw4j1vToTSO
+https://www.twitch.tv/nickeh30/clip/DistinctAcceptableTildeDendiFace-QZ4Dl82xC99BLwpI
 https://www.twitch.tv/nickeh30/clip/EncouragingJazzyPuffinFloof-pMJ4ADijTr9wyrJ8
 https://www.twitch.tv/nickeh30/clip/FrailSwissHummingbirdHassaanChop-KSHCmGWFjVkoQxaj
 https://www.twitch.tv/nickeh30/clip/ModernPrettySalmonFloof-NOA94s2iCBKUu7Kb
@@ -684,6 +708,7 @@ https://www.twitch.tv/ohnepixel/clip/DreamyCharmingMonkeyPipeHype-GQVBVBbVXKLeOF
 https://www.twitch.tv/ohnepixel/clip/EsteemedAlertBoarTTours-qTa7AtR3giDjQF5-
 https://www.twitch.tv/ohnepixel/clip/FineHelplessSwordFloof-ZljlVQd7GopiyUDf
 https://www.twitch.tv/ohnepixel/clip/FitAmazingRedpandaTBTacoLeft-ibIvB_HUTHVEr57b
+https://www.twitch.tv/ohnepixel/clip/FitBlitheDonkeyBrokeBack-lrhv-en2MLsbUAQc
 https://www.twitch.tv/ohnepixel/clip/GracefulNimblePeppermintGrammarKing-gwZm5tSIlpdLgCg-
 https://www.twitch.tv/ohnepixel/clip/JazzyNiceRadicchioHassanChop-THbFDWB8vXgNasQk
 https://www.twitch.tv/ohnepixel/clip/MuddySmellyAlfalfaBrokeBack-2CcHHR8GSpna-nkj
@@ -692,8 +717,10 @@ https://www.twitch.tv/ohnepixel/clip/PeppySlickOwlAliens-6hpIHuZQymeRQ2y9
 https://www.twitch.tv/ohnepixel/clip/PricklySpineyChickpeaKeyboardCat-lPhZkKg4k9Nq98Bm
 https://www.twitch.tv/ohnepixel/clip/ProductiveKathishChimpanzeeTheThing-7N-DcQi8o3v6fffj
 https://www.twitch.tv/ohnepixel/clip/RacyTawdryDadShadyLulu-PAP7IktJR8AUmy8B
+https://www.twitch.tv/ohnepixel/clip/ScrumptiousScrumptiousTermiteOneHand-Xwoh07RAjNVlEb9H
 https://www.twitch.tv/ohnepixel/clip/SourAggressiveLaptopBloodTrail-uxWVwJyY7CRC1KuJ
 https://www.twitch.tv/ohnepixel/clip/SplendidFurryCobraLitty-aRzKqT4E06s7soNa
+https://www.twitch.tv/ohnepixel/clip/StrongCourageousBubbleteaBCWarrior-CrFjNT7DUToHg7yl
 https://www.twitch.tv/ohnepixel/clip/StrongFineMeerkatSaltBae-185YaSoZTGKNR1lJ
 https://www.twitch.tv/ohnepixel/clip/SuccessfulSnappyDiamondPastaThat-xNRFdR22plJFfA7H
 https://www.twitch.tv/ohnepixel/clip/ThankfulSoftKoupreyOMGScoots-8rWxvM1hXbQ2r_nz
@@ -746,6 +773,7 @@ https://www.twitch.tv/shroud/clip/SpotlessEnthusiasticWeaselTheTarFu-afowwoqSYoL
 https://www.twitch.tv/silky/clip/AbstruseBoldPassionfruitFrankerZ-6E4_SZC8peKJr4au
 https://www.twitch.tv/silky/clip/CogentLazyFlySeemsGood-Ylo5C7djrEyuOLhg
 https://www.twitch.tv/sixdadon87/clip/ArborealAdorableMinkPMSTwin-4FEKsoSt6NumMxyO
+https://www.twitch.tv/snapscube/clip/CharmingBigTruffleDAESuppy-MkEOwDTNuKcfN2Xo
 https://www.twitch.tv/snapscube/clip/StrangeSplendidCaribouJebaited-sGJYU2ZBQdN2RbMT
 https://www.twitch.tv/snapscube/clip/TangentialPoisedRhinocerosBIRB-2bn874F_golVqsWL
 https://www.twitch.tv/squeex/clip/ApatheticZealousNarwhalGivePLZ-GRLYnD-EvYUUZmuH
@@ -784,6 +812,7 @@ https://www.twitch.tv/theburntpeanut/clip/AgileObeseGooseWutFace-Uf9ECdJ6rpfhXok
 https://www.twitch.tv/theburntpeanut/clip/CovertVainNoodleOMGScoots-RIIREObUlkrw-aZz
 https://www.twitch.tv/theburntpeanut/clip/CuteBlindingSandwichKevinTurtle-StfZX5EDlf9jn5_j
 https://www.twitch.tv/theburntpeanut/clip/DistinctKitschyArtichokeTF2John-q_CmjSjZL71EzPgK
+https://www.twitch.tv/theburntpeanut/clip/GloriousShortRamenANELE-1Bn-506RuvLm-UJb
 https://www.twitch.tv/theburntpeanut/clip/HotGoldenMangetoutRaccAttack-0M_rh-o1jF1VgT4R
 https://www.twitch.tv/theburntpeanut/clip/LivelyObliqueMangetoutPartyTime--sPkk1kMup-5SpU7
 https://www.twitch.tv/theburntpeanut/clip/SaltyPuzzledRavenResidentSleeper-fdLYjSVRLJ0buzjD
@@ -806,9 +835,11 @@ https://www.twitch.tv/valkyrae/clip/ExquisiteSoftZebraTakeNRG-qOHuHRykQjn2c2ka
 https://www.twitch.tv/valkyrae/clip/InexpensiveSilkySandwichSquadGoals-qO9lUXUxznL9iwPl
 https://www.twitch.tv/valkyrae/clip/SleepyMoistPigNotATK-q0pJ0zN3aSDmLNlx
 https://www.twitch.tv/vanillamace/clip/BraveHorribleFishNerfBlueBlaster-R4rE_4p77Dypy90F
+https://www.twitch.tv/vanillamace/clip/HeartlessCreativePizzaPhilosoraptor-yCzQjO64c1vj_twP
 https://www.twitch.tv/vanosscrew/clip/CooperativeSeductiveCheesecakeTBTacoRight-tc-OFEtczIvOMmTP
 https://www.twitch.tv/vanosscrew/clip/TameRelentlessHamBCWarrior-cnuCxs9-AgwKMi8b
 https://www.twitch.tv/vargskelethor/clip/LongStrongKoupreyDxCat-wXXbW2YRtBkYELW9
+https://www.twitch.tv/vinesauce/clip/AbnegatePuzzledVelociraptorLitty-2y3OGd2JIlxxVqJ6
 https://www.twitch.tv/vinesauce/clip/ApatheticReliableChimpanzeeBibleThump-mtTaAGx-camgx4Mk
 https://www.twitch.tv/vinesauce/clip/AuspiciousBrainyOrcaPupper-5eiY5qb-FEoyrOU4
 https://www.twitch.tv/vinesauce/clip/BelovedSilkyManateeStinkyCheese-4oeMSoFkZSgh92zA
@@ -853,6 +884,7 @@ https://www.twitch.tv/zerkaa/clip/BrainyQuaintDelicataNerfBlueBlaster-eBy9iL6u4j
 https://www.twitch.tv/zerkaa/clip/SassyCoweringAnteaterNotLikeThis-qmEpjfF7E_Ie9La_
 https://www.twitch.tv/zerkaa/clip/SlickCreativeDonkeyJKanStyle-VHXWX3b9QwEu-UIT
 https://www.twitch.tv/zerkaa/clip/SparklyEnchantingKimchiRuleFive-nFwdyisMgC_RJtiB
+https://www.twitch.tv/zerkaa/clip/StupidPrettiestBobaPogChamp-ehzWLSawPMQ5uQh0
 https://www.twitch.tv/zoil/clip/DifferentSullenReubenItsBoshyTime-K1Eo8-_fjY3ZqQan
 https://www.twitch.tv/zoil/clip/SillyTangibleStrawberryVoteNay-gI1V8xjNV_DdVAuK
 https://www.twitch.tv/zoreee/clip/TenuousDependableBananaMingLee-KqfjPnql33RIJzBg
