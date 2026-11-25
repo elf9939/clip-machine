@@ -4,8 +4,8 @@ Hooks: "<Streamer> completely lost it after...", "<Streamer> did NOT expect this
 Hashtags pool: #xqc #jynxzi #lacy #caseoh #stableronaldo #streamer #drama #funny #fyp #crashout
 Avoid: Sneako political/religious rants (always skip those).
 
-## What is working (auto-updated 2026-11-23)
+## What is working (auto-updated 2026-11-25)
 Top posts this week — make more like these:
-- 5797 views: "Lacy really got pepper sprayed at his meet and greet 💀 Follo"
-- 987 views: "His controller completely sold him 💀 Follow for daily stream"
+- 5808 views: "Lacy really got pepper sprayed at his meet and greet 💀 Follo"
+- 995 views: "His controller completely sold him 💀 Follow for daily stream"
 - 868 views: "He really thought he was safe 💀 Follow for the best streamer"
