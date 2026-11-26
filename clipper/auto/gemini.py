@@ -1,6 +1,6 @@
 # Tiny Gemini (free tier) client. Key lives in ~/.gemini_key (saved by ~/Projects/clipper/auto/add-gemini-key.sh).
 import json, os, urllib.request
-MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest']
+MODELS = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.5-flash']
 
 def ask_json(prompt):
     key = open(os.path.expanduser('~/.gemini_key')).read().strip()
