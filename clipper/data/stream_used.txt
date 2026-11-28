@@ -171,6 +171,7 @@ https://clips.kick.com/clips/e3/clip_01M8341V212G1GGJQG2DQXYY9N/playlist.m3u8
 https://clips.kick.com/clips/e4/clip_01M7R8H4DTZR4GQVE5D9NH70TP/playlist.m3u8
 https://clips.kick.com/clips/e4/clip_01M7RHQGSVVGF0ZGVAF8S7HCED/playlist.m3u8
 https://clips.kick.com/clips/e4/clip_01M7X18G97Q869PVFM89ZH6FBC/playlist.m3u8
+https://clips.kick.com/clips/e5/clip_01M8FH886XKJCFJ0784WJ9ABD6/master.m3u8
 https://clips.kick.com/clips/e6/clip_01M7QD43VBYRWT5BD03G3VWFMM/playlist.m3u8
 https://clips.kick.com/clips/ec/clip_01M832ZV7QV6D9Q1EA21VKTZBD/playlist.m3u8
 https://clips.kick.com/clips/ee/clip_01M78MXGPS9S0W5ZRPRXTVNCT3/playlist.m3u8
@@ -468,6 +469,7 @@ https://www.twitch.tv/kaicenat/clip/EnthusiasticTentativeFinchBigBrother-o71SdqC
 https://www.twitch.tv/kaicenat/clip/EnticingHonestKaleM4xHeh-MZ9XUJsjZcKMmQDj
 https://www.twitch.tv/kaicenat/clip/EsteemedAbrasiveMangetoutDatBoi-MjT8g_pff7PgiSPX
 https://www.twitch.tv/kaicenat/clip/ExcitedResolutePancakeThisIsSparta-_jiCUIiTZYau02eT
+https://www.twitch.tv/kaicenat/clip/ExpensiveHealthyMomFeelsBadMan-DaPrIl10qqKoqpIf
 https://www.twitch.tv/kaicenat/clip/ExquisiteFriendlyLemurOptimizePrime-XA8WZUai76wkXgAr
 https://www.twitch.tv/kaicenat/clip/ExquisiteInnocentGaragePoooound-mLDj-ot7Fg9JJjLA
 https://www.twitch.tv/kaicenat/clip/FairBusyEndiveWOOP-aQG6h9VgKdfmAiPz
@@ -482,6 +484,7 @@ https://www.twitch.tv/kaicenat/clip/FurryWealthyTurnipUWot-4BiO3HaSvEy0_4uV
 https://www.twitch.tv/kaicenat/clip/FurtiveHelpfulWolverineFrankerZ-mDOgnNEil0iwPpk-
 https://www.twitch.tv/kaicenat/clip/FurtiveSolidEggplantAMPEnergyCherry-d310SmDwnaksFRjf
 https://www.twitch.tv/kaicenat/clip/GenerousSecretiveTroutMrDestructoid-6bVDCCxkRfqXwqwH
+https://www.twitch.tv/kaicenat/clip/GenerousSnappyGuanacoTwitchRaid-NmcU9z70WPWejE90
 https://www.twitch.tv/kaicenat/clip/GleamingSuccessfulIcecreamJonCarnage-PbTAhsawwBNQDQrW
 https://www.twitch.tv/kaicenat/clip/GlutenFreeAdventurousAlpacaNomNom-YGpdbQ1Txo143SDp
 https://www.twitch.tv/kaicenat/clip/GlutenFreeKathishButterflyRaccAttack-VOnhmrxXoQB-w-pz
@@ -500,9 +503,11 @@ https://www.twitch.tv/kaicenat/clip/HelplessAbstruseCockroachLitty-xUuvi-7oTiBb7
 https://www.twitch.tv/kaicenat/clip/HelplessDeadNikudonNerfRedBlaster-K-0yP7xRhvdojneR
 https://www.twitch.tv/kaicenat/clip/HilariousDreamyAdminRitzMitz-xIadb_jHBf10Dq9k
 https://www.twitch.tv/kaicenat/clip/HonestClearSquidKappaClaus-dpteTLaJS7Jl0DDt
+https://www.twitch.tv/kaicenat/clip/HonestEagerCougarKappaPride-uNz8OCQYT3U9KnlF
 https://www.twitch.tv/kaicenat/clip/HonestGloriousPidgeonOptimizePrime-5G2S_b2M4F1zG1Or
 https://www.twitch.tv/kaicenat/clip/HumbleSpookyFinchSSSsss-4fmMzrP2MeJjMes9
 https://www.twitch.tv/kaicenat/clip/IgnorantBigPheasantCmonBruh-Tvqj4s8NlVaMvVud
+https://www.twitch.tv/kaicenat/clip/ImpartialDifferentSwordPJSalt-ABHS8ykaYRatR_VW
 https://www.twitch.tv/kaicenat/clip/ImportantHumbleBulgogiSuperVinlin-MVfu1bqc5yChBXDd
 https://www.twitch.tv/kaicenat/clip/ImportantOutstandingMeerkatWOOP-qtDvIPpJxVk8YWTZ
 https://www.twitch.tv/kaicenat/clip/IncredulousInnocentWombatDansGame-VvL9R9P6ssWWIJ56
